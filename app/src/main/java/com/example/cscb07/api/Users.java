@@ -1,5 +1,7 @@
 package com.example.cscb07.api;
 
-public interface Users {
+import com.example.cscb07.api.data.User;
 
+public interface Users {
+    User getUser(String name);
 }

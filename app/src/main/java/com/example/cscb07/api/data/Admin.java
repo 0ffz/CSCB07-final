@@ -1,5 +1,5 @@
 package com.example.cscb07.api.data;
 
-class Admin {
+public class Admin {
     String name;
 }
