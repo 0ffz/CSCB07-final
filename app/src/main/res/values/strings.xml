@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">CSCB07</string>
+
+    <string name="login_textview">Login</string>
+    <string name="login_button">LOGIN</string>
+    <string name="signup_link">Sign up</string>
+
+    <string name="signup_textview">Signup</string>
+    <string name="signup_button">SIGNUP</string>
+    <string name="login_link">Log in</string>
+
+    <string name="error_message">Error Placeholder</string>
+    <string name="error_email">Invalid email address</string>
+    <string name="error_password">Invalid password</string>
 </resources>
