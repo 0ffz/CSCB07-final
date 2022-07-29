@@ -6,5 +6,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.cscb07.ui.state.EventUiState;
 
 public class VenueViewModel extends ViewModel {
-    LiveData<EventUiState> eventState = new MutableLiveData<>(new EventUiState());
+    private final MutableLiveData<EventUiState> _eventState = new MutableLiveData<>(new EventUiState());
+    public final LiveData<EventUiState> eventState = _eventState;
+
 }

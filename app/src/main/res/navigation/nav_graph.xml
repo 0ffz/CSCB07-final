@@ -2,11 +2,9 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools" android:id="@+id/nav_graph"
-            app:startDestination="@id/blankFragment">
-    <fragment android:id="@+id/blankFragment" android:name="com.example.cscb07.ui.elements.BlankFragment"
-              android:label="fragment_blank" tools:layout="@layout/fragment_blank">
-        <action android:id="@+id/action_blankFragment_to_blankFragment2" app:destination="@id/blankFragment2"/>
-    </fragment>
-    <fragment android:id="@+id/blankFragment2" android:name="com.example.cscb07.ui.elements.BlankFragment2"
-              android:label="fragment_blank2" tools:layout="@layout/fragment_blank2"/>
+            app:startDestination="@id/screenHome">
+    <fragment android:name="com.example.cscb07.ui.elements.screens.HomeScreen"
+              tools:layout="@layout/screen_home" android:label="@string/title_home" android:id="@+id/screenHome"/>
+    <fragment android:id="@+id/screenUpcoming" android:name="com.example.cscb07.ui.elements.screens.UpcomingScreen"
+              android:label="@string/title_upcoming" tools:layout="@layout/screen_upcoming"/>
 </navigation>

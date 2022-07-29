@@ -1,26 +1,25 @@
-package com.example.cscb07.ui.elements;
+package com.example.cscb07.ui.elements.screens;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import com.example.cscb07.R;
 import org.jetbrains.annotations.NotNull;
 
-public class BlankFragment extends Fragment {
+public class HomeScreen extends Fragment {
     private NavController navController;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_blank, container, false);
+        return inflater.inflate(R.layout.screen_home, container, false);
     }
 
     @Override
@@ -28,6 +27,6 @@ public class BlankFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         navController = Navigation.findNavController(view);
         Button button = view.findViewById(R.id.nextViewButton);
-        button.setOnClickListener(v -> navController.navigate(BlankFragmentDirections.actionBlankFragmentToBlankFragment2()));
+//        button.setOnClickListener(v -> navController.navigate(BlankFragmentDirections.actionBlankFragmentToBlankFragment2()));
     }
 }

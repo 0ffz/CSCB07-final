@@ -1,4 +1,4 @@
-package com.example.cscb07.ui;
+package com.example.cscb07.ui.elements;
 
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Set up navigation controller with bottom bar
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_container);
         navController = navHostFragment.getNavController();
         BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
+        // Ensures the back button follows navigation logic
         return navController.navigateUp() || super.onSupportNavigateUp();
     }
 }
