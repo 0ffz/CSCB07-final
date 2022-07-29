@@ -28,6 +28,6 @@ public class BlankFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         navController = Navigation.findNavController(view);
         Button button = view.findViewById(R.id.nextViewButton);
-        button.setOnClickListener(v -> navController.navigate(R.id.action_blankFragment_to_blankFragment2));
+        button.setOnClickListener(v -> navController.navigate(BlankFragmentDirections.actionBlankFragmentToBlankFragment2()));
     }
 }
