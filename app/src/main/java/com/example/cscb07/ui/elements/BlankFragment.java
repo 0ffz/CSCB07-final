@@ -1,6 +1,7 @@
 package com.example.cscb07.ui.elements;
 
 import android.os.Bundle;
+import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -26,9 +27,7 @@ public class BlankFragment extends Fragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         navController = Navigation.findNavController(view);
-    }
-
-    public void onClick(View view) {
-        navController.navigate(R.id.action_blankFragment_to_blankFragment2);
+        Button button = view.findViewById(R.id.nextViewButton);
+        button.setOnClickListener(v -> navController.navigate(R.id.action_blankFragment_to_blankFragment2));
     }
 }
