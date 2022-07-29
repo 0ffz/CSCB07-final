@@ -1,4 +1,4 @@
-package com.example.cscb07.api.data;
+package com.example.cscb07.data;
 
 import java.util.Date;
 import java.util.List;
