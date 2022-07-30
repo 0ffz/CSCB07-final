@@ -24,7 +24,6 @@ public class HomeScreen extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
         navController = Navigation.findNavController(view);
         Button button = view.findViewById(R.id.nextViewButton);
 //        button.setOnClickListener(v -> navController.navigate(BlankFragmentDirections.actionBlankFragmentToBlankFragment2()));
