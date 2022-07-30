@@ -1,0 +1,139 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.cscb07"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="21"
+8-->/Users/crystal/AndroidStudioProjects/CSCB07-final/app/src/main/AndroidManifest.xml
+9        android:targetSdkVersion="32" />
+9-->/Users/crystal/AndroidStudioProjects/CSCB07-final/app/src/main/AndroidManifest.xml
+10
+11    <application
+11-->/Users/crystal/AndroidStudioProjects/CSCB07-final/app/src/main/AndroidManifest.xml:6:5-28:19
+12        android:allowBackup="true"
+12-->/Users/crystal/AndroidStudioProjects/CSCB07-final/app/src/main/AndroidManifest.xml:7:9-35
+13        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+13-->[androidx.core:core:1.7.0] /Users/crystal/.gradle/caches/transforms-3/2408ae0c6b64e074ad570504f0fa7cb6/transformed/core-1.7.0/AndroidManifest.xml:24:18-86
+14        android:dataExtractionRules="@xml/data_extraction_rules"
+14-->/Users/crystal/AndroidStudioProjects/CSCB07-final/app/src/main/AndroidManifest.xml:8:9-65
+15        android:debuggable="true"
+16        android:fullBackupContent="@xml/backup_rules"
+16-->/Users/crystal/AndroidStudioProjects/CSCB07-final/app/src/main/AndroidManifest.xml:9:9-54
+17        android:icon="@mipmap/ic_launcher"
+17-->/Users/crystal/AndroidStudioProjects/CSCB07-final/app/src/main/AndroidManifest.xml:10:9-43
+18        android:label="@string/app_name"
+18-->/Users/crystal/AndroidStudioProjects/CSCB07-final/app/src/main/AndroidManifest.xml:11:9-41
+19        android:roundIcon="@mipmap/ic_launcher_round"
+19-->/Users/crystal/AndroidStudioProjects/CSCB07-final/app/src/main/AndroidManifest.xml:12:9-54
+20        android:supportsRtl="true"
+20-->/Users/crystal/AndroidStudioProjects/CSCB07-final/app/src/main/AndroidManifest.xml:13:9-35
+21        android:testOnly="true"
+22        android:theme="@style/Theme.CSCB07" >
+22-->/Users/crystal/AndroidStudioProjects/CSCB07-final/app/src/main/AndroidManifest.xml:14:9-44
+23        <activity
+23-->/Users/crystal/AndroidStudioProjects/CSCB07-final/app/src/main/AndroidManifest.xml:16:9-18:40
+24            android:name="com.example.cscb07.activities.SignUpActivity"
+24-->/Users/crystal/AndroidStudioProjects/CSCB07-final/app/src/main/AndroidManifest.xml:17:13-54
+25            android:exported="false" />
+25-->/Users/crystal/AndroidStudioProjects/CSCB07-final/app/src/main/AndroidManifest.xml:18:13-37
+26        <activity
+26-->/Users/crystal/AndroidStudioProjects/CSCB07-final/app/src/main/AndroidManifest.xml:19:9-27:20
+27            android:name="com.example.cscb07.activities.MainActivity"
+27-->/Users/crystal/AndroidStudioProjects/CSCB07-final/app/src/main/AndroidManifest.xml:20:13-52
+28            android:exported="true" >
+28-->/Users/crystal/AndroidStudioProjects/CSCB07-final/app/src/main/AndroidManifest.xml:21:13-36
+29            <intent-filter>
+29-->/Users/crystal/AndroidStudioProjects/CSCB07-final/app/src/main/AndroidManifest.xml:22:13-26:29
+30                <action android:name="android.intent.action.MAIN" />
+30-->/Users/crystal/AndroidStudioProjects/CSCB07-final/app/src/main/AndroidManifest.xml:23:17-69
+30-->/Users/crystal/AndroidStudioProjects/CSCB07-final/app/src/main/AndroidManifest.xml:23:25-66
+31
+32                <category android:name="android.intent.category.LAUNCHER" />
+32-->/Users/crystal/AndroidStudioProjects/CSCB07-final/app/src/main/AndroidManifest.xml:25:17-77
+32-->/Users/crystal/AndroidStudioProjects/CSCB07-final/app/src/main/AndroidManifest.xml:25:27-74
+33            </intent-filter>
+34        </activity>
+35        <activity
+35-->[com.google.firebase:firebase-auth:19.2.0] /Users/crystal/.gradle/caches/transforms-3/47d35285155970fbf3d7e91d10a5c84e/transformed/firebase-auth-19.2.0/AndroidManifest.xml:24:9-31:50
+36            android:name="com.google.firebase.auth.internal.FederatedSignInActivity"
+36-->[com.google.firebase:firebase-auth:19.2.0] /Users/crystal/.gradle/caches/transforms-3/47d35285155970fbf3d7e91d10a5c84e/transformed/firebase-auth-19.2.0/AndroidManifest.xml:25:13-85
+37            android:excludeFromRecents="true"
+37-->[com.google.firebase:firebase-auth:19.2.0] /Users/crystal/.gradle/caches/transforms-3/47d35285155970fbf3d7e91d10a5c84e/transformed/firebase-auth-19.2.0/AndroidManifest.xml:26:13-46
+38            android:exported="true"
+38-->[com.google.firebase:firebase-auth:19.2.0] /Users/crystal/.gradle/caches/transforms-3/47d35285155970fbf3d7e91d10a5c84e/transformed/firebase-auth-19.2.0/AndroidManifest.xml:27:13-36
+39            android:launchMode="singleTask"
+39-->[com.google.firebase:firebase-auth:19.2.0] /Users/crystal/.gradle/caches/transforms-3/47d35285155970fbf3d7e91d10a5c84e/transformed/firebase-auth-19.2.0/AndroidManifest.xml:28:13-44
+40            android:permission="com.google.firebase.auth.api.gms.permission.LAUNCH_FEDERATED_SIGN_IN"
+40-->[com.google.firebase:firebase-auth:19.2.0] /Users/crystal/.gradle/caches/transforms-3/47d35285155970fbf3d7e91d10a5c84e/transformed/firebase-auth-19.2.0/AndroidManifest.xml:29:13-102
+41            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+41-->[com.google.firebase:firebase-auth:19.2.0] /Users/crystal/.gradle/caches/transforms-3/47d35285155970fbf3d7e91d10a5c84e/transformed/firebase-auth-19.2.0/AndroidManifest.xml:30:13-72
+42
+43        <service
+43-->[com.google.firebase:firebase-auth:19.2.0] /Users/crystal/.gradle/caches/transforms-3/47d35285155970fbf3d7e91d10a5c84e/transformed/firebase-auth-19.2.0/AndroidManifest.xml:33:9-39:19
+44            android:name="com.google.firebase.components.ComponentDiscoveryService"
+44-->[com.google.firebase:firebase-auth:19.2.0] /Users/crystal/.gradle/caches/transforms-3/47d35285155970fbf3d7e91d10a5c84e/transformed/firebase-auth-19.2.0/AndroidManifest.xml:34:13-84
+45            android:directBootAware="true"
+45-->[com.google.firebase:firebase-common:19.3.0] /Users/crystal/.gradle/caches/transforms-3/e1e336b6b28b742e7ac685db2a11c1cd/transformed/firebase-common-19.3.0/AndroidManifest.xml:34:13-43
+46            android:exported="false" >
+46-->[com.google.firebase:firebase-auth:19.2.0] /Users/crystal/.gradle/caches/transforms-3/47d35285155970fbf3d7e91d10a5c84e/transformed/firebase-auth-19.2.0/AndroidManifest.xml:35:13-37
+47            <meta-data
+47-->[com.google.firebase:firebase-auth:19.2.0] /Users/crystal/.gradle/caches/transforms-3/47d35285155970fbf3d7e91d10a5c84e/transformed/firebase-auth-19.2.0/AndroidManifest.xml:36:13-38:85
+48                android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar"
+48-->[com.google.firebase:firebase-auth:19.2.0] /Users/crystal/.gradle/caches/transforms-3/47d35285155970fbf3d7e91d10a5c84e/transformed/firebase-auth-19.2.0/AndroidManifest.xml:37:17-109
+49                android:value="com.google.firebase.components.ComponentRegistrar" />
+49-->[com.google.firebase:firebase-auth:19.2.0] /Users/crystal/.gradle/caches/transforms-3/47d35285155970fbf3d7e91d10a5c84e/transformed/firebase-auth-19.2.0/AndroidManifest.xml:38:17-82
+50        </service>
+51
+52        <activity
+52-->[com.google.android.gms:play-services-base:17.1.0] /Users/crystal/.gradle/caches/transforms-3/7c8849dfbc210473a087bf29dcdfa85e/transformed/play-services-base-17.1.0/AndroidManifest.xml:23:9-26:75
+53            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+53-->[com.google.android.gms:play-services-base:17.1.0] /Users/crystal/.gradle/caches/transforms-3/7c8849dfbc210473a087bf29dcdfa85e/transformed/play-services-base-17.1.0/AndroidManifest.xml:24:13-79
+54            android:exported="false"
+54-->[com.google.android.gms:play-services-base:17.1.0] /Users/crystal/.gradle/caches/transforms-3/7c8849dfbc210473a087bf29dcdfa85e/transformed/play-services-base-17.1.0/AndroidManifest.xml:25:13-37
+55            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+55-->[com.google.android.gms:play-services-base:17.1.0] /Users/crystal/.gradle/caches/transforms-3/7c8849dfbc210473a087bf29dcdfa85e/transformed/play-services-base-17.1.0/AndroidManifest.xml:26:13-72
+56
+57        <provider
+57-->[com.google.firebase:firebase-common:19.3.0] /Users/crystal/.gradle/caches/transforms-3/e1e336b6b28b742e7ac685db2a11c1cd/transformed/firebase-common-19.3.0/AndroidManifest.xml:26:9-30:39
+58            android:name="com.google.firebase.provider.FirebaseInitProvider"
+58-->[com.google.firebase:firebase-common:19.3.0] /Users/crystal/.gradle/caches/transforms-3/e1e336b6b28b742e7ac685db2a11c1cd/transformed/firebase-common-19.3.0/AndroidManifest.xml:27:13-77
+59            android:authorities="com.example.cscb07.firebaseinitprovider"
+59-->[com.google.firebase:firebase-common:19.3.0] /Users/crystal/.gradle/caches/transforms-3/e1e336b6b28b742e7ac685db2a11c1cd/transformed/firebase-common-19.3.0/AndroidManifest.xml:28:13-72
+60            android:exported="false"
+60-->[com.google.firebase:firebase-common:19.3.0] /Users/crystal/.gradle/caches/transforms-3/e1e336b6b28b742e7ac685db2a11c1cd/transformed/firebase-common-19.3.0/AndroidManifest.xml:29:13-37
+61            android:initOrder="100" />
+61-->[com.google.firebase:firebase-common:19.3.0] /Users/crystal/.gradle/caches/transforms-3/e1e336b6b28b742e7ac685db2a11c1cd/transformed/firebase-common-19.3.0/AndroidManifest.xml:30:13-36
+62
+63        <meta-data
+63-->[com.google.android.gms:play-services-basement:17.0.0] /Users/crystal/.gradle/caches/transforms-3/cce0b4627e9f0951f3dc594483ad5999/transformed/play-services-basement-17.0.0/AndroidManifest.xml:23:9-25:69
+64            android:name="com.google.android.gms.version"
+64-->[com.google.android.gms:play-services-basement:17.0.0] /Users/crystal/.gradle/caches/transforms-3/cce0b4627e9f0951f3dc594483ad5999/transformed/play-services-basement-17.0.0/AndroidManifest.xml:24:13-58
+65            android:value="@integer/google_play_services_version" />
+65-->[com.google.android.gms:play-services-basement:17.0.0] /Users/crystal/.gradle/caches/transforms-3/cce0b4627e9f0951f3dc594483ad5999/transformed/play-services-basement-17.0.0/AndroidManifest.xml:25:13-66
+66
+67        <provider
+67-->[androidx.emoji2:emoji2:1.0.0] /Users/crystal/.gradle/caches/transforms-3/6b7d4d3337ad64852ef3b103b7611c2e/transformed/emoji2-1.0.0/AndroidManifest.xml:26:9-34:20
+68            android:name="androidx.startup.InitializationProvider"
+68-->[androidx.emoji2:emoji2:1.0.0] /Users/crystal/.gradle/caches/transforms-3/6b7d4d3337ad64852ef3b103b7611c2e/transformed/emoji2-1.0.0/AndroidManifest.xml:27:13-67
+69            android:authorities="com.example.cscb07.androidx-startup"
+69-->[androidx.emoji2:emoji2:1.0.0] /Users/crystal/.gradle/caches/transforms-3/6b7d4d3337ad64852ef3b103b7611c2e/transformed/emoji2-1.0.0/AndroidManifest.xml:28:13-68
+70            android:exported="false" >
+70-->[androidx.emoji2:emoji2:1.0.0] /Users/crystal/.gradle/caches/transforms-3/6b7d4d3337ad64852ef3b103b7611c2e/transformed/emoji2-1.0.0/AndroidManifest.xml:29:13-37
+71            <meta-data
+71-->[androidx.emoji2:emoji2:1.0.0] /Users/crystal/.gradle/caches/transforms-3/6b7d4d3337ad64852ef3b103b7611c2e/transformed/emoji2-1.0.0/AndroidManifest.xml:31:13-33:52
+72                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+72-->[androidx.emoji2:emoji2:1.0.0] /Users/crystal/.gradle/caches/transforms-3/6b7d4d3337ad64852ef3b103b7611c2e/transformed/emoji2-1.0.0/AndroidManifest.xml:32:17-75
+73                android:value="androidx.startup" />
+73-->[androidx.emoji2:emoji2:1.0.0] /Users/crystal/.gradle/caches/transforms-3/6b7d4d3337ad64852ef3b103b7611c2e/transformed/emoji2-1.0.0/AndroidManifest.xml:33:17-49
+74            <meta-data
+74-->[androidx.lifecycle:lifecycle-process:2.4.0] /Users/crystal/.gradle/caches/transforms-3/51c64fceff3430466ae9e0d3dc8f31f3/transformed/lifecycle-process-2.4.0/AndroidManifest.xml:31:13-33:52
+75                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+75-->[androidx.lifecycle:lifecycle-process:2.4.0] /Users/crystal/.gradle/caches/transforms-3/51c64fceff3430466ae9e0d3dc8f31f3/transformed/lifecycle-process-2.4.0/AndroidManifest.xml:32:17-78
+76                android:value="androidx.startup" />
+76-->[androidx.lifecycle:lifecycle-process:2.4.0] /Users/crystal/.gradle/caches/transforms-3/51c64fceff3430466ae9e0d3dc8f31f3/transformed/lifecycle-process-2.4.0/AndroidManifest.xml:33:17-49
+77        </provider>
+78    </application>
+79
+80</manifest>
