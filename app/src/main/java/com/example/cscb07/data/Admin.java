@@ -1,4 +1,4 @@
-package com.example.cscb07.api.data;
+package com.example.cscb07.data;
 
 public class Admin {
     String name;

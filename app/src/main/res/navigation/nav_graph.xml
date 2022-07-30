@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools" android:id="@+id/nav_graph"
+            app:startDestination="@id/signUpScreen">
+    <fragment android:name="com.example.cscb07.ui.elements.screens.HomeScreen"
+              tools:layout="@layout/screen_home" android:label="@string/title_home" android:id="@+id/screenHome"/>
+    <fragment android:id="@+id/screenUpcoming" android:name="com.example.cscb07.ui.elements.screens.UpcomingScreen"
+              android:label="@string/title_upcoming" tools:layout="@layout/screen_upcoming"/>
+    <fragment android:id="@+id/signUpScreen" android:name="com.example.cscb07.ui.elements.screens.SignUpScreen"
+              android:label="screen_login" tools:layout="@layout/screen_login"/>
+</navigation>
