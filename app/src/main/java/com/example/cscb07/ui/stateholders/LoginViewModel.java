@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.example.cscb07.R;
+import com.example.cscb07.data.LoginResult;
 import com.example.cscb07.data.ServiceLocator;
 import com.example.cscb07.data.UserRepository;
 
@@ -12,13 +13,14 @@ public class LoginViewModel extends ViewModel {
     //TODO not sure if we are supposed to assign right here or not, but /shrug
     private final UserRepository userRepository = ServiceLocator.getInstance().getUserRepository();
     private final MutableLiveData<Integer> errorMessage = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isAuthenticated = new MutableLiveData<>(false);
 
-    LiveData<Integer> getErrorMessage() {
+    public LiveData<Integer> getErrorMessage() {
         return errorMessage;
     }
 
     boolean verify(String email, String password) {
-        if (email.length() == 0 || Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        if (email.length() == 0 || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             errorMessage.setValue(R.string.error_email);
             return false;
         }
@@ -33,12 +35,18 @@ public class LoginViewModel extends ViewModel {
 
     public void login(String email, String password) {
         if (!verify(email, password)) return;
-        //TODO login
+        //TODO actually handle login authentication (same for signup)
+        isAuthenticated.setValue(true);
     }
 
-    public void signUp(String email, String password) {
-        if (!verify(email, password)) return;
+    public LiveData<LoginResult> signUp(String email, String password) {
+//        if (!verify(email, password)) return new MutableLiveData<>(new LoginResult(false));
         userRepository.registerUser(email, password);
-        //TODO switch screens
+        isAuthenticated.setValue(true);
+        return new MutableLiveData<>(new LoginResult(true));
+    }
+
+    public boolean isAuthenticated() {
+        return isAuthenticated.getValue();
     }
 }

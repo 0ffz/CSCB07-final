@@ -2,11 +2,14 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools" android:id="@+id/nav_graph"
-            app:startDestination="@id/signUpScreen">
+            app:startDestination="@id/screenHome">
     <fragment android:name="com.example.cscb07.ui.elements.screens.HomeScreen"
-              tools:layout="@layout/screen_home" android:label="@string/title_home" android:id="@+id/screenHome"/>
+              tools:layout="@layout/screen_home" android:label="@string/title_home" android:id="@+id/screenHome">
+        <action android:id="@+id/action_screenHome_to_screenLogin" app:destination="@id/screenLogin"
+                app:popExitAnim="@android:anim/slide_out_right"/>
+    </fragment>
     <fragment android:id="@+id/screenUpcoming" android:name="com.example.cscb07.ui.elements.screens.UpcomingScreen"
               android:label="@string/title_upcoming" tools:layout="@layout/screen_upcoming"/>
-    <fragment android:id="@+id/signUpScreen" android:name="com.example.cscb07.ui.elements.screens.SignUpScreen"
-              android:label="screen_login" tools:layout="@layout/screen_login"/>
+    <fragment android:id="@+id/screenLogin" android:name="com.example.cscb07.ui.elements.screens.LoginScreen"
+              android:label="@string/title_login" tools:layout="@layout/screen_login"/>
 </navigation>
