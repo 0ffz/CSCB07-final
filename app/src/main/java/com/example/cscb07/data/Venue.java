@@ -27,12 +27,15 @@ public class Venue {
 
     @Override
     public String toString() {
+        String str = "";
         if(this.getName()==null && this.getCourts()==null)
-            return "";
-        String str = this.getName() + "\n";
-        if(this.getCourts()!=null) {
-            for (Court court : this.getCourts()) {
-                str = str.concat(court.toString());
+            return str;
+        if(this.getName()!=null) {
+            str = this.getName() + "\n";
+            if (this.getCourts() != null) {
+                for (Court court : this.getCourts()) {
+                    str = str.concat(court.toString());
+                }
             }
         }
         return str;
