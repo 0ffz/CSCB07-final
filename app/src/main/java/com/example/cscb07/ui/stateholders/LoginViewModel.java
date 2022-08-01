@@ -43,7 +43,7 @@ public class LoginViewModel extends ViewModel {
 //        if (!verify(email, password)) return new MutableLiveData<>(new LoginResult(false));
         userRepository.registerUser(email, password);
         isAuthenticated.setValue(true);
-        return new MutableLiveData<>(new LoginResult(true));
+        return new MutableLiveData<>(new LoginResult(true, false));
     }
 
     public boolean isAuthenticated() {
