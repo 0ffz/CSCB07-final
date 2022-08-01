@@ -1,7 +1,10 @@
 package com.example.cscb07.data.impl;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
+import com.example.cscb07.data.LoginResult;
 import com.example.cscb07.data.UserRepository;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -11,20 +14,26 @@ import com.google.firebase.database.ValueEventListener;
 
 public class FirebaseUserRepository implements UserRepository {
 
-    DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("Users");
+    DatabaseReference userRef = FirebaseDatabase.getInstance().getReference();
     @Override
-    public void registerUser(String email, String password) {
-        if (email == null || password == null)
-            return;
+    public LiveData<LoginResult> registerUser(String email, String password) {
+        MutableLiveData<LoginResult> d = new MutableLiveData<LoginResult>();
+
+        if (email == null || password == null){
+            d.setValue(new LoginResult(false, false));
+            return d;
+        }
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(!snapshot.child(email).exists()){
+                if(!snapshot.child("Users").child(email).exists()){
                     //Add New User
-                    userRef.child(email).child("Password").setValue(password);
+                    userRef.child("Users").child(email).child("Password").setValue(password);
+                    d.setValue(new LoginResult(true, false));
                 }
                 else{
                     //Don't add new user
+                    d.setValue(new LoginResult(false, false));
                 }
             }
 
@@ -33,30 +42,43 @@ public class FirebaseUserRepository implements UserRepository {
                 //error occurred message
             }
         });
+        return d;
 
     }
 
-    public void signIn(String email, String password){
-        if (email == null || password == null)
-            return;
+    public LiveData<LoginResult> signIn(String email, String password){
+        MutableLiveData<LoginResult> d = new MutableLiveData<LoginResult>();
+
+        if (email == null || password == null){
+            d.setValue(new LoginResult(false ,false));
+            return d;
+        }
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.child(email).exists()){
-                    if (snapshot.child(email).child("Password").getValue(String.class).equals(password)){
-                        if(snapshot.child(email).child("email").getValue(String.class).equals("true")){
-                            //sign in as Admin
-                        }
-                        else{
-                            //sign in as User
-                        }
+                if(snapshot.child("Users").child(email).exists()){
+                    if (snapshot.child("Users").child(email).child("Password").getValue(String.class).equals(password)){
+                        //sign in as User
+                        d.setValue((new LoginResult(true, false)));
                     }
                     else{
                         //wrong pswd/email
+                        d.setValue(new LoginResult(false, false));
+                    }
+                }
+                else if(snapshot.child("Admin").child(email).exists()){
+                    if (snapshot.child("Admin").child(email).child("Password").getValue(String.class).equals(password)){
+                        //sign in as Admin
+                        d.setValue((new LoginResult(true, true)));
+                    }
+                    else{
+                        //wrong pswd/email
+                        d.setValue(new LoginResult(false, false));
                     }
                 }
                 else{
-                    //wrong pswd/email
+                    //no User/Admin exists with that email
+                    d.setValue(new LoginResult(false, false));
                 }
             }
 
@@ -65,5 +87,7 @@ public class FirebaseUserRepository implements UserRepository {
                 //error occurred message
             }
         });
+
+        return d;
     }
 }

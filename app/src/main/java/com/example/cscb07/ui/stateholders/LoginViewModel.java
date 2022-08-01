@@ -8,6 +8,7 @@ import com.example.cscb07.R;
 import com.example.cscb07.data.LoginResult;
 import com.example.cscb07.data.ServiceLocator;
 import com.example.cscb07.data.UserRepository;
+import com.example.cscb07.data.impl.FirebaseUserRepository;
 
 public class LoginViewModel extends ViewModel {
     //TODO not sure if we are supposed to assign right here or not, but /shrug
@@ -33,17 +34,21 @@ public class LoginViewModel extends ViewModel {
         return true;
     }
 
-    public void login(String email, String password) {
-        if (!verify(email, password)) return;
+    public LiveData<LoginResult> login(String email, String password) {
+        if (!verify(email, password)) return null;
         //TODO actually handle login authentication (same for signup)
-        isAuthenticated.setValue(true);
+        FirebaseUserRepository fb = new FirebaseUserRepository();
+        LiveData<LoginResult> result = fb.registerUser(email, password);
+        return result;
+
+
     }
 
     public LiveData<LoginResult> signUp(String email, String password) {
 //        if (!verify(email, password)) return new MutableLiveData<>(new LoginResult(false));
-        userRepository.registerUser(email, password);
-        isAuthenticated.setValue(true);
-        return new MutableLiveData<>(new LoginResult(true));
+        FirebaseUserRepository fb = new FirebaseUserRepository();
+        LiveData<LoginResult> result = fb.registerUser(email, password);
+        return result;
     }
 
     public boolean isAuthenticated() {
