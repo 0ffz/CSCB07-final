@@ -48,6 +48,7 @@ public class FirebaseUserRepository implements UserRepository {
                         if(snapshot.child(email).child("email").getValue(String.class).equals("true")){
                             //sign in as Admin
                         }
+
                         else{
                             //sign in as User
                         }

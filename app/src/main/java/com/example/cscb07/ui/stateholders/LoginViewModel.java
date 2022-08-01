@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.example.cscb07.R;
-import com.example.cscb07.data.LoginResult;
+import com.example.cscb07.data.Results.LoginResult;
 import com.example.cscb07.data.ServiceLocator;
 import com.example.cscb07.data.UserRepository;
 

@@ -9,4 +9,6 @@ public class Event {
     Date endDate;
     int maxCapacity;
     List<User> attendees;
+
+
 }

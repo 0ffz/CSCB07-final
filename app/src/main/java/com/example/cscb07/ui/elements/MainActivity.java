@@ -11,11 +11,20 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import com.example.cscb07.R;
+import com.example.cscb07.data.Court;
+import com.example.cscb07.data.ServiceLocator;
+import com.example.cscb07.data.VenueRepository;
+import com.example.cscb07.data.impl.FirebaseUserRepository;
+import com.example.cscb07.data.impl.FirebaseVenueRepository;
 import com.example.cscb07.ui.stateholders.LoginViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import static androidx.navigation.ui.NavigationUI.setupActionBarWithNavController;
 import static androidx.navigation.ui.NavigationUI.setupWithNavController;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private NavController navController;
@@ -47,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
                 bottomNav.setVisibility(View.VISIBLE);
             }
         });
-
 
     }
 

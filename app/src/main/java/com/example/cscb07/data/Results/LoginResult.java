@@ -1,4 +1,4 @@
-package com.example.cscb07.data;
+package com.example.cscb07.data.Results;
 
 public class LoginResult {
     public final boolean success;

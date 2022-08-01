@@ -1,6 +1,7 @@
 package com.example.cscb07.data;
 
 import com.example.cscb07.data.impl.FirebaseUserRepository;
+import com.example.cscb07.data.impl.FirebaseVenueRepository;
 
 public class ServiceLocator {
 
@@ -19,5 +20,9 @@ public class ServiceLocator {
 
     public UserRepository getUserRepository() {
         return new FirebaseUserRepository();
+    }
+
+    public VenueRepository getVenueRepository(){
+        return new FirebaseVenueRepository();
     }
 }

@@ -9,4 +9,5 @@ public class VenueViewModel extends ViewModel {
     private final MutableLiveData<EventUiState> _eventState = new MutableLiveData<>(new EventUiState());
     public final LiveData<EventUiState> eventState = _eventState;
 
+
 }
