@@ -2,7 +2,6 @@ package com.example.cscb07.data.impl;
 
 import androidx.annotation.NonNull;
 
-import com.example.cscb07.data.User;
 import com.example.cscb07.data.UserRepository;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
