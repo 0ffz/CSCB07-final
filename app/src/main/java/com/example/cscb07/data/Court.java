@@ -25,13 +25,21 @@ public class Court {
         this.upcomingEvents = upcomingEvents;
     }
 
+    public String eventsToString(){
+        String str = "";
+        for(Event event: this.getUpcomingEvents()){
+            str = str.concat(event.toString());
+        }
+        return str;
+    }
+
     @Override
     public String toString(){
         String str = "";
         if(this.getSports()==null)
             return str;
         for(String sport: this.getSports()){
-            str = str.concat(sport + "\n");
+            str = str.concat("\n" + sport);
         }
         return str;
     }

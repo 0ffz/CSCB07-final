@@ -4,7 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.cscb07.data.LoginResult;
+import com.example.cscb07.data.Results.LoginResult;
+import com.example.cscb07.data.Results.LoginResult;
 import com.example.cscb07.data.UserRepository;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

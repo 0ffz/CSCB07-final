@@ -1,10 +1,17 @@
 package com.example.cscb07.ui.elements;
 
+import android.database.Observable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -12,19 +19,21 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import com.example.cscb07.R;
 import com.example.cscb07.data.Court;
+import com.example.cscb07.data.Results.VenueResult;
 import com.example.cscb07.data.ServiceLocator;
 import com.example.cscb07.data.VenueRepository;
-import com.example.cscb07.data.impl.FirebaseUserRepository;
-import com.example.cscb07.data.impl.FirebaseVenueRepository;
-import com.example.cscb07.ui.stateholders.LoginViewModel;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import static androidx.navigation.ui.NavigationUI.setupActionBarWithNavController;
 import static androidx.navigation.ui.NavigationUI.setupWithNavController;
 
+import java.time.temporal.ValueRange;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 public class MainActivity extends AppCompatActivity {
     private NavController navController;
@@ -56,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
                 bottomNav.setVisibility(View.VISIBLE);
             }
         });
-
 
     }
 
