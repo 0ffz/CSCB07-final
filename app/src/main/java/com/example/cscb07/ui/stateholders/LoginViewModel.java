@@ -5,19 +5,15 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.example.cscb07.R;
-import com.example.cscb07.data.LoginResult;
 import com.example.cscb07.data.ServiceLocator;
-import com.example.cscb07.data.UserRepository;
+import com.example.cscb07.data.repositories.UserRepository;
+import com.example.cscb07.ui.state.UserUiState;
 
 public class LoginViewModel extends ViewModel {
     //TODO not sure if we are supposed to assign right here or not, but /shrug
     private final UserRepository userRepository = ServiceLocator.getInstance().getUserRepository();
     private final MutableLiveData<Integer> errorMessage = new MutableLiveData<>();
-    private MutableLiveData<Boolean> isAuthenticated = new MutableLiveData<>(false);
-
-    public LiveData<Integer> getErrorMessage() {
-        return errorMessage;
-    }
+    private final MutableLiveData<UserUiState> user = new MutableLiveData<>();
 
     boolean verify(String email, String password) {
         if (email.length() == 0 || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
@@ -35,18 +31,26 @@ public class LoginViewModel extends ViewModel {
 
     public void login(String email, String password) {
         if (!verify(email, password)) return;
-        //TODO actually handle login authentication (same for signup)
-        isAuthenticated.setValue(true);
+        userRepository.signIn(email, password, result -> {
+            if (result.isSuccessful())
+                user.postValue(result.user);
+            else if (result.message != null) errorMessage.postValue(result.message);
+        });
     }
 
-    public LiveData<LoginResult> signUp(String email, String password) {
-//        if (!verify(email, password)) return new MutableLiveData<>(new LoginResult(false));
-        userRepository.registerUser(email, password);
-        isAuthenticated.setValue(true);
-        return new MutableLiveData<>(new LoginResult(true, false));
+    public void signUp(String email, String password) {
+        if (!verify(email, password)) return;
+        userRepository.registerUser(email, password, result -> {
+            if (result.success) login(email, password);
+            else if (result.message != null) errorMessage.postValue(result.message);
+        });
     }
 
-    public boolean isAuthenticated() {
-        return isAuthenticated.getValue();
+    public LiveData<Integer> getErrorMessage() {
+        return errorMessage;
+    }
+
+    public final LiveData<UserUiState> getUser() {
+        return user;
     }
 }

@@ -47,13 +47,14 @@ public class LoginScreen extends Fragment {
             String email = editTextEmail.getText().toString();
             String password = editTextPassword.getText().toString();
 
-            loginViewModel.signUp(email, password).observe(getViewLifecycleOwner(), login -> {
-                if (login.success) {
-                    navController.popBackStack();
-                }
-            });
+            loginViewModel.signUp(email, password);
         });
-        // TODO: Init FirebaseAuth instance
+
+        loginViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
+            if(user != null) {
+                navController.popBackStack();
+            }
+        });
 
         // Show snackbar whenever error message is updated
         loginViewModel.getErrorMessage().observe(getViewLifecycleOwner(), stringId -> {
