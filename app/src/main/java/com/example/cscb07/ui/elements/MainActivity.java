@@ -13,6 +13,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.cscb07.R;
 import com.example.cscb07.ui.stateholders.LoginViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 import static androidx.navigation.ui.NavigationUI.setupActionBarWithNavController;
 import static androidx.navigation.ui.NavigationUI.setupWithNavController;
@@ -31,9 +32,6 @@ public class MainActivity extends AppCompatActivity {
         setupActionBarWithNavController(this, navController);
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
-//        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-//        Toolbar toolbar = findViewById(R.id.toolbar);
-//        setupWithNavController(toolbar, navController, appBarConfiguration);
         setupWithNavController(bottomNav, navController);
 
         // Hide bottom bar on login screen
@@ -47,8 +45,6 @@ public class MainActivity extends AppCompatActivity {
                 bottomNav.setVisibility(View.VISIBLE);
             }
         });
-
-
     }
 
     @Override

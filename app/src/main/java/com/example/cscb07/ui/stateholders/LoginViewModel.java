@@ -10,10 +10,9 @@ import com.example.cscb07.data.repositories.UserRepository;
 import com.example.cscb07.ui.state.UserUiState;
 
 public class LoginViewModel extends ViewModel {
-    //TODO not sure if we are supposed to assign right here or not, but /shrug
     private final UserRepository userRepository = ServiceLocator.getInstance().getUserRepository();
     private final MutableLiveData<Integer> errorMessage = new MutableLiveData<>();
-    private final MutableLiveData<UserUiState> user = new MutableLiveData<>();
+    private final MutableLiveData<UserUiState> user = new MutableLiveData<>(null);
 
     boolean verify(String email, String password) {
         if (email.length() == 0 || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {

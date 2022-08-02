@@ -58,7 +58,7 @@ public class LoginScreen extends Fragment {
 
         // Show snackbar whenever error message is updated
         loginViewModel.getErrorMessage().observe(getViewLifecycleOwner(), stringId -> {
-            Snackbar.make(view, stringId, BaseTransientBottomBar.LENGTH_SHORT).show();
+            Snackbar.make(view, stringId, Snackbar.LENGTH_LONG).show();
         });
     }
 }
