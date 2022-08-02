@@ -1,7 +1,9 @@
 package com.example.cscb07.data;
 
-public interface UserRepository {
-    void registerUser(String email, String password);
+import androidx.lifecycle.LiveData;
 
-    void signIn(String email, String password);
+public interface UserRepository {
+    LiveData<LoginResult> registerUser(String email, String password);
+
+    LiveData<LoginResult> signIn(String email, String password);
 }
