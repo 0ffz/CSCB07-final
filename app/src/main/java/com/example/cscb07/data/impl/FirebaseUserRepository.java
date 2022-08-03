@@ -6,7 +6,13 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.cscb07.data.Results.LoginResult;
 import com.example.cscb07.data.Results.LoginResult;
+import com.example.cscb07.data.User;
 import com.example.cscb07.data.UserRepository;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -15,80 +21,40 @@ import com.google.firebase.database.ValueEventListener;
 
 public class FirebaseUserRepository implements UserRepository {
 
+    FirebaseAuth auth = FirebaseAuth.getInstance();
     DatabaseReference userRef = FirebaseDatabase.getInstance().getReference();
+
+
     @Override
-    public LiveData<LoginResult> registerUser(String email, String password) {
-        MutableLiveData<LoginResult> d = new MutableLiveData<LoginResult>();
-
-        if (email == null || password == null){
-            d.setValue(new LoginResult(false, false));
-            return d;
-        }
-        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+    public void registerUser(String email, String password) {
+        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(!snapshot.child("Users").child(email).exists()){
-                    //Add New User
-                    userRef.child("Users").child(email).child("Password").setValue(password);
-                    d.setValue(new LoginResult(true, false));
-                }
-                else{
-                    //Don't add new user
-                    d.setValue(new LoginResult(false, false));
-                }
-            }
+            public void onComplete(@NonNull Task<AuthResult> task) {
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                //error occurred message
+                if (task.isSuccessful()){
+                    FirebaseUser user = auth.getCurrentUser();
+                    User u1 = new User(email, password);
+                    userRef.child("Users").child(user.getUid()).setValue(u1);
+                }
+                else
+                    System.out.println("Nothing added");
             }
         });
-        return d;
 
     }
 
-    public LiveData<LoginResult> signIn(String email, String password){
-        MutableLiveData<LoginResult> d = new MutableLiveData<LoginResult>();
-
-        if (email == null || password == null){
-            d.setValue(new LoginResult(false ,false));
-            return d;
-        }
-        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+    public void signIn(String email, String password){
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.child("Users").child(email).exists()){
-                    if (snapshot.child("Users").child(email).child("Password").getValue(String.class).equals(password)){
-                        //sign in as User
-                        d.setValue((new LoginResult(true, false)));
-                    }
-                    else{
-                        //wrong pswd/email
-                        d.setValue(new LoginResult(false, false));
-                    }
-                }
-                else if(snapshot.child("Admin").child(email).exists()){
-                    if (snapshot.child("Admin").child(email).child("Password").getValue(String.class).equals(password)){
-                        //sign in as Admin
-                        d.setValue((new LoginResult(true, true)));
-                    }
-                    else{
-                        //wrong pswd/email
-                        d.setValue(new LoginResult(false, false));
-                    }
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()){
+                    FirebaseUser user = auth.getCurrentUser();
+                    System.out.println(user.getUid());
                 }
                 else{
-                    //no User/Admin exists with that email
-                    d.setValue(new LoginResult(false, false));
+                    System.out.println("Sign in failed");
                 }
             }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                //error occurred message
-            }
         });
-
-        return d;
     }
 }
