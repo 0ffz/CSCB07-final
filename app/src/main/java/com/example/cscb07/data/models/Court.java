@@ -1,4 +1,6 @@
-package com.example.cscb07.data;
+package com.example.cscb07.data.models;
+
+import com.example.cscb07.data.models.Event;
 
 import java.util.List;
 

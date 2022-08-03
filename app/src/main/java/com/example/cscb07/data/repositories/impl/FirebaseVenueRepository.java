@@ -1,14 +1,12 @@
-package com.example.cscb07.data.impl;
-
-import android.renderscript.Sampler;
+package com.example.cscb07.data.repositories.impl;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import com.example.cscb07.data.Court;
-import com.example.cscb07.data.Results.VenueResult;
-import com.example.cscb07.data.Venue;
-import com.example.cscb07.data.VenueRepository;
+import com.example.cscb07.data.models.Court;
+import com.example.cscb07.data.results.VenueResult;
+import com.example.cscb07.data.models.Venue;
+import com.example.cscb07.data.repositories.VenueRepository;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

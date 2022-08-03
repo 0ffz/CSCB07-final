@@ -1,7 +1,9 @@
 package com.example.cscb07.data;
 
-import com.example.cscb07.data.impl.FirebaseUserRepository;
-import com.example.cscb07.data.impl.FirebaseVenueRepository;
+import com.example.cscb07.data.repositories.UserRepository;
+import com.example.cscb07.data.repositories.VenueRepository;
+import com.example.cscb07.data.repositories.impl.FirebaseUserRepository;
+import com.example.cscb07.data.repositories.impl.FirebaseVenueRepository;
 
 /**
  * The service locator is a central class for letting the UI access implementations of repositories.

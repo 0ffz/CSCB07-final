@@ -7,12 +7,15 @@ import androidx.lifecycle.ViewModel;
 import com.example.cscb07.R;
 import com.example.cscb07.data.ServiceLocator;
 import com.example.cscb07.data.repositories.UserRepository;
-import com.example.cscb07.ui.state.UserUiState;
+import com.example.cscb07.data.results.LoginResult;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginViewModel extends ViewModel {
     private final UserRepository userRepository = ServiceLocator.getInstance().getUserRepository();
+    //TODO have a separate class for handling messages
     private final MutableLiveData<Integer> errorMessage = new MutableLiveData<>();
-    private final MutableLiveData<UserUiState> user = new MutableLiveData<>(null);
+    private final MutableLiveData<String> errorMessageString = new MutableLiveData<>();
+    private final MutableLiveData<FirebaseUser> user = new MutableLiveData<>(null);
 
     boolean verify(String email, String password) {
         if (email.length() == 0 || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
@@ -28,28 +31,30 @@ public class LoginViewModel extends ViewModel {
         return true;
     }
 
+    private void handleLogin(LoginResult result) {
+        if (result.isSuccessful()) user.postValue(result.user);
+        if (result.message != null) errorMessageString.postValue(result.message);
+    }
+
     public void login(String email, String password) {
         if (!verify(email, password)) return;
-        userRepository.signIn(email, password, result -> {
-            if (result.isSuccessful())
-                user.postValue(result.user);
-            else if (result.message != null) errorMessage.postValue(result.message);
-        });
+        userRepository.signIn(email, password, this::handleLogin);
     }
 
     public void signUp(String email, String password) {
         if (!verify(email, password)) return;
-        userRepository.registerUser(email, password, result -> {
-            if (result.success) login(email, password);
-            else if (result.message != null) errorMessage.postValue(result.message);
-        });
+        userRepository.registerUser(email, password, this::handleLogin);
     }
 
     public LiveData<Integer> getErrorMessage() {
         return errorMessage;
     }
 
-    public final LiveData<UserUiState> getUser() {
+    public LiveData<String> getErrorMessageString() {
+        return errorMessageString;
+    }
+
+    public final LiveData<FirebaseUser> getUser() {
         return user;
     }
 }

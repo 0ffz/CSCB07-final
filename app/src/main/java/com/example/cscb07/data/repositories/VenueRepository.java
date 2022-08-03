@@ -1,8 +1,8 @@
-package com.example.cscb07.data;
+package com.example.cscb07.data.repositories;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import com.example.cscb07.data.Results.VenueResult;
+import com.example.cscb07.data.models.Court;
+import com.example.cscb07.data.results.VenueResult;
 
 import java.util.List;
 

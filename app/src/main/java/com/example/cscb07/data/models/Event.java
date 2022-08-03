@@ -1,4 +1,4 @@
-package com.example.cscb07.data;
+package com.example.cscb07.data.models;
 
 import java.util.Date;
 import java.util.List;
@@ -8,7 +8,7 @@ public class Event {
     Date startDate;
     Date endDate;
     int maxCapacity;
-    List<User> attendees;
+    List<String> attendees;
 
     @Override
     public String toString(){

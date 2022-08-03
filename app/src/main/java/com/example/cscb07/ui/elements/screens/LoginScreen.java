@@ -41,6 +41,7 @@ public class LoginScreen extends Fragment {
         EditText editTextPassword = view.findViewById(R.id.editTextPassword);
         ProgressBar progressBar = view.findViewById(R.id.progressBar);
         Button signupButton = view.findViewById(R.id.signupButton);
+        Button loginButton = view.findViewById(R.id.loginButton);
 
         signupButton.setOnClickListener(v -> {
             // Get email/pass as Strings
@@ -48,6 +49,13 @@ public class LoginScreen extends Fragment {
             String password = editTextPassword.getText().toString();
 
             loginViewModel.signUp(email, password);
+        });
+
+        loginButton.setOnClickListener(v -> {
+            String email = editTextEmail.getText().toString();
+            String password = editTextPassword.getText().toString();
+
+            loginViewModel.login(email, password);
         });
 
         loginViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
@@ -59,6 +67,9 @@ public class LoginScreen extends Fragment {
         // Show snackbar whenever error message is updated
         loginViewModel.getErrorMessage().observe(getViewLifecycleOwner(), stringId -> {
             Snackbar.make(view, stringId, Snackbar.LENGTH_LONG).show();
+        });
+        loginViewModel.getErrorMessageString().observe(getViewLifecycleOwner(), string -> {
+            Snackbar.make(view, string, Snackbar.LENGTH_LONG).show();
         });
     }
 }

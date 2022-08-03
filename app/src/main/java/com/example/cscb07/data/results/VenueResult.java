@@ -1,6 +1,6 @@
-package com.example.cscb07.data.Results;
+package com.example.cscb07.data.results;
 
-import com.example.cscb07.data.Court;
+import com.example.cscb07.data.models.Court;
 
 import java.util.List;
 
