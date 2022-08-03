@@ -3,15 +3,21 @@ package com.example.cscb07.data;
 import com.example.cscb07.data.impl.FirebaseUserRepository;
 import com.example.cscb07.data.impl.FirebaseVenueRepository;
 
+/**
+ * The service locator is a central class for letting the UI access implementations of repositories.
+ * <p>
+ * Example use {@code ServiceLocator.getInstance().getSomeRepository() }
+ */
 public class ServiceLocator {
 
     private static ServiceLocator instance = null;
 
-    private ServiceLocator() {}
+    private ServiceLocator() {
+    }
 
     public static ServiceLocator getInstance() {
         if (instance == null) {
-            synchronized(ServiceLocator.class) {
+            synchronized (ServiceLocator.class) {
                 instance = new ServiceLocator();
             }
         }
@@ -22,7 +28,7 @@ public class ServiceLocator {
         return new FirebaseUserRepository();
     }
 
-    public VenueRepository getVenueRepository(){
+    public VenueRepository getVenueRepository() {
         return new FirebaseVenueRepository();
     }
 }
