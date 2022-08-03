@@ -12,6 +12,9 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import com.example.cscb07.R;
 import com.example.cscb07.ui.stateholders.LoginViewModel;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import org.jetbrains.annotations.NotNull;
 
 public class HomeScreen extends Fragment {
