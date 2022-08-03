@@ -8,14 +8,16 @@ import com.example.cscb07.R;
 import com.example.cscb07.data.ServiceLocator;
 import com.example.cscb07.data.repositories.UserRepository;
 import com.example.cscb07.data.results.LoginResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class LoginViewModel extends ViewModel {
+    private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private final UserRepository userRepository = ServiceLocator.getInstance().getUserRepository();
     //TODO have a separate class for handling messages
     private final MutableLiveData<Integer> errorMessage = new MutableLiveData<>();
     private final MutableLiveData<String> errorMessageString = new MutableLiveData<>();
-    private final MutableLiveData<FirebaseUser> user = new MutableLiveData<>(null);
+    private final MutableLiveData<FirebaseUser> user = new MutableLiveData<>(mAuth.getCurrentUser());
 
     boolean verify(String email, String password) {
         if (email.length() == 0 || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
