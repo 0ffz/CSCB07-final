@@ -4,11 +4,11 @@ import androidx.annotation.NonNull;
 import com.example.cscb07.data.RepositoryCallback;
 import com.example.cscb07.data.models.VenueModel;
 import com.example.cscb07.data.repositories.VenueRepository;
-import com.example.cscb07.data.results.VenueResult;
 import com.example.cscb07.data.util.FirebaseUtil;
 import com.example.cscb07.ui.state.VenueUiState;
 import com.google.firebase.database.*;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.List;
@@ -34,17 +34,12 @@ public class FirebaseVenueRepository implements VenueRepository {
         });
     }
 
-    @Override
-    public void readVenue(@NotNull String name, @NotNull RepositoryCallback<VenueResult> callback) {
+    public void readVenue(@NotNull String name, @NotNull RepositoryCallback<VenueModel> callback) {
         FirebaseUtil.getVenues().child(name).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 VenueModel venue = snapshot.getValue(VenueModel.class);
-                if (venue != null) {
-                    callback.onComplete(new VenueResult(true, name, venue.courts));
-                } else {
-                    callback.onComplete(new VenueResult(false, "", null));
-                }
+                callback.onComplete(venue);
             }
 
             @Override

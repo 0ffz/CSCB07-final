@@ -5,6 +5,9 @@ public class UserModel {
     public String email;
     public boolean admin;
 
+    public UserModel() {
+    }
+
     public UserModel(String email, String password, boolean admin) {
         this.email = email;
         this.password = password;

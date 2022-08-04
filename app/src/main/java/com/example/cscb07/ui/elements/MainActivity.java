@@ -1,17 +1,12 @@
 package com.example.cscb07.ui.elements;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 import com.example.cscb07.R;
-import com.example.cscb07.ui.stateholders.LoginViewModel;
+import com.example.cscb07.data.util.MessageUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -33,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
         setupWithNavController(bottomNav, navController);
+        View coordinatorLayout = findViewById(R.id.coordinatorLayout);
 
         // Hide bottom bar on login screen
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
@@ -45,6 +41,17 @@ public class MainActivity extends AppCompatActivity {
                 bottomNav.setVisibility(View.VISIBLE);
             }
         });
+
+        MessageUtil.getMessage().observe(this, message -> {
+            if (message != null) {
+                if (message.messageId == -1) {
+                    Snackbar.make(coordinatorLayout, message.message, Snackbar.LENGTH_LONG).show();
+                } else {
+                    Snackbar.make(coordinatorLayout, message.messageId, Snackbar.LENGTH_LONG).show();
+                }
+            }
+        });
+
     }
 
     @Override
