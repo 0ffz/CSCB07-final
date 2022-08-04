@@ -17,7 +17,7 @@ public class FirebaseUserRepository implements UserRepository {
     public void registerUser(@NotNull String email, @NotNull String password, Consumer<Try<FirebaseUser>> callback) {
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                UserModel user = new UserModel(email, password, false);
+                UserModel user = new UserModel(email, false);
                 FirebaseUtil.getUsers().child(auth.getCurrentUser().getUid()).setValue(user);
                 callback.accept(Try.success(auth.getCurrentUser()));
             } else {

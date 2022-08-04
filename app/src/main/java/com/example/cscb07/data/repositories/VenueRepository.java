@@ -15,6 +15,6 @@ public interface VenueRepository {
             VenueId startAt,
             int amount,
             String searchFilter,
-            RepositoryCallback<Try<List<WithId<VenueId, VenueModel>>>> callback
+            Consumer<Try<List<WithId<VenueId, VenueModel>>>> callback
     );
 }
