@@ -2,7 +2,6 @@ package com.example.cscb07.ui.stateholders;
 
 import android.util.Patterns;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.example.cscb07.R;
 import com.example.cscb07.data.repositories.UserRepository;
@@ -11,10 +10,6 @@ import com.example.cscb07.data.util.ServiceLocator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import io.vavr.control.Try;
-
-import java.util.Date;
-import java.util.List;
-import java.util.function.Consumer;
 
 public class LoginViewModel extends ViewModel {
     private final FirebaseAuth mAuth = FirebaseAuth.getInstance();

@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         // Hide bottom bar on login screen
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
             int id = destination.getId();
-            if (id == R.id.screenLogin) {
+            if (id == R.id.screenLogin || id == R.id.screenSignup) {
                 getSupportActionBar().hide();
                 bottomNav.setVisibility(View.GONE);
             } else {

@@ -45,11 +45,10 @@ public class HomeScreen extends Fragment {
         loginViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
             if (user == null) navController.navigate(HomeScreenDirections.actionScreenHomeToScreenLogin());
             else {
+                // TODO make home screen
                 Button button = view.findViewById(R.id.nextViewButton);
                 button.setOnClickListener(v -> {
-                    MessageUtil.showError(R.string.error_email);
                 });
-                // TODO make home screen
             }
         });
     }

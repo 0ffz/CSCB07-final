@@ -11,5 +11,18 @@
     <fragment android:id="@+id/screenUpcoming" android:name="com.example.cscb07.ui.elements.screens.UpcomingScreen"
               android:label="@string/title_upcoming" tools:layout="@layout/screen_upcoming"/>
     <fragment android:id="@+id/screenLogin" android:name="com.example.cscb07.ui.elements.screens.LoginScreen"
-              android:label="@string/title_login" tools:layout="@layout/screen_login"/>
+              android:label="@string/title_login" tools:layout="@layout/screen_login">
+        <action android:id="@+id/action_screenLogin_to_screenSignup" app:destination="@id/screenSignup"
+            app:popExitAnim="@android:anim/slide_out_right"/>
+    </fragment>
+    <fragment
+        android:id="@+id/screenSignup"
+        android:name="com.example.cscb07.ui.elements.screens.SignupScreen"
+        android:label="Signup"
+        tools:layout="@layout/screen_signup">
+        <action android:id="@+id/action_screenSignup_to_screenLogin" app:destination="@id/screenLogin"
+            app:popExitAnim="@android:anim/slide_out_right"/>
+        <action android:id="@+id/action_screenSignup_to_screenHome" app:destination="@id/screenHome"
+            app:popExitAnim="@android:anim/slide_out_right"/>
+    </fragment>
 </navigation>

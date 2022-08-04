@@ -7,17 +7,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
-import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import com.example.cscb07.R;
 import com.example.cscb07.ui.stateholders.LoginViewModel;
-import com.google.android.material.snackbar.BaseTransientBottomBar;
-import com.google.android.material.snackbar.Snackbar;
 import org.jetbrains.annotations.NotNull;
 
 public class LoginScreen extends Fragment {
@@ -40,15 +38,15 @@ public class LoginScreen extends Fragment {
         EditText editTextEmail = view.findViewById(R.id.editTextEmail);
         EditText editTextPassword = view.findViewById(R.id.editTextPassword);
         ProgressBar progressBar = view.findViewById(R.id.progressBar);
-        Button signupButton = view.findViewById(R.id.signupButton);
         Button loginButton = view.findViewById(R.id.loginButton);
+        TextView signupLink = view.findViewById((R.id.signupLink));
 
-        signupButton.setOnClickListener(v -> {
+        loginButton.setOnClickListener(v -> {
             // Get email/pass as Strings
             String email = editTextEmail.getText().toString();
             String password = editTextPassword.getText().toString();
 
-            loginViewModel.signUp(email, password);
+            loginViewModel.login(email, password);
         });
 
         loginButton.setOnClickListener(v -> {
@@ -58,8 +56,10 @@ public class LoginScreen extends Fragment {
             loginViewModel.login(email, password);
         });
 
+        signupLink.setOnClickListener(v -> navController.navigate(LoginScreenDirections.actionScreenLoginToScreenSignup()));
+
         loginViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
-            if(user != null) {
+            if (user != null) {
                 navController.popBackStack();
             }
         });
