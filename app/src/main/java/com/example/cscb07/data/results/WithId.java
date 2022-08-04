@@ -9,4 +9,7 @@ public class WithId<I, M> {
         this.model = model;
     }
 
+    public static <I, M> WithId<I, M> of(I id, M model) {
+        return new WithId<>(id, model);
+    }
 }
