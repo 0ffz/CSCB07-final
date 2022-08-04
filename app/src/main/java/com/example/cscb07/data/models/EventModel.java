@@ -1,15 +1,12 @@
 package com.example.cscb07.data.models;
 
-import android.media.metrics.Event;
-
 import java.util.Date;
-import java.util.List;
 
 public class EventModel {
     public String name;
     public String venue;
-    public long startDate;
-    public long endDate; //unix time
+    private long startDate;
+    private long endDate;
     public int maxCapacity; // need these public to create a new one and work with it in a different package
     public int numAttendees;
     public boolean pending;
@@ -23,8 +20,23 @@ public class EventModel {
         this.numAttendees = 0;
     }
 
-    public EventModel(){
+    public EventModel() {
+    }
 
+    public Date getStartDate() {
+        return new Date(startDate);
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate.getTime();
+    }
+
+    public Date getEndDate() {
+        return new Date(endDate);
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate.getTime();
     }
 
     @Override

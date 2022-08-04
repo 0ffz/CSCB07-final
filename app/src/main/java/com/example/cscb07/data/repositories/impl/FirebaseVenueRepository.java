@@ -1,63 +1,47 @@
 package com.example.cscb07.data.repositories.impl;
 
-import androidx.annotation.NonNull;
+import android.util.Pair;
 import com.example.cscb07.data.models.VenueModel;
 import com.example.cscb07.data.repositories.VenueRepository;
+import com.example.cscb07.data.results.VenueId;
+import com.example.cscb07.data.results.WithId;
 import com.example.cscb07.data.util.FirebaseUtil;
-import com.example.cscb07.ui.state.VenueUiState;
-import com.google.firebase.database.*;
-import org.jetbrains.annotations.NotNull;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
+import io.vavr.collection.Stream;
+import io.vavr.control.Try;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.function.Consumer;
 
 
 public class FirebaseVenueRepository implements VenueRepository {
     @Override
-    public void addVenue(@NotNull String name) {
-        DatabaseReference venueRef = FirebaseUtil.getVenues().child(name);
-        venueRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (!snapshot.exists()) {
-                    VenueModel venue = new VenueModel(name, Collections.emptyList(), Collections.emptyList());
-                    venueRef.setValue(venue);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-
-    public void readVenue(@NotNull String name, @NotNull RepositoryCallback<VenueModel> callback) {
-        FirebaseUtil.getVenues().child(name).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                VenueModel venue = snapshot.getValue(VenueModel.class);
-                callback.onComplete(venue);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
+    public void addVenue(String name, String description, Consumer<Try<VenueId>> callback) {
+        DatabaseReference venuesRef = FirebaseUtil.getVenues().child(name);
+        venuesRef.get().addOnSuccessListener(snapshot -> {
+            VenueModel venue = new VenueModel(name, description);
+            DatabaseReference venueRef = venuesRef.push();
+            venueRef.setValue(venue);
+            callback.accept(Try.success(new VenueId(venueRef.getKey())));
+        }).addOnFailureListener(e -> callback.accept(Try.failure(e)));
     }
 
     @Override
-    public void getVenues(int amount, int page, RepositoryCallback<List<VenueUiState>> callback) {
+    public void getVenues(VenueId startAt, int amount, String searchFilter, Consumer<Try<List<WithId<VenueId, VenueModel>>>> callback) {
         Query query = FirebaseUtil.getVenues()
-                .
-                .orderByKey().startAt(page * amount).limitToFirst(amount);
+                .orderByKey()
+                .startAfter(startAt.venueId)
+                .orderByChild("name")
+                .startAt(searchFilter)
+                // Some big unicode character in the end to get anything that starts with the filter
+                .endAt(searchFilter + "\uf8ff")
+                .limitToFirst(amount);
         query.get().addOnSuccessListener(dataSnapshot -> {
-
-            for (DataSnapshot venue : dataSnapshot.getChildren()) {
-                venue.getValue(VenueModel.class);
-            }
-            //TODO return the list
-//            callback.onComplete();
-        });
+            List<WithId<VenueId, VenueModel>> venues = Stream.ofAll(dataSnapshot.getChildren())
+                    .map(snapshot -> WithId.of(new VenueId(snapshot.getKey()), snapshot.getValue(VenueModel.class)))
+                    .toJavaList();
+            callback.accept(Try.success(venues));
+        }).addOnFailureListener(e -> callback.accept(Try.failure(e)));
     }
 }
