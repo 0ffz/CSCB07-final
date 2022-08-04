@@ -14,8 +14,8 @@ public interface EventRepository {
             VenueId venue,
             String eventName,
             String description,
-            Date startDate,
-            Date endDate,
+            long startDate,
+            long endDate,
             int maxCapacity,
             Consumer<Try<EventId>> callback
     );
