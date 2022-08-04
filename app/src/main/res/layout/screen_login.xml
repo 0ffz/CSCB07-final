@@ -7,22 +7,22 @@
     tools:context=".ui.elements.screens.LoginScreen">
 
     <TextView
-            android:id="@+id/signupTextView"
-            android:layout_width="86dp"
-            android:layout_height="36dp"
-            android:layout_marginStart="47dp"
-            android:layout_marginTop="100dp"
-            android:layout_marginEnd="278dp"
-            android:text="@string/signup_textview"
-            android:textColor="@android:color/primary_text_dark"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/errorTextView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.228"/>
+        android:id="@+id/loginTextView"
+        android:layout_width="86dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="47dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="278dp"
+        android:text="@string/login_textview"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/errorTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.228" />
 
     <EditText
             android:id="@+id/editTextEmail"
@@ -44,37 +44,37 @@
             android:ems="10"
             android:inputType="textPassword"
             android:textSize="25sp"
-            app:layout_constraintBottom_toTopOf="@+id/signupButton"
+            app:layout_constraintBottom_toTopOf="@+id/loginButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editTextEmail"
             android:textColor="@android:color/secondary_text_dark"/>
 
     <Button
-            android:id="@+id/signupButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="200dp"
-            android:text="@string/signup_button"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/loginLink"
-            app:layout_constraintTop_toBottomOf="@+id/editTextPassword"
-            app:layout_constraintVertical_bias="0.528"/>
+        android:id="@+id/loginButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="200dp"
+        android:text="@string/login_button"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/signupLink"
+        app:layout_constraintTop_toBottomOf="@+id/editTextPassword"
+        app:layout_constraintVertical_bias="0.528" />
 
     <TextView
-            android:id="@+id/loginLink"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:text="@string/login_link"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/signupButton"
-            app:layout_constraintEnd_toStartOf="@+id/signupButton"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/signupButton"/>
+        android:id="@+id/signupLink"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:text="@string/signup_link"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/loginButton"
+        app:layout_constraintEnd_toStartOf="@+id/loginButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/loginButton" />
 
     <TextView
             android:id="@+id/errorTextView"
@@ -83,8 +83,8 @@
             android:text="@string/error_message"
             android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@+id/editTextEmail"
-            app:layout_constraintStart_toStartOf="@+id/signupTextView"
-            app:layout_constraintTop_toBottomOf="@+id/signupTextView"
+            app:layout_constraintStart_toStartOf="@+id/loginTextView"
+            app:layout_constraintTop_toBottomOf="@+id/loginTextView"
             android:textColor="@android:color/secondary_text_dark"/>
 
     <ProgressBar

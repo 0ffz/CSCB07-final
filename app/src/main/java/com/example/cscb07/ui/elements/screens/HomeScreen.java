@@ -31,6 +31,6 @@ public class HomeScreen extends Fragment {
         if(!loginViewModel.isAuthenticated())
             navController.navigate(HomeScreenDirections.actionScreenHomeToScreenLogin());
         Button button = view.findViewById(R.id.nextViewButton);
-//        button.setOnClickListener(v -> navController.navigate(HomeScreenDirections.actionScreenHomeToScreenLogin()));
+        button.setOnClickListener(v -> navController.navigate(HomeScreenDirections.actionScreenHomeToScreenLogin()));
     }
 }
