@@ -20,15 +20,15 @@ public class LoginViewModel extends ViewModel {
     private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private final UserRepository userRepository = ServiceLocator.getInstance().getUserRepository();
     //TODO have a separate class for handling messages
-    private final MutableLiveData<FirebaseUser> user = new MutableLiveData<>(mAuth.getCurrentUser());
+    private final FirebaseUserLiveData user = new FirebaseUserLiveData();
 
     boolean verify(String email, String password) {
-        if (email.length() == 0 || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        if (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             MessageUtil.showError(R.string.error_email);
             return false;
         }
 
-        if (password.length() == 0) {
+        if (password.isEmpty()) {
             MessageUtil.showError(R.string.error_password);
             return false;
         }
@@ -37,8 +37,7 @@ public class LoginViewModel extends ViewModel {
     }
 
     private void handleLogin(Try<FirebaseUser> result) {
-        result.onSuccess(LoginViewModel.this.user::postValue)
-                .onFailure(MessageUtil::showError);
+        result.onFailure(MessageUtil::showError);
     }
 
     public void login(String email, String password) {
@@ -49,6 +48,10 @@ public class LoginViewModel extends ViewModel {
     public void signUp(String email, String password) {
         if (!verify(email, password)) return;
         userRepository.registerUser(email, password, this::handleLogin);
+    }
+
+    public void signOut() {
+        userRepository.signOutCurrentUser();
     }
 
     public final LiveData<FirebaseUser> getUser() {
