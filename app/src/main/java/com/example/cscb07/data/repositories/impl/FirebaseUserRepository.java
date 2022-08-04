@@ -38,6 +38,6 @@ public class FirebaseUserRepository implements UserRepository {
 
     @Override
     public void signOutCurrentUser() {
-
+        auth.signOut();
     }
 }
