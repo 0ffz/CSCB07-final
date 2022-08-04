@@ -1,7 +1,6 @@
 package com.example.cscb07.data.repositories.impl;
 
 import androidx.annotation.NonNull;
-import com.example.cscb07.data.RepositoryCallback;
 import com.example.cscb07.data.models.VenueModel;
 import com.example.cscb07.data.repositories.VenueRepository;
 import com.example.cscb07.data.util.FirebaseUtil;
@@ -49,7 +48,9 @@ public class FirebaseVenueRepository implements VenueRepository {
 
     @Override
     public void getVenues(int amount, int page, RepositoryCallback<List<VenueUiState>> callback) {
-        Query query = FirebaseUtil.getVenues().orderByKey().startAt(page * amount).limitToFirst(amount);
+        Query query = FirebaseUtil.getVenues()
+                .
+                .orderByKey().startAt(page * amount).limitToFirst(amount);
         query.get().addOnSuccessListener(dataSnapshot -> {
 
             for (DataSnapshot venue : dataSnapshot.getChildren()) {

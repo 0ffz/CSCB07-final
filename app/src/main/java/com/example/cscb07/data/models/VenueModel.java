@@ -5,27 +5,17 @@ import com.google.common.collect.ImmutableList;
 import java.util.List;
 
 public class VenueModel {
+
     public String name;
-    public List<String> sports;
-    public List<String> events;
+    public String description;
+    // And an event list
 
-    public VenueModel(String name, List<String> sports, List<String> events) {
+    public VenueModel(String name, String description) {
         this.name = name;
-        this.sports = sports;
-        this.events = events;
+        this.description = description;
     }
-
 
     public VenueModel() {
-    }
-
-    @Override
-    public String toString() {
-        return "VenueModel{" +
-                "name='" + name + '\'' +
-                ", sports=" + sports +
-                ", events=" + events +
-                '}';
     }
 }
 
