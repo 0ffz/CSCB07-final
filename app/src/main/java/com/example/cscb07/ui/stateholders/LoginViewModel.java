@@ -12,6 +12,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import io.vavr.control.Try;
 
+import java.util.Date;
+import java.util.List;
 import java.util.function.Consumer;
 
 public class LoginViewModel extends ViewModel {

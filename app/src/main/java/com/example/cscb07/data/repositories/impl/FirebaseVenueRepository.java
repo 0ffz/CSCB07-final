@@ -8,7 +8,6 @@ import com.example.cscb07.data.util.FirebaseUtil;
 import com.example.cscb07.ui.state.VenueUiState;
 import com.google.firebase.database.*;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.List;
@@ -22,7 +21,7 @@ public class FirebaseVenueRepository implements VenueRepository {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (!snapshot.exists()) {
-                    VenueModel venue = new VenueModel(name, Collections.emptyList());
+                    VenueModel venue = new VenueModel(name, Collections.emptyList(), Collections.emptyList());
                     venueRef.setValue(venue);
                 }
             }

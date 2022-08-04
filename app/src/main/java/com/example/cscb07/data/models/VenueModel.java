@@ -6,21 +6,25 @@ import java.util.List;
 
 public class VenueModel {
     public String name;
-    public List<String> courts;
+    public List<String> sports;
+    public List<String> events;
 
-    public VenueModel() {
+    public VenueModel(String name, List<String> sports, List<String> events) {
+        this.name = name;
+        this.sports = sports;
+        this.events = events;
     }
 
-    public VenueModel(String name, List<String> courts) {
-        this.name = name;
-        this.courts = ImmutableList.copyOf(courts);
+
+    public VenueModel() {
     }
 
     @Override
     public String toString() {
         return "VenueModel{" +
                 "name='" + name + '\'' +
-                ", courts=" + courts +
+                ", sports=" + sports +
+                ", events=" + events +
                 '}';
     }
 }
