@@ -10,8 +10,10 @@
     <string name="login_link">Log in</string>
 
     <string name="error_message">Error Placeholder</string>
+    <string name="error_name">Please provide your name</string>
     <string name="error_email">Invalid email address</string>
     <string name="error_password">Invalid password</string>
+    <string name="error_passwordC">Passwords do not match</string>
 
     <string name="title_home">Home</string>
     <string name="title_upcoming">Upcoming</string>

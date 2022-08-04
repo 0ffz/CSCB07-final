@@ -5,8 +5,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.example.cscb07.R;
-import com.example.cscb07.data.LoginResult;
+import com.example.cscb07.data.SignupResult;
 import com.example.cscb07.data.ServiceLocator;
+import com.example.cscb07.data.SignupResult;
 import com.example.cscb07.data.UserRepository;
 
 public class SignupViewModel extends ViewModel {
@@ -19,7 +20,12 @@ public class SignupViewModel extends ViewModel {
         return errorMessage;
     }
 
-    boolean verify(String email, String password) {
+    boolean verify(String name, String email, String password, String passwordC) {
+        if (name.length() == 0) {
+            errorMessage.setValue(R.string.error_name);
+            return false;
+        }
+
         if (email.length() == 0 || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             errorMessage.setValue(R.string.error_email);
             return false;
@@ -30,20 +36,28 @@ public class SignupViewModel extends ViewModel {
             return false;
         }
 
+        if (!passwordC.equals(password)) {
+            errorMessage.setValue(R.string.error_passwordC);
+            return false;
+        }
+
         return true;
     }
 
-    public void login(String email, String password) {
-        if (!verify(email, password)) return;
-        //TODO actually handle login authentication (same for signup)
+    public void signup(String name, String email, String password, String passwordC) {
+        if (!verify(name, email, password, passwordC)) return;
+        //TODO actually handle signup authentication
         isAuthenticated.setValue(true);
     }
 
-    public LiveData<LoginResult> signUp(String email, String password) {
-//        if (!verify(email, password)) return new MutableLiveData<>(new LoginResult(false));
-        userRepository.registerUser(email, password);
+    public LiveData<SignupResult> signUp(String name, String email, String password, String passwordC) {
+        if (!verify(name, email, password, passwordC)) return new MutableLiveData<>(new SignupResult(false));
+
+        //userRepository.registerUser(email, password);
         isAuthenticated.setValue(true);
-        return new MutableLiveData<>(new LoginResult(true));
+
+        // Change this to SignupResult
+        return new MutableLiveData<>(new SignupResult(true));
     }
 
     public boolean isAuthenticated() {

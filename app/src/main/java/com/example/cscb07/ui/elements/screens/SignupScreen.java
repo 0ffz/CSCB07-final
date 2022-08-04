@@ -49,15 +49,17 @@ public class SignupScreen extends Fragment {
 
         signupButton.setOnClickListener(v -> {
             // Get email/pass as Strings
+            String name = editTextName.getText().toString();
             String email = editTextEmail.getText().toString();
             String password = editTextPassword.getText().toString();
+            String passwordC = editTextPassword.getText().toString();
 
             // FireBase
 
-            signupViewModel.signUp(email, password).observe(getViewLifecycleOwner(), login -> {
-                //if (login.success) {
+            signupViewModel.signUp(name, email, password, passwordC).observe(getViewLifecycleOwner(), signup -> {
+                if (signup.success) {
                     navController.popBackStack();
-                //}
+                }
             });
         });
         // TODO: Init FirebaseAuth instance

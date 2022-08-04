@@ -40,8 +40,10 @@ public class LoginViewModel extends ViewModel {
     }
 
     public LiveData<LoginResult> signUp(String email, String password) {
-//        if (!verify(email, password)) return new MutableLiveData<>(new LoginResult(false));
-        userRepository.registerUser(email, password);
+        if (!verify(email, password)) return new MutableLiveData<>(new LoginResult(false));
+
+        // commented out bc this is before we fixed authentication
+        //userRepository.registerUser(email, password);
         isAuthenticated.setValue(true);
         return new MutableLiveData<>(new LoginResult(true));
     }
