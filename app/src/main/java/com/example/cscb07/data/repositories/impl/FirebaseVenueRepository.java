@@ -2,7 +2,6 @@ package com.example.cscb07.data.repositories.impl;
 
 import androidx.annotation.NonNull;
 import com.example.cscb07.data.RepositoryCallback;
-import com.example.cscb07.data.models.Court;
 import com.example.cscb07.data.models.VenueModel;
 import com.example.cscb07.data.repositories.VenueRepository;
 import com.example.cscb07.data.results.VenueResult;
@@ -11,18 +10,19 @@ import com.example.cscb07.ui.state.VenueUiState;
 import com.google.firebase.database.*;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collections;
 import java.util.List;
 
 
 public class FirebaseVenueRepository implements VenueRepository {
     @Override
-    public void addVenue(@NotNull String name, @NotNull List<Court> courts) {
+    public void addVenue(@NotNull String name) {
         DatabaseReference venueRef = FirebaseUtil.getVenues().child(name);
         venueRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (!snapshot.exists()) {
-                    VenueModel venue = new VenueModel(name, courts);
+                    VenueModel venue = new VenueModel(name, Collections.emptyList());
                     venueRef.setValue(venue);
                 }
             }
@@ -39,12 +39,9 @@ public class FirebaseVenueRepository implements VenueRepository {
         FirebaseUtil.getVenues().child(name).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    GenericTypeIndicator<List<Court>> t = new GenericTypeIndicator<List<Court>>() {
-                    };
-                    List<Court> courts = snapshot.child("courts").getValue(t);
-
-                    callback.onComplete(new VenueResult(true, name, courts));
+                VenueModel venue = snapshot.getValue(VenueModel.class);
+                if (venue != null) {
+                    callback.onComplete(new VenueResult(true, name, venue.courts));
                 } else {
                     callback.onComplete(new VenueResult(false, "", null));
                 }

@@ -3,10 +3,10 @@ package com.example.cscb07.data.models;
 import java.util.List;
 
 public class VenueModel {
-    public final String name;
-    public final List<String> courts;
+    public String name;
+    public List<String> courts;
 
-    public VenueModel(String name, List<Court> courts) {
+    public VenueModel(String name, List<String> courts) {
         this.name = name;
         this.courts = courts;
     }
@@ -14,13 +14,13 @@ public class VenueModel {
     @Override
     public String toString() {
         String str = "";
-        if(name==null && courts==null)
+        if (name == null && courts == null)
             return str;
-        if(name!=null) {
+        if (name != null) {
             str = name + "\n";
             if (courts != null) {
-                for (Court court : courts) {
-                    str = str.concat(court.toString());
+                for (String court : courts) {
+                    str = str.concat(court);
                 }
             }
         }
