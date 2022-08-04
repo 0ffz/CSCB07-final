@@ -1,6 +1,4 @@
-package com.example.cscb07.data.results;
-
-import com.example.cscb07.data.models.Court;
+package com.example.cscb07.data.Results;
 
 import java.util.List;
 
@@ -11,7 +9,7 @@ public class VenueResult {
 
     public VenueResult(boolean success, String name, List<String> courts) {
         this.name=name;
-        this.success = success;
+        this.success=success;
         this.courts=courts;
     }
 }

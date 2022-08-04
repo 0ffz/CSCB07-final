@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 import com.example.cscb07.data.RepositoryCallback;
 import com.example.cscb07.data.models.VenueModel;
 import com.example.cscb07.data.repositories.VenueRepository;
-import com.example.cscb07.data.results.VenueResult;
+import com.example.cscb07.data.Results.VenueResult;
 import com.example.cscb07.data.util.FirebaseUtil;
 import com.example.cscb07.ui.state.VenueUiState;
 import com.google.firebase.database.*;

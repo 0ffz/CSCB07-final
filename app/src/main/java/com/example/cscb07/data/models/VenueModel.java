@@ -11,20 +11,5 @@ public class VenueModel {
         this.courts = courts;
     }
 
-    @Override
-    public String toString() {
-        String str = "";
-        if (name == null && courts == null)
-            return str;
-        if (name != null) {
-            str = name + "\n";
-            if (courts != null) {
-                for (String court : courts) {
-                    str = str.concat(court);
-                }
-            }
-        }
-        return str;
-    }
 }
 
