@@ -42,8 +42,8 @@ public class FirebaseEventRepository implements EventRepository {
         PendingEventModel p = new PendingEventModel(e, creator); //new pending event;
         String key = d.push().getKey(); // store key in variable
        d.child(key).setValue(p); // store the event under pendingEvents
-//        callback.accept(Try.success(new EventId(key)));
-        System.out.println("added to pending");
+        callback.accept(Try.success(new EventId(key)));
+//        System.out.println("added to pending");
 
     }
 
@@ -58,25 +58,27 @@ public class FirebaseEventRepository implements EventRepository {
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (!task.isSuccessful())
                 {
-//                    callback.accept(Try.failure(null));
-                    System.out.println("fail");
+                    callback.accept(Try.failure(null));
+//                    System.out.println("fail");
                 }
                 else{
                     DataSnapshot snapshot = task.getResult();
                     if (snapshot.child("events").child(event.eventId).exists()){
-                        System.out.println("Don't add event"); // replace for error message, event already exists
+                        callback.accept(Try.failure(null));
+//                        System.out.println("Don't add event"); // replace for error message, event already exists
                     }
                     else {
                         EventModel e = snapshot.child("events").child(event.eventId).getValue(EventModel.class);
                         if (e.numAttendees >= e.maxCapacity)
-                            System.out.println("Too many people"); // replace for error message, event is fully booked
+                            callback.accept(Try.failure(null));
+//                            System.out.println("Too many people"); // replace for error message, event is fully booked
                         else{
-                            System.out.println("adding event to user"); // remove
+//                            System.out.println("adding event to user"); // remove
                             int num = e.numAttendees;
                             num += 1;
                             d.child("events").child(event.eventId).child("numAttendees").setValue(num);
-                            d.child("users").child(user).child("events").child(event.eventId).setValue(e.getStartDate().getTime()); //keys map to start date
-
+                            d.child("users").child(user).child("events").child(event.eventId).setValue(e.startDate); //keys map to start date
+                            callback.accept(Try.success(e));
                         }
                     }
                 }
@@ -101,13 +103,13 @@ public class FirebaseEventRepository implements EventRepository {
                     EventModel e = p.event; // make an object of the event
                     e.numAttendees = 1; // remove from pending means there should only be 1 person attending (the User)
                     d.child("events").child(event.eventId).setValue(e); // make the event in Events
-                    d.child("users").child(p.creator).child("events").child(event.eventId).setValue(e.getStartDate().getTime()); // make the event under the currentUser
+                    d.child("users").child(p.creator).child("events").child(event.eventId).setValue(e.startDate); // make the event under the currentUser
                     removeEvent(event, callback);
 
                 }
                 else{
-                    //error
-                    System.out.println("Error");
+                    callback.accept(Try.failure(null));
+//                    System.out.println("Error");
                 }
             }
         });
@@ -117,8 +119,8 @@ public class FirebaseEventRepository implements EventRepository {
     public void removeEvent(EventId event, Consumer<Try<?>> callback) {
         DatabaseReference d = FirebaseUtil.getPendingEvents().child(event.eventId);
         d.removeValue(); // remove event from pendingEvents, don't need to remove anywhere else
-//        callback.accept(Try.success("removed from pending"));
-        System.out.println("removed from pending");
+        callback.accept(Try.success("removed from pending"));
+//        System.out.println("removed from pending");
     }
 
 
@@ -133,7 +135,6 @@ public class FirebaseEventRepository implements EventRepository {
                 for(DataSnapshot event: snapshot.getChildren()){
                     eventIds.add(event.getKey());
                 }
-                System.out.println(eventIds);
                     Query q = FirebaseUtil.getEvents();
                     q.get().addOnSuccessListener(dataSnapshot->{
                         List<EventModel> events = new ArrayList<EventModel>();
@@ -142,16 +143,16 @@ public class FirebaseEventRepository implements EventRepository {
                             events.add(event);
                         }
 
-//                        callback.accept(Try.success(events));
-                        System.out.println(events);
+                        callback.accept(Try.success(events));
+//                        System.out.println(events);
                     });
 
            }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-//                callback.accept(Try.failure(null));
-                System.out.println("fail");
+                callback.accept(Try.failure(null));
+//                System.out.println("fail");
             }
 
         });
@@ -172,12 +173,12 @@ public class FirebaseEventRepository implements EventRepository {
                         events.add(e);
                     }
 
-//                    callback.accept(Try.success(events));
-                    System.out.println(events);
+                    callback.accept(Try.success(events));
+//                    System.out.println(events);
                 }
                 else
-//                    callback.accept(Try.failure(task.getException()));
-                    System.out.println("failed");
+                    callback.accept(Try.failure(task.getException()));
+//                    System.out.println("failed");
             }
         });
     }

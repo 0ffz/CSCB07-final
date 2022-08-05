@@ -6,8 +6,8 @@ public class EventModel {
     public String name;
     public String venue;
     public String description;
-    private long startDate;
-    private long endDate;
+    public long startDate;
+    public long endDate;
     public int maxCapacity; // need these public to create a new one and work with it in a different package
     public int numAttendees;
 
@@ -22,22 +22,6 @@ public class EventModel {
     }
 
     public EventModel() {
-    }
-
-    public Date getStartDate() {
-        return new Date(startDate);
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate.getTime();
-    }
-
-    public Date getEndDate() {
-        return new Date(endDate);
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate.getTime();
     }
 
     @Override
