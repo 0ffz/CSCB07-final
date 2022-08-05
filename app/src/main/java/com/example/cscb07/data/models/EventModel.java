@@ -9,7 +9,6 @@ public class EventModel {
     private long endDate;
     public int maxCapacity; // need these public to create a new one and work with it in a different package
     public int numAttendees;
-    public boolean pending;
 
     public EventModel(String name, String venue, long startDate, long endDate, int maxCapacity) {
         this.name = name;
