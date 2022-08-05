@@ -2,6 +2,7 @@ package com.example.cscb07.ui.stateholders;
 
 import android.util.Patterns;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.example.cscb07.R;
 import com.example.cscb07.data.repositories.UserRepository;
@@ -11,11 +12,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import io.vavr.control.Try;
 
-public class LoginViewModel extends ViewModel {
+public class AuthViewModel extends ViewModel {
     private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private final UserRepository userRepository = ServiceLocator.getInstance().getUserRepository();
     //TODO have a separate class for handling messages
     private final FirebaseUserLiveData user = new FirebaseUserLiveData();
+
+    private final MutableLiveData<Boolean> attemptingLogin = new MutableLiveData<>();
 
     boolean verify(String email, String password) {
         if (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
@@ -31,18 +34,23 @@ public class LoginViewModel extends ViewModel {
         return true;
     }
 
-    private void handleLogin(Try<FirebaseUser> result) {
+    private void handleAuthResult(Try<FirebaseUser> result) {
+        attemptingLogin.setValue(false);
         result.onFailure(MessageUtil::showError);
     }
 
     public void login(String email, String password) {
         if (!verify(email, password)) return;
-        userRepository.signIn(email, password, this::handleLogin);
+        attemptingLogin.setValue(true);
+        userRepository.signIn(email, password, this::handleAuthResult);
     }
 
-    public void signUp(String email, String password) {
+    public void signUp(String name, String email, String password, String passwordRetype) {
+        //TODO do we want name?
         if (!verify(email, password)) return;
-        userRepository.registerUser(email, password, this::handleLogin);
+        if(!password.equals(passwordRetype)) MessageUtil.showError(R.string.error_passwords_dont_match);
+        attemptingLogin.setValue(true);
+        userRepository.registerUser(email, password, this::handleAuthResult);
     }
 
     public void signOut() {
@@ -51,5 +59,9 @@ public class LoginViewModel extends ViewModel {
 
     public final LiveData<FirebaseUser> getUser() {
         return user;
+    }
+
+    public LiveData<Boolean> isAttemptingLogin() {
+        return attemptingLogin;
     }
 }

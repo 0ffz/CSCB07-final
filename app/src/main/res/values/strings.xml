@@ -18,7 +18,7 @@
     <string name="error_wrong_password">No such user exists, sign up first.</string>
     <string name="error_signup_failed">An unexpected error occurred while creating your account.</string>
     <string name="error_login_failed">An unexpected error occurred while logging you in.</string>
-    <string name="error_passwordC">Passwords do not match</string>
+    <string name="error_passwords_dont_match">Passwords do not match</string>
 
     <string name="title_home">Home</string>
     <string name="title_upcoming">Upcoming</string>

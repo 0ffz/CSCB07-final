@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import com.example.cscb07.R;
-import com.example.cscb07.ui.stateholders.LoginViewModel;
+import com.example.cscb07.ui.stateholders.AuthViewModel;
 import org.jetbrains.annotations.NotNull;
 
 public class UpcomingScreen extends Fragment {
@@ -23,7 +23,7 @@ public class UpcomingScreen extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
-        LoginViewModel loginViewModel = new ViewModelProvider(requireActivity()).get(LoginViewModel.class);
+        AuthViewModel authViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
         NavController navController = Navigation.findNavController(view);
     }
 }
