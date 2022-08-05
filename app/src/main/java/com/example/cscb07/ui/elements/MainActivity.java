@@ -6,7 +6,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import com.example.cscb07.R;
+import com.example.cscb07.data.repositories.EventRepository;
+import com.example.cscb07.data.repositories.VenueRepository;
+import com.example.cscb07.data.results.EventId;
+import com.example.cscb07.data.results.VenueId;
 import com.example.cscb07.data.util.MessageUtil;
+import com.example.cscb07.data.util.ServiceLocator;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -51,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
 
     }
 

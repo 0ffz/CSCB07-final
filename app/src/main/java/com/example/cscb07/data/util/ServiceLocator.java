@@ -1,7 +1,9 @@
 package com.example.cscb07.data.util;
 
+import com.example.cscb07.data.repositories.EventRepository;
 import com.example.cscb07.data.repositories.UserRepository;
 import com.example.cscb07.data.repositories.VenueRepository;
+import com.example.cscb07.data.repositories.impl.FirebaseEventRepository;
 import com.example.cscb07.data.repositories.impl.FirebaseUserRepository;
 import com.example.cscb07.data.repositories.impl.FirebaseVenueRepository;
 import com.google.firebase.database.FirebaseDatabase;
@@ -35,6 +37,8 @@ public class ServiceLocator {
     public VenueRepository getVenueRepository() {
         return new FirebaseVenueRepository();
     }
+
+    public EventRepository getEventRepository() {return new FirebaseEventRepository();}
 
     public FirebaseDatabase getDb() {
         return db;

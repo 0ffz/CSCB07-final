@@ -5,14 +5,22 @@ import com.google.firebase.database.DatabaseReference;
 
 public class FirebaseUtil {
     public static DatabaseReference getVenues() {
-        return ServiceLocator.getInstance().getDb().getReference("Venues");
+        return ServiceLocator.getInstance().getDb().getReference("venues");
     }
 
     public static DatabaseReference getUsers() {
-        return ServiceLocator.getInstance().getDb().getReference("Users");
+        return ServiceLocator.getInstance().getDb().getReference("users");
     }
 
     public static DatabaseReference getEvents(){
-        return ServiceLocator.getInstance().getDb().getReference("Events");
+        return ServiceLocator.getInstance().getDb().getReference("events");
+    }
+
+    public static DatabaseReference getPendingEvents(){
+        return ServiceLocator.getInstance().getDb().getReference("pendingEvents");
+    }
+
+    public static DatabaseReference getDb(){
+        return ServiceLocator.getInstance().getDb().getReference();
     }
 }

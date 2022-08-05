@@ -6,4 +6,9 @@ public class PendingEventModel {
 
     PendingEventModel() {
     }
+
+    public PendingEventModel(EventModel event, String creator) {
+        this.event = event;
+        this.creator = creator;
+    }
 }
