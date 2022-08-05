@@ -36,12 +36,14 @@ public class FirebaseEventRepository implements EventRepository {
 
     @Override
     public void addEvent(VenueId venue, String eventName, String description, long startDate, long endDate, int maxCapacity, Consumer<Try<EventId>> callback) {
-       EventModel e = new EventModel(eventName, venue.venueId, startDate, endDate, maxCapacity); //make event
+       EventModel e = new EventModel(eventName, venue.venueId, description, startDate, endDate, maxCapacity); //make event
         String creator = FirebaseAuth.getInstance().getCurrentUser().getUid(); //get current user
        DatabaseReference d = FirebaseUtil.getPendingEvents(); //get database reference
         PendingEventModel p = new PendingEventModel(e, creator); //new pending event;
         String key = d.push().getKey(); // store key in variable
        d.child(key).setValue(p); // store the event under pendingEvents
+//        callback.accept(Try.success(new EventId(key)));
+        System.out.println("added to pending");
 
     }
 
@@ -56,7 +58,8 @@ public class FirebaseEventRepository implements EventRepository {
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (!task.isSuccessful())
                 {
-                    callback.accept(Try.failure(null));
+//                    callback.accept(Try.failure(null));
+                    System.out.println("fail");
                 }
                 else{
                     DataSnapshot snapshot = task.getResult();
@@ -114,21 +117,23 @@ public class FirebaseEventRepository implements EventRepository {
     public void removeEvent(EventId event, Consumer<Try<?>> callback) {
         DatabaseReference d = FirebaseUtil.getPendingEvents().child(event.eventId);
         d.removeValue(); // remove event from pendingEvents, don't need to remove anywhere else
+//        callback.accept(Try.success("removed from pending"));
+        System.out.println("removed from pending");
     }
 
 
     @Override
     public void getUpcomingEventsForCurrentUser(EventId startAt, int count, Consumer<Try<List<EventModel>>> callback) {
         String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        DatabaseReference ref = FirebaseUtil.getUsers().child(userID).child("events");
-        ref.orderByValue().get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        DatabaseReference ref = FirebaseUtil.getUsers().child(userID).child("events"); //get the events
+        ref.orderByValue().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if(task.isSuccessful()){
-                    List<String> eventIds = new ArrayList<String>();
-                    for(DataSnapshot event: task.getResult().getChildren()){
-                        eventIds.add(event.getKey());
-                    }
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<String> eventIds = new ArrayList<String>();
+                for(DataSnapshot event: snapshot.getChildren()){
+                    eventIds.add(event.getKey());
+                }
+                System.out.println(eventIds);
                     Query q = FirebaseUtil.getEvents();
                     q.get().addOnSuccessListener(dataSnapshot->{
                         List<EventModel> events = new ArrayList<EventModel>();
@@ -136,13 +141,19 @@ public class FirebaseEventRepository implements EventRepository {
                             EventModel event = dataSnapshot.child(e).getValue(EventModel.class);
                             events.add(event);
                         }
-                        callback.accept(Try.success(events));
+
+//                        callback.accept(Try.success(events));
+                        System.out.println(events);
                     });
 
-                }
-                else
-                    callback.accept(Try.failure(null));
+           }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+//                callback.accept(Try.failure(null));
+                System.out.println("fail");
             }
+
         });
 
     }
@@ -161,10 +172,12 @@ public class FirebaseEventRepository implements EventRepository {
                         events.add(e);
                     }
 
-                    callback.accept(Try.success(events));
+//                    callback.accept(Try.success(events));
+                    System.out.println(events);
                 }
                 else
-                    callback.accept(Try.failure(task.getException()));
+//                    callback.accept(Try.failure(task.getException()));
+                    System.out.println("failed");
             }
         });
     }

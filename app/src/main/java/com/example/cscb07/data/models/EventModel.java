@@ -5,14 +5,16 @@ import java.util.Date;
 public class EventModel {
     public String name;
     public String venue;
+    public String description;
     private long startDate;
     private long endDate;
     public int maxCapacity; // need these public to create a new one and work with it in a different package
     public int numAttendees;
 
-    public EventModel(String name, String venue, long startDate, long endDate, int maxCapacity) {
+    public EventModel(String name, String venue, String description, long startDate, long endDate, int maxCapacity) {
         this.name = name;
         this.venue = venue;
+        this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
         this.maxCapacity = maxCapacity;
