@@ -13,8 +13,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.function.Consumer;
+
+import io.vavr.control.Try;
 
 public class FirebaseEventRepository implements EventRepository {
 
@@ -141,11 +145,27 @@ public class FirebaseEventRepository implements EventRepository {
 
     @Override
     public void getUpcomingEventsForCurrentUser(EventId startAt, int count, Consumer<Try<List<EventModel>>> callback) {
-
     }
 
     @Override
     public void getAllUpcomingEvents(EventId startAt, int count, Consumer<Try<List<EventModel>>> callback) {
+        DatabaseReference d = ServiceLocator.getInstance().getDb().getReference();
+        d.child("Events").orderByChild("startTime").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()){
+                    List<EventModel> events = new ArrayList<EventModel>();
+                    DataSnapshot snap = task.getResult();
+                    for (DataSnapshot s : snap.getChildren()){
+                        EventModel e = s.getValue(EventModel.class);
+                        events.add(e);
+                    }
 
+                    callback.accept(Try.success(events));
+                }
+                else
+                    callback.accept(Try.failure(task.getException()));
+            }
+        });
     }
 }
