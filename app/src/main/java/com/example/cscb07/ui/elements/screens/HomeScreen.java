@@ -18,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class HomeScreen extends Fragment {
     private NavController navController;
-    private AuthViewModel loginViewModel;
+    private AuthViewModel authViewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -29,14 +29,15 @@ public class HomeScreen extends Fragment {
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         navController = Navigation.findNavController(view);
-        loginViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
+        authViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
 
-        loginViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
+        authViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
             if (user == null) navController.navigate(HomeScreenDirections.actionScreenHomeToScreenLogin());
             else {
                 // TODO make home screen
-                Button button = view.findViewById(R.id.nextViewButton);
+                Button button = view.findViewById(R.id.logoutButton);
                 button.setOnClickListener(v -> {
+                    authViewModel.signOut();
                 });
             }
         });
