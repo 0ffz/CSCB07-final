@@ -10,17 +10,20 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public interface EventRepository {
+    /*
+    changed dates to be String, the admin can view and remove the event if the date is incorrect.
+     */
     void addEvent(
-            VenueId venue,
             String eventName,
-            String description,
-            Date startDate,
-            Date endDate,
+            String venue,
+            String startDate,
+            String endDate,
             int maxCapacity,
+            String creator,
             Consumer<Try<EventId>> callback
     );
 
-    void signUpEvent(EventId event, Consumer<Try<?>> callback);
+    void signUpEvent(String user, EventId event, Consumer<Try<?>> callback);
 
     void approveEvent(EventId event, Consumer<Try<?>> callback);
 

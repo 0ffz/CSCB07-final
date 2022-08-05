@@ -48,16 +48,14 @@ public class FirebaseVenueRepository implements VenueRepository {
 
     @Override
     public void getVenues(int amount, int page, RepositoryCallback<List<VenueUiState>> callback) {
-        Query query = FirebaseUtil.getVenues()
-                .
-                .orderByKey().startAt(page * amount).limitToFirst(amount);
+        Query query = FirebaseUtil.getVenues().orderByKey().startAt(page * amount).limitToFirst(amount);
         query.get().addOnSuccessListener(dataSnapshot -> {
 
             for (DataSnapshot venue : dataSnapshot.getChildren()) {
                 venue.getValue(VenueModel.class);
             }
-            //TODO return the list
-//            callback.onComplete();
+            // TODO return the list
+         //   callback.onComplete();
         });
     }
 }

@@ -13,6 +13,9 @@ public class FirebaseUtil {
     }
 
     public static DatabaseReference getEvents(){
-        return ServiceLocator.getInstance().getDb().getReference("Events");
+        return ServiceLocator.getInstance().getDb().getReference("events");
+    }
+    public static DatabaseReference getPendingEvents(){
+        return ServiceLocator.getInstance().getDb().getReference("pending_events");
     }
 }

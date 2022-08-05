@@ -3,57 +3,149 @@ package com.example.cscb07.data.repositories.impl;
 import androidx.annotation.NonNull;
 
 import com.example.cscb07.data.models.EventModel;
+import com.example.cscb07.data.models.PendingEventModel;
 import com.example.cscb07.data.repositories.EventRepository;
+import com.example.cscb07.data.results.EventId;
+import com.example.cscb07.data.results.VenueId;
+import com.example.cscb07.data.util.FirebaseUtil;
 import com.example.cscb07.data.util.ServiceLocator;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
+
+import io.vavr.control.Try;
 
 public class FirebaseEventRepository implements EventRepository {
 
     @Override
-    public void addEvent(String name, String venue, long startDate, long endDate, int maxCapacity) {
-        EventModel e = new EventModel(name, venue, startDate, endDate, maxCapacity);
+    public void addEvent(String eventName, String venue, String startDate, String endDate, int maxCapacity, String creator, Consumer<Try<EventId>> callback) {
+        EventModel event = new EventModel(eventName, venue, startDate, endDate, maxCapacity);
+        DatabaseReference pendingEventRef = FirebaseUtil.getPendingEvents();
+        pendingEventRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                PendingEventModel pending = new PendingEventModel(event, creator);
+                String key = pendingEventRef.push().getKey();
+                pendingEventRef.child(key).setValue(pending);
+//                callback.accept(Try.success(new EventId(key)));
+            }
 
-        DatabaseReference d = ServiceLocator.getInstance().getDb().getReference();
-
-        //might have to check if the event time doesn't overlap
-
-        DatabaseReference refForKey = d.child("Events").push();
-        String key = refForKey.getKey(); //I don't think key will ever be null, this gets a unique key to distinguish the event
-        d.child("Events").child(key).setValue(e); //add new event to events
-        d.child("Venues").child(venue).child("Events").child(key).setValue(e); //add the event to venue
-        d.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Events").child(key).setValue(e);//add event to user's events
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+//                callback.accept(Try.failure(null));
+            }
+        });
     }
 
     @Override
-    public void signUpForEvent(String uniqEventKey){
-
-        DatabaseReference ref = ServiceLocator.getInstance().getDb().getReference();
-        String childID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        ref.get().addOnCompleteListener(task -> {
-            DataSnapshot snapshot = task.getResult();
-            if (snapshot.child("Users").child(childID).child("Events").child(uniqEventKey).exists()){
-                System.out.println("Don't add event");
-            }
-            else {
-                EventModel e = snapshot.child("Events").child(uniqEventKey).getValue(EventModel.class);
-                if (e.numAttendees >= e.maxCapacity)
-                    System.out.println("Too many people");
-                else{
-                    System.out.println("adding event to user");
-                    int num = snapshot.child("Events").child(uniqEventKey).child("currentNum").getValue(int.class);
-                    num += 1;
-                    ref.child("Events").child(uniqEventKey).child("currentNum").setValue(num);
-                    e.numAttendees += 1;
-                    ref.child("Users").child(childID).child("Events").child(uniqEventKey).setValue(true); // don't need this, can just store all IDs
-
+    public void signUpEvent(String user, EventId event, Consumer<Try<?>> callback) {
+        DatabaseReference userRef = FirebaseUtil.getUsers().child(user);
+        DatabaseReference eventRef = FirebaseUtil.getEvents().child(event.eventId);
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.child("events").exists()){
+                    GenericTypeIndicator<List<String>> t = new GenericTypeIndicator<List<String>>() {
+                    };
+                    List<String> events = snapshot.child("events").getValue(t);
+                    events.add(event.eventId);
+                    userRef.child("events").setValue(events);
                 }
+                else{
+                    List<String> events = new ArrayList<String>();
+                    events.add(event.eventId);
+                    userRef.child("events").setValue(events);
+                }
+                eventRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        int count = snapshot.child("numAttendees").getValue(int.class);
+                        int max = snapshot.child("maxCapacity").getValue(int.class);
+                        if(count < max) {
+                            count += 1;
+                            eventRef.child("numAttendees").setValue(count);
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
+
+    }
+
+    @Override
+    public void approveEvent(EventId event, Consumer<Try<?>> callback) {
+        DatabaseReference pendingEventRef = FirebaseUtil.getPendingEvents().child(event.eventId);
+        DatabaseReference eventRef = FirebaseUtil.getEvents();
+        pendingEventRef.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    PendingEventModel pendingEvent = snapshot.getValue(PendingEventModel.class);
+                    EventModel e = pendingEvent.event;
+                    String key = eventRef.push().getKey();
+                    eventRef.child(key).setValue(e);
+                    signUpEvent(pendingEvent.creator, new EventId(key), null);
+                    pendingEventRef.removeValue();
+//                    callback.accept(Try.success(new EventId(key)));
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+//                callback.accept(Try.failure(null));
+            }
+        });
+    }
+
+    @Override
+    public void removeEvent(EventId event, Consumer<Try<?>> callback) {
+        DatabaseReference pendingEventRef = FirebaseUtil.getPendingEvents().child(event.eventId);
+        pendingEventRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    snapshot.getRef().removeValue();
+                    callback.accept(Try.success("removed"));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                callback.accept(Try.success(null));
+            }
+        });
+
+    }
+
+    @Override
+    public void getUpcomingEventsForCurrentUser(EventId startAt, int count, Consumer<Try<List<EventModel>>> callback) {
+
+    }
+
+    @Override
+    public void getAllUpcomingEvents(EventId startAt, int count, Consumer<Try<List<EventModel>>> callback) {
 
     }
 }

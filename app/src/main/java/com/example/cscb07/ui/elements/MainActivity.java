@@ -6,12 +6,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import com.example.cscb07.R;
+import com.example.cscb07.data.models.EventModel;
+import com.example.cscb07.data.models.PendingEventModel;
+import com.example.cscb07.data.repositories.EventRepository;
+import com.example.cscb07.data.results.EventId;
+import com.example.cscb07.data.results.VenueId;
 import com.example.cscb07.data.util.MessageUtil;
+import com.example.cscb07.data.util.ServiceLocator;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 import static androidx.navigation.ui.NavigationUI.setupActionBarWithNavController;
 import static androidx.navigation.ui.NavigationUI.setupWithNavController;
+
+import java.util.function.Consumer;
+
+import io.vavr.control.Try;
 
 public class MainActivity extends AppCompatActivity {
     private NavController navController;
