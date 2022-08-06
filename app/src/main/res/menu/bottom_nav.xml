@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-            android:id="@+id/screenHome"
-            android:icon="@drawable/ic_round_home_24"
-            android:title="@string/title_home" />
+        android:id="@+id/screenHome"
+        android:icon="@drawable/ic_baseline_business_24"
+        android:title="@string/title_home" />
     <item
-            android:id="@+id/screenUpcoming"
-            android:icon="@drawable/ic_round_calendar_today_24"
-            android:title="@string/title_upcoming"/>
+        android:id="@+id/screenUpcoming"
+        android:icon="@drawable/ic_baseline_list_24"
+        android:title="@string/title_upcoming" />
+    <item
+        android:id="@+id/screenBookings"
+        android:icon="@drawable/ic_round_calendar_today_24"
+        android:title="@string/title_bookings" />
+    <item
+        android:id="@+id/screenLogout"
+        android:icon="@drawable/ic_baseline_logout_24"
+        android:title="@string/title_logout" />
 </menu>
