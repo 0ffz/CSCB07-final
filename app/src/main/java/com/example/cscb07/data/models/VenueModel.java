@@ -15,6 +15,8 @@ public class VenueModel {
         this.description = description;
     }
 
+
+
     public VenueModel() {
     }
 }
