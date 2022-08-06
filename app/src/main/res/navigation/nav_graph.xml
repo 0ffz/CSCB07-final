@@ -5,24 +5,30 @@
             app:startDestination="@id/screenHome">
     <fragment android:name="com.example.cscb07.ui.elements.screens.HomeScreen"
               tools:layout="@layout/screen_home" android:label="@string/title_home" android:id="@+id/screenHome">
-        <action android:id="@+id/action_screenHome_to_screenLogin" app:destination="@id/screenLogin"
+        <action android:id="@+id/action_screenHome_to_screenLogin" app:destination="@id/authNav"
                 app:popExitAnim="@android:anim/slide_out_right"/>
     </fragment>
     <fragment android:id="@+id/screenUpcoming" android:name="com.example.cscb07.ui.elements.screens.UpcomingScreen"
               android:label="@string/title_upcoming" tools:layout="@layout/screen_upcoming"/>
-    <fragment android:id="@+id/screenLogin" android:name="com.example.cscb07.ui.elements.screens.auth.LoginScreen"
-              android:label="@string/title_login" tools:layout="@layout/screen_login">
-        <action android:id="@+id/action_screenLogin_to_screenSignup" app:destination="@id/screenSignup"
-            app:popExitAnim="@android:anim/slide_out_right"/>
-    </fragment>
-    <fragment
-        android:id="@+id/screenSignup"
-        android:name="com.example.cscb07.ui.elements.screens.auth.SignupScreen"
-        android:label="Signup"
-        tools:layout="@layout/screen_signup">
-        <action android:id="@+id/action_screenSignup_to_screenLogin" app:destination="@id/screenLogin"
-            app:popExitAnim="@android:anim/slide_out_right"/>
-        <action android:id="@+id/action_screenSignup_to_screenHome" app:destination="@id/screenHome"
-            app:popExitAnim="@android:anim/slide_out_right"/>
-    </fragment>
+    <navigation android:id="@+id/authNav" app:startDestination="@id/screenLogin" android:label="Auth Navigation">
+        <fragment
+                android:id="@+id/screenSignup"
+                android:name="com.example.cscb07.ui.elements.screens.auth.SignupScreen"
+                android:label="Signup"
+                tools:layout="@layout/screen_signup">
+            <action android:id="@+id/action_screenSignup_to_screenLogin" app:destination="@id/screenLogin"
+                    app:popUpToInclusive="true" app:enterAnim="@android:anim/slide_in_left"
+                    app:exitAnim="@android:anim/slide_out_right"
+                    app:popEnterAnim="@android:anim/slide_in_left" app:popExitAnim="@android:anim/slide_out_right"
+                    app:popUpTo="@id/screenLogin"/>
+        </fragment>
+        <fragment android:id="@+id/screenLogin" android:name="com.example.cscb07.ui.elements.screens.auth.LoginScreen"
+                  android:label="@string/title_login" tools:layout="@layout/screen_login">
+            <action android:id="@+id/action_screenLogin_to_screenSignup" app:destination="@id/screenSignup"
+                    app:popUpToInclusive="true" app:enterAnim="@android:anim/slide_in_left"
+                    app:exitAnim="@android:anim/slide_out_right"
+                    app:popEnterAnim="@android:anim/slide_in_left" app:popExitAnim="@android:anim/slide_out_right"
+                    app:popUpTo="@id/screenSignup"/>
+        </fragment>
+    </navigation>
 </navigation>
