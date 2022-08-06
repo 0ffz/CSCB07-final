@@ -1,12 +1,16 @@
 package com.example.cscb07.ui.elements;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.AppBarConfiguration;
 import com.example.cscb07.R;
 import com.example.cscb07.data.util.MessageUtil;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -24,6 +28,11 @@ public class MainActivity extends AppCompatActivity {
         // Set up navigation controller with bottom bar
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_container);
         navController = navHostFragment.getNavController();
+        MaterialToolbar toolbar = findViewById(R.id.materialToolbar);
+//        AppBarConfiguration appBarConfiguration =
+//                new AppBarConfiguration.Builder(navController.getGraph()).build();
+//        setupWithNavController(toolbar, navController, appBarConfiguration);
+        setSupportActionBar(toolbar);
         setupActionBarWithNavController(this, navController);
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);

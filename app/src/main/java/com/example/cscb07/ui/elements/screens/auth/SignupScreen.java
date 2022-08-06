@@ -14,8 +14,6 @@ import com.example.cscb07.ui.stateholders.AuthViewModel;
 import org.jetbrains.annotations.NotNull;
 
 public class SignupScreen extends AuthScreen {
-    private AuthViewModel authViewModel;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -28,21 +26,19 @@ public class SignupScreen extends AuthScreen {
         setupAuthScreen();
 
         // Info fields
-        EditText editTextName = view.findViewById(R.id.editTextName);
         EditText editTextEmail = view.findViewById(R.id.editTextEmail);
         EditText editTextPassword = view.findViewById(R.id.editTextPassword);
         EditText editTextPasswordRetype = view.findViewById(R.id.editTextPasswordRetype);
         Button signupButton = view.findViewById(R.id.signupButton);
-        TextView loginLink = view.findViewById(R.id.loginLink);
+        Button loginLink = view.findViewById(R.id.loginButton);
 
         signupButton.setOnClickListener(v -> {
             // Get email/pass as Strings
-            String name = editTextName.getText().toString();
             String email = editTextEmail.getText().toString();
             String password = editTextPassword.getText().toString();
             String passwordRetype = editTextPasswordRetype.getText().toString();
 
-            authViewModel.signUp(name, email, password, passwordRetype);
+            authViewModel.signUp(email, password, passwordRetype);
         });
 
         // navigate to login page

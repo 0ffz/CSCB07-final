@@ -45,7 +45,7 @@ public class AuthViewModel extends ViewModel {
         userRepository.signIn(email, password, this::handleAuthResult);
     }
 
-    public void signUp(String name, String email, String password, String passwordRetype) {
+    public void signUp(String email, String password, String passwordRetype) {
         //TODO do we want name?
         if (!verify(email, password)) return;
         if(!password.equals(passwordRetype)) MessageUtil.showError(R.string.error_passwords_dont_match);

@@ -6,10 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
-import androidx.navigation.Navigation;
 import com.example.cscb07.R;
 import org.jetbrains.annotations.NotNull;
 
@@ -28,7 +26,7 @@ public class LoginScreen extends AuthScreen {
         EditText editTextEmail = view.findViewById(R.id.editTextEmail);
         EditText editTextPassword = view.findViewById(R.id.editTextPassword);
         Button loginButton = view.findViewById(R.id.loginButton);
-        TextView signupLink = view.findViewById((R.id.signupLink));
+        TextView signupLink = view.findViewById((R.id.signupButton));
 
         loginButton.setOnClickListener(v -> {
             // Get email/pass as Strings
