@@ -1,0 +1,82 @@
+<com.google.android.material.card.MaterialCardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        style="?attr/materialCardViewFilledStyle">
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical"
+                  android:padding="16dp">
+
+        <TextView
+                android:text="Event name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/card_event_title"
+                android:textAppearance="?attr/textAppearanceTitleMedium"/>
+        <TextView
+                android:text="Event description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                android:textColor="?android:attr/textColorSecondary"
+                android:layout_marginBottom="15dp"
+        />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+            <ImageView android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       app:srcCompat="@drawable/ic_round_location_on_24"
+                       app:tint="?attr/colorOnBackground"
+                       android:layout_marginEnd="8dp"/>
+            <TextView
+                    android:text="Venue name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="?android:attr/textColorSecondary"
+                    tools:layout_marginEnd="15dp"/>
+
+        </LinearLayout>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" android:gravity="center_vertical">
+
+            <ImageView android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       app:srcCompat="@drawable/ic_round_calendar_today_24"
+                       app:tint="?attr/colorOnBackground"
+                       android:layout_marginEnd="8dp"/>
+            <TextView
+                    android:text="Date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="?android:attr/textColorSecondary"
+                    tools:layout_marginEnd="15dp"/>
+            <ImageView android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       app:srcCompat="@drawable/ic_round_group_24"
+                       app:tint="?attr/colorOnBackground"
+                       android:layout_marginEnd="8dp"/>
+            <TextView
+                    android:text="8/10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="?android:attr/textColorSecondary"
+                    tools:layout_marginEnd="15dp"
+            />
+            <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+            <Button
+                    android:text="Join"
+                    android:layout_height="wrap_content" android:id="@+id/button"
+                    style="@style/Widget.Material3.Button"
+                    app:icon="@drawable/ic_round_add_24" android:layout_width="wrap_content"/>
+        </LinearLayout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
