@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
-
 import com.example.cscb07.R;
 import com.example.cscb07.data.util.MessageUtil;
 import com.example.cscb07.ui.elements.screens.HomeScreenDirections;
@@ -28,11 +27,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
-
         // Set up navigation controller with bottom bar
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_container);
         navController = navHostFragment.getNavController();
+        authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
+
         MaterialToolbar toolbar = findViewById(R.id.materialToolbar);
         setSupportActionBar(toolbar);
         setupActionBarWithNavController(this, navController);
@@ -41,18 +40,27 @@ public class MainActivity extends AppCompatActivity {
         setupWithNavController(bottomNav, navController);
         View coordinatorLayout = findViewById(R.id.coordinatorLayout);
 
-        // Hide bottom bar on login screen
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
             int id = destination.getId();
-            if (id == R.id.screenLogin || id == R.id.screenSignup) {
+            if (id == R.id.screenLogin || id == R.id.screenSignup) { // Hide bottom bar on login screens
                 getSupportActionBar().hide();
                 bottomNav.setVisibility(View.GONE);
             } else {
-                getSupportActionBar().show();
-                bottomNav.setVisibility(View.VISIBLE);
+                if (authViewModel.getUser().getValue() == null) // Keep user on login page if not logged in
+                    navController.navigate(HomeScreenDirections.actionGlobalAuthNav());
+                else {
+                    getSupportActionBar().show();
+                    bottomNav.setVisibility(View.VISIBLE);
+                }
             }
         });
 
+        // Force user to login if not logged in
+        authViewModel.getUser().observe(this, user -> {
+            if (user == null) navController.navigate(HomeScreenDirections.actionGlobalAuthNav());
+        });
+
+        // Show snackbar messages
         MessageUtil.getMessage().observe(this, message -> {
             if (message != null) {
                 if (message.messageId == -1) {
@@ -64,26 +72,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
         bottomNav.setOnItemSelectedListener(item -> {
-
             int id = item.getItemId();
-            if (id == R.id.screenLogout) {
-
-                // crashes
-                // authViewModel.signOut();
-
-                navController.navigate(HomeScreenDirections.actionScreenHomeToScreenLogin());
-                return false;
-            }
-            else if (NavigationUI.onNavDestinationSelected(item, navController))
-                return true;
-
-            return true;
+            if (id == R.id.screenLogout) authViewModel.signOut();
+            else return NavigationUI.onNavDestinationSelected(item, navController);
+            return false;
         });
-
-
     }
-
-
 
     @Override
     public boolean onSupportNavigateUp() {

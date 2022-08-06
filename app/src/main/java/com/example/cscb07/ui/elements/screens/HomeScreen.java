@@ -13,7 +13,6 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import com.example.cscb07.R;
 import com.example.cscb07.ui.stateholders.AuthViewModel;
-
 import org.jetbrains.annotations.NotNull;
 
 public class HomeScreen extends Fragment {
@@ -31,15 +30,10 @@ public class HomeScreen extends Fragment {
         navController = Navigation.findNavController(view);
         authViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
 
-        authViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
-            if (user == null) navController.navigate(HomeScreenDirections.actionScreenHomeToScreenLogin());
-            else {
-                // TODO make home screen
-                Button button = view.findViewById(R.id.logoutButton);
-                button.setOnClickListener(v -> {
-                    authViewModel.signOut();
-                });
-            }
+        // TODO make home screen
+        Button button = view.findViewById(R.id.logoutButton);
+        button.setOnClickListener(v -> {
+            authViewModel.signOut();
         });
     }
 }

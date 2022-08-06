@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/screenHome"
-        android:icon="@drawable/ic_baseline_business_24"
+        android:icon="@drawable/ic_round_business_24"
         android:title="@string/title_home" />
     <item
         android:id="@+id/screenUpcoming"
-        android:icon="@drawable/ic_baseline_list_24"
+        android:icon="@drawable/ic_round_list_24"
         android:title="@string/title_upcoming" />
     <item
         android:id="@+id/screenBookings"
