@@ -6,14 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import com.example.cscb07.R;
 import com.example.cscb07.ui.stateholders.AuthViewModel;
 import org.jetbrains.annotations.NotNull;
@@ -51,6 +46,6 @@ public class SignupScreen extends AuthScreen {
         });
 
         // navigate to login page
-        loginLink.setOnClickListener(v -> navController.popBackStack());
+        loginLink.setOnClickListener(v -> navController.navigate(SignupScreenDirections.actionScreenSignupToScreenLogin()));
     }
 }

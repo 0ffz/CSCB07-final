@@ -2,11 +2,11 @@
     <string name="app_name">CSCB07</string>
 
     <string name="login_textview">Login</string>
-    <string name="login_button">LOGIN</string>
+    <string name="login_button">Login</string>
     <string name="signup_link">Sign up</string>
 
     <string name="signup_textview">Signup</string>
-    <string name="signup_button">SIGNUP</string>
+    <string name="signup_button">Signup</string>
     <string name="login_link">Log in</string>
 
     <string name="error_message">Error Placeholder</string>
@@ -24,4 +24,6 @@
     <string name="title_upcoming">Upcoming</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_login">Login</string>
+    <string name="hint_username">Username</string>
+    <string name="hint_password">Password</string>
 </resources>

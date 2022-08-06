@@ -13,7 +13,7 @@
     <fragment android:id="@+id/screenLogin" android:name="com.example.cscb07.ui.elements.screens.auth.LoginScreen"
               android:label="@string/title_login" tools:layout="@layout/screen_login">
         <action android:id="@+id/action_screenLogin_to_screenSignup" app:destination="@id/screenSignup"
-            app:popExitAnim="@android:anim/slide_out_right"/>
+                app:popExitAnim="@android:anim/slide_out_right" app:popUpTo="@id/screenLogin"/>
     </fragment>
     <fragment
         android:id="@+id/screenSignup"
@@ -21,8 +21,6 @@
         android:label="Signup"
         tools:layout="@layout/screen_signup">
         <action android:id="@+id/action_screenSignup_to_screenLogin" app:destination="@id/screenLogin"
-            app:popExitAnim="@android:anim/slide_out_right"/>
-        <action android:id="@+id/action_screenSignup_to_screenHome" app:destination="@id/screenHome"
-            app:popExitAnim="@android:anim/slide_out_right"/>
+                app:popExitAnim="@android:anim/slide_out_right" app:popUpTo="@id/screenSignup"/>
     </fragment>
 </navigation>

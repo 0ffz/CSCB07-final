@@ -39,6 +39,5 @@ public class LoginScreen extends AuthScreen {
         });
 
         signupLink.setOnClickListener(v -> navController.navigate(LoginScreenDirections.actionScreenLoginToScreenSignup()));
-
     }
 }
