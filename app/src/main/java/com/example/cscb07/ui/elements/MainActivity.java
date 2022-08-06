@@ -65,14 +65,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        VenueRepository rep = ServiceLocator.getInstance().getVenueRepository();
-        rep.getVenues(new VenueId(""), 1, "", new Consumer<Try<List<WithId<VenueId, VenueModel>>>>() {
-            @Override
-            public void accept(Try<List<WithId<VenueId, VenueModel>>> lists) {
-
-            }
-        });
-
     }
 
     @Override
