@@ -43,6 +43,8 @@ public class FirebaseVenueRepository implements VenueRepository {
                     .map(snapshot -> WithId.of(new VenueId(snapshot.getKey()), snapshot.getValue(VenueModel.class)))
                     .toJavaList();
             callback.accept(Try.success(venues));
-        }).addOnFailureListener(e -> callback.accept(Try.failure(e)));
+        }).addOnFailureListener(e ->
+                callback.accept(Try.failure(e)));
     }
+
 }

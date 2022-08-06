@@ -7,10 +7,12 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import com.example.cscb07.R;
 import com.example.cscb07.data.models.EventModel;
+import com.example.cscb07.data.models.VenueModel;
 import com.example.cscb07.data.repositories.EventRepository;
 import com.example.cscb07.data.repositories.VenueRepository;
 import com.example.cscb07.data.results.EventId;
 import com.example.cscb07.data.results.VenueId;
+import com.example.cscb07.data.results.WithId;
 import com.example.cscb07.data.util.MessageUtil;
 import com.example.cscb07.data.util.ServiceLocator;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -60,6 +62,14 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     Snackbar.make(coordinatorLayout, message.messageId, Snackbar.LENGTH_LONG).show();
                 }
+            }
+        });
+
+        VenueRepository rep = ServiceLocator.getInstance().getVenueRepository();
+        rep.getVenues(new VenueId(""), 1, "", new Consumer<Try<List<WithId<VenueId, VenueModel>>>>() {
+            @Override
+            public void accept(Try<List<WithId<VenueId, VenueModel>>> lists) {
+
             }
         });
 

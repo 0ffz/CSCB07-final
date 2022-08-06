@@ -3,6 +3,8 @@ package com.example.cscb07.data.repositories;
 import com.example.cscb07.data.models.EventModel;
 import com.example.cscb07.data.results.EventId;
 import com.example.cscb07.data.results.VenueId;
+import com.example.cscb07.data.results.WithId;
+
 import io.vavr.control.Try;
 
 import java.util.Date;
@@ -29,12 +31,12 @@ public interface EventRepository {
     void getUpcomingEventsForCurrentUser(
             EventId startAt,
             int count,
-            Consumer<Try<List<EventModel>>> callback
+            Consumer<Try<List<WithId<EventId, EventModel>>>> callback
     );
 
     void getAllUpcomingEvents(
             EventId startAt,
             int count,
-            Consumer<Try<List<EventModel>>> callback
+            Consumer<Try<List<WithId<EventId, EventModel>>>> callback
     );
 }
