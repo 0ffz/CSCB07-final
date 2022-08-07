@@ -72,13 +72,15 @@
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                           android:orientation="horizontal">
                 <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/event_start_date_layout"
                         android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:hint="@string/hint_date"
+                        app:startIconDrawable="@drawable/ic_round_calendar_today_24"
                         android:layout_marginEnd="10dp"
-                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
-                    <AutoCompleteTextView
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+                    <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/event_start_date"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -86,12 +88,11 @@
                     />
                 </com.google.android.material.textfield.TextInputLayout>
                 <com.google.android.material.textfield.TextInputLayout
-                        android:layout_weight="0.5"
+                        android:layout_weight="0.6"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:hint="@string/hint_time"
-                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
-                    <AutoCompleteTextView
+                        android:hint="@string/hint_time">
+                    <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/event_start_time"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -114,8 +115,8 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/hint_date"
                         android:layout_marginEnd="10dp"
-                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
-                    <AutoCompleteTextView
+                        app:startIconDrawable="@drawable/ic_round_calendar_today_24">
+                    <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/event_end_date"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -123,12 +124,11 @@
                     />
                 </com.google.android.material.textfield.TextInputLayout>
                 <com.google.android.material.textfield.TextInputLayout
-                        android:layout_weight="0.5"
+                        android:layout_weight="0.6"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:hint="@string/hint_time"
-                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
-                    <AutoCompleteTextView
+                        android:hint="@string/hint_time">
+                    <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/event_end_time"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
