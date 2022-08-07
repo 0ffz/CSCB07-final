@@ -12,6 +12,7 @@ import com.example.cscb07.data.results.EventId;
 import com.example.cscb07.data.results.VenueId;
 import com.example.cscb07.data.results.WithId;
 import com.example.cscb07.data.util.FirebaseUtil;
+import com.example.cscb07.data.util.MessageUtil;
 import com.example.cscb07.data.util.ServiceLocator;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -43,7 +44,6 @@ public class FirebaseEventRepository implements EventRepository {
         String key = d.push().getKey(); // store key in variable
        d.child(key).setValue(p); // store the event under pendingEvents
         callback.accept(Try.success(new EventId(key)));
-//        System.out.println("added to pending");
 
     }
 
@@ -57,23 +57,21 @@ public class FirebaseEventRepository implements EventRepository {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (!task.isSuccessful())
-                {
-                    callback.accept(Try.failure(null));
-//                    System.out.println("fail");
-                }
+                    callback.accept(Try.failure(task.getException()));
+
                 else{
                     DataSnapshot snapshot = task.getResult();
-                    if (snapshot.child("events").child(event.eventId).exists()){
-                        callback.accept(Try.failure(null));
-//                        System.out.println("Don't add event"); // replace for error message, event already exists
-                    }
+                    DataSnapshot userEvent = snapshot.child("users").child(user).child("events").child(event.eventId);
+                    DataSnapshot eventSnapshot = snapshot.child("events");
+                    if (!(eventSnapshot.child(event.eventId).exists()))
+                        callback.accept(Try.failure(new Exception("event not found")));
+                    if(userEvent.exists())
+                        callback.accept(Try.failure(new Exception("already signed up for event")));
                     else {
-                        EventModel e = snapshot.child("events").child(event.eventId).getValue(EventModel.class);
+                        EventModel e = eventSnapshot.getValue(EventModel.class);
                         if (e.numAttendees >= e.maxCapacity)
-                            callback.accept(Try.failure(null));
-//                            System.out.println("Too many people"); // replace for error message, event is fully booked
+                            callback.accept(Try.failure(new Exception("event is fully booked")));
                         else{
-//                            System.out.println("adding event to user"); // remove
                             int num = e.numAttendees;
                             num += 1;
                             d.child("events").child(event.eventId).child("numAttendees").setValue(num);
@@ -82,10 +80,8 @@ public class FirebaseEventRepository implements EventRepository {
                         }
                     }
                 }
-
             }
         });
-
 
     }
 
@@ -104,13 +100,12 @@ public class FirebaseEventRepository implements EventRepository {
                     e.numAttendees = 1; // remove from pending means there should only be 1 person attending (the User)
                     d.child("events").child(event.eventId).setValue(e); // make the event in Events
                     d.child("users").child(p.creator).child("events").child(event.eventId).setValue(e.startDate); // make the event under the currentUser
-                    d.child("events").child(e.venue).child("events").setValue(event.eventId); //add event to under the venue it is in
+                    d.child("venues").child(e.venue).child("events").setValue(event.eventId); //add event to under the venue it is in
                     removeEvent(event, callback);
 
                 }
                 else{
-                    callback.accept(Try.failure(null));
-//                    System.out.println("Error");
+                    callback.accept(Try.failure(task.getException()));
                 }
             }
         });
@@ -121,7 +116,6 @@ public class FirebaseEventRepository implements EventRepository {
         DatabaseReference d = FirebaseUtil.getPendingEvents().child(event.eventId);
         d.removeValue(); // remove event from pendingEvents, don't need to remove anywhere else
         callback.accept(Try.success("removed from pending"));
-//        System.out.println("removed from pending");
     }
 
 
@@ -145,15 +139,13 @@ public class FirebaseEventRepository implements EventRepository {
                         }
 
                         callback.accept(Try.success(events));
-//                        System.out.println(events);
                     });
 
            }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                callback.accept(Try.failure(null));
-//                System.out.println("fail");
+                callback.accept(Try.failure(error.toException()));
             }
 
         });
@@ -175,11 +167,9 @@ public class FirebaseEventRepository implements EventRepository {
                     }
 
                     callback.accept(Try.success(events));
-//                    System.out.println(events);
                 }
                 else
                     callback.accept(Try.failure(task.getException()));
-//                    System.out.println("failed");
             }
         });
     }
