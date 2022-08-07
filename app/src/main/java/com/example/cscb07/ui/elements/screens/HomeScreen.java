@@ -42,7 +42,13 @@ public class HomeScreen extends Fragment {
         // TODO make home screen
         ExtendedFloatingActionButton button = view.findViewById(R.id.floatingActionButton);
         button.setOnClickListener(v -> {
-            navController.navigate(HomeScreenDirections.actionScreenHomeToDialogAddEvent());
+
+            // if user is customer (add event button)
+             navController.navigate(HomeScreenDirections.actionScreenHomeToDialogAddEvent());
+
+            // if user is admin (add venues button)
+            // navController.navigate(HomeScreenDirections.actionScreenHomeToDialogAddVenue());
         });
+
     }
 }

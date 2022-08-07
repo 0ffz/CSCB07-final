@@ -23,7 +23,7 @@
             app:title="@string/title_add_venue">
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/buttonSave"
                 style="@style/Widget.Material3.Button.TextButton.Dialog"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
