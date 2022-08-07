@@ -9,6 +9,10 @@ import org.jetbrains.annotations.NotNull;
 public class FirebaseUserLiveData extends LiveData<FirebaseUser> implements FirebaseAuth.AuthStateListener {
     private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
+    public FirebaseUserLiveData() {
+        super(FirebaseAuth.getInstance().getCurrentUser());
+    }
+
     @Override
     protected void onActive() {
         super.onActive();

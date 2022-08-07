@@ -15,6 +15,8 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.Objects;
+
 import static androidx.navigation.ui.NavigationUI.setupActionBarWithNavController;
 import static androidx.navigation.ui.NavigationUI.setupWithNavController;
 
@@ -42,17 +44,25 @@ public class MainActivity extends AppCompatActivity {
 
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
             int id = destination.getId();
-            if (id == R.id.screenLogin || id == R.id.screenSignup) { // Hide bottom bar on login screens
-                getSupportActionBar().hide();
-                bottomNav.setVisibility(View.GONE);
-            } else {
-                if (authViewModel.getUser().getValue() == null) // Keep user on login page if not logged in
-                    navController.navigate(HomeScreenDirections.actionGlobalAuthNav());
-                else {
-                    getSupportActionBar().show();
-                    bottomNav.setVisibility(View.VISIBLE);
-                }
+            boolean isAuthScreen = id == R.id.screenLogin || id == R.id.screenSignup;
+            boolean noAuth = authViewModel.getUser().getValue() == null;
+            boolean hideTopbar = arguments != null && Objects.equals(arguments.get("hide_topbar"), true);
+            boolean hideBottombar = arguments != null && Objects.equals(arguments.get("hide_bottombar"), true);
+
+            if (!isAuthScreen && noAuth) { // Keep user on login page if not logged in
+                navController.navigate(HomeScreenDirections.actionGlobalAuthNav());
+                return;
             }
+
+            if (hideTopbar) // Hide bottom bar on login screens
+                getSupportActionBar().hide();
+            else
+                getSupportActionBar().show();
+
+            if (hideBottombar)
+                bottomNav.setVisibility(View.GONE);
+            else
+                bottomNav.setVisibility(View.VISIBLE);
         });
 
         // Force user to login if not logged in

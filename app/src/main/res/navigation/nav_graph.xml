@@ -4,7 +4,15 @@
             xmlns:tools="http://schemas.android.com/tools" android:id="@+id/nav_graph"
             app:startDestination="@id/screenHome">
     <fragment android:name="com.example.cscb07.ui.elements.screens.HomeScreen"
-              tools:layout="@layout/screen_home" android:label="@string/title_home" android:id="@+id/screenHome"/>
+              tools:layout="@layout/screen_home" android:label="@string/title_home" android:id="@+id/screenHome">
+        <action android:id="@+id/action_screenHome_to_dialogAddEvent" app:destination="@id/dialogAddEvent"
+                app:enterAnim="@android:anim/fade_in" app:exitAnim="@android:anim/fade_out"
+                app:popExitAnim="@android:anim/fade_out" app:popEnterAnim="@android:anim/fade_in"/>
+    </fragment>
+    <fragment android:id="@+id/dialogAddEvent" android:name="com.example.cscb07.ui.elements.screens.DialogAddEvent"
+              android:label="DialogAddEvent">
+        <argument android:name="hide_bottombar" app:argType="boolean" android:defaultValue="true"/>
+    </fragment>
     <fragment android:id="@+id/screenUpcoming" android:name="com.example.cscb07.ui.elements.screens.UpcomingScreen"
               android:label="@string/title_upcoming" tools:layout="@layout/screen_upcoming"/>
     <navigation android:id="@+id/authNav" app:startDestination="@id/screenLogin" android:label="Auth Navigation">
@@ -18,6 +26,8 @@
                     app:exitAnim="@android:anim/slide_out_right"
                     app:popEnterAnim="@android:anim/slide_in_left" app:popExitAnim="@android:anim/slide_out_right"
                     app:popUpTo="@id/screenLogin"/>
+            <argument android:name="hide_topbar" app:argType="boolean" android:defaultValue="true"/>
+            <argument android:name="hide_bottombar" app:argType="boolean" android:defaultValue="true"/>
         </fragment>
         <fragment android:id="@+id/screenLogin" android:name="com.example.cscb07.ui.elements.screens.auth.LoginScreen"
                   android:label="@string/title_login" tools:layout="@layout/screen_login">
@@ -26,6 +36,8 @@
                     app:exitAnim="@android:anim/slide_out_right"
                     app:popEnterAnim="@android:anim/slide_in_left" app:popExitAnim="@android:anim/slide_out_right"
                     app:popUpTo="@id/screenSignup"/>
+            <argument android:name="hide_topbar" app:argType="boolean" android:defaultValue="true"/>
+            <argument android:name="hide_bottombar" app:argType="boolean" android:defaultValue="true"/>
         </fragment>
     </navigation>
     <action android:id="@+id/action_global_authNav" app:destination="@id/authNav"

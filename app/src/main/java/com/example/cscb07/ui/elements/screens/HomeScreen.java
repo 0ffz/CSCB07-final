@@ -7,12 +7,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import com.example.cscb07.R;
 import com.example.cscb07.ui.stateholders.AuthViewModel;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import org.jetbrains.annotations.NotNull;
 
 public class HomeScreen extends Fragment {
@@ -31,9 +33,9 @@ public class HomeScreen extends Fragment {
         authViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
 
         // TODO make home screen
-        Button button = view.findViewById(R.id.logoutButton);
+        ExtendedFloatingActionButton button = view.findViewById(R.id.floatingActionButton);
         button.setOnClickListener(v -> {
-            authViewModel.signOut();
+            navController.navigate(HomeScreenDirections.actionScreenHomeToDialogAddEvent());
         });
     }
 }
