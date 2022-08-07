@@ -36,19 +36,19 @@
     <string name="fab_add_venue">New venue</string>
 
     <string name="title_venue_name">Venue Name</string>
-    <string name="hint_event_name">Event Name</string>
+
     <string name="spinner_desc_event_type">Event type</string>
-    <string name="label_event_date">Event date</string>
-    <string name="hint_event_date">DD/MM/YYYY</string>
-    <string name="label_event_start_time">Start time</string>
-    <string name="label_event_end_time">End time</string>
-    <string name="button_cancel">Cancel</string>
-    <string name="button_confirm">Confirm</string>
-    <string name="label_event_type">Event type</string>
+
+<!--    <string name="hint_event_date">DD/MM/YYYY</string>-->
+    <string name="hint_event_name">Event name</string>
+    <string name="hint_event_description">Event description</string>
+    <string name="dialog_section_start_time">From</string>
+    <string name="dialog_section_end_time">To</string>
+    <string name="hint_date">Date</string>
+    <string name="hint_time">Time</string>
 
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
     <string name="hint_retype_password">Retype password</string>
-    <string name="hint_start_time">00:00</string>
-    <string name="hint_end_time">24:00</string>
+    <string name="button_save">Save</string>
 </resources>

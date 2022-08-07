@@ -13,6 +13,7 @@ import com.example.cscb07.ui.elements.screens.HomeScreenDirections;
 import com.example.cscb07.ui.stateholders.AuthViewModel;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.elevation.SurfaceColors;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Objects;
@@ -28,15 +29,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         // Set up navigation controller with bottom bar
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_container);
         navController = navHostFragment.getNavController();
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
-
-        MaterialToolbar toolbar = findViewById(R.id.materialToolbar);
-        setSupportActionBar(toolbar);
-        setupActionBarWithNavController(this, navController);
+//        setSupportActionBar(toolbar);
+//        setupActionBarWithNavController(this, navController);
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
         setupWithNavController(bottomNav, navController);
@@ -54,10 +52,10 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
-            if (hideTopbar) // Hide bottom bar on login screens
-                getSupportActionBar().hide();
-            else
-                getSupportActionBar().show();
+//            if (hideTopbar) // Hide bottom bar on login screens
+//                getSupportActionBar().hide();
+//            else
+//                getSupportActionBar().show();
 
             if (hideBottombar)
                 bottomNav.setVisibility(View.GONE);
