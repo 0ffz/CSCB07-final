@@ -23,6 +23,7 @@ public class UpcomingScreen extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+        TitleBarUtil.setupTitleBar(this);
         AuthViewModel authViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
         NavController navController = Navigation.findNavController(view);
     }
