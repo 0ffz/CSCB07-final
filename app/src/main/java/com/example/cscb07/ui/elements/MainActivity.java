@@ -1,12 +1,16 @@
 package com.example.cscb07.ui.elements;
 
+import static androidx.navigation.ui.NavigationUI.setupWithNavController;
+
 import android.os.Bundle;
 import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
+
 import com.example.cscb07.R;
 import com.example.cscb07.data.util.MessageUtil;
 import com.example.cscb07.ui.elements.screens.venuelist.HomeScreenDirections;
@@ -15,8 +19,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Objects;
-
-import static androidx.navigation.ui.NavigationUI.setupWithNavController;
 
 public class MainActivity extends AppCompatActivity {
     private NavController navController;
