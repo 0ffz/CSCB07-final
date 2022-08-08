@@ -1,8 +1,16 @@
 package com.example.cscb07.ui.state;
 
+import com.example.cscb07.data.results.VenueId;
+
 public class VenueUiState {
-    //TODO
-//    List<String> sports;
-//    List<Event> upcomingEvents;
+    public final String name;
+    public final String description;
+    public final VenueId id;
+
+    public VenueUiState(String name, String description, VenueId id) {
+        this.name = name;
+        this.description = description;
+        this.id = id;
+    }
 }
 

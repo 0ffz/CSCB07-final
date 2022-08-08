@@ -4,6 +4,7 @@ import android.media.metrics.Event;
 import android.os.Handler;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.cscb07.data.models.EventModel;
@@ -13,21 +14,31 @@ import com.example.cscb07.data.results.VenueId;
 import com.example.cscb07.data.results.WithId;
 import com.example.cscb07.data.util.ServiceLocator;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
+import com.example.cscb07.ui.state.VenueUiState;
 import io.vavr.Value;
 import io.vavr.control.Try;
 
 public class VenueListViewModel {
     private final EventRepository eventRepository = ServiceLocator.getInstance().getEventRepository();
     private final MutableLiveData<EventId> lastEvent = new MutableLiveData<>(new EventId(""));
+    private final MutableLiveData<VenueUiState> venue = new MutableLiveData<>();
+    private final MediatorLiveData<List<EventModel>> events = new MediatorLiveData<>();
 
-    public LiveData<List<EventModel>> getEvents(VenueId venue) {
-        MutableLiveData<List<EventModel>> events = new MutableLiveData<>();
-         eventRepository.getEventsForVenue(lastEvent.getValue(), venue, 10, lists -> {
+    public VenueListViewModel() {
+        // Clear loaded events when venue changes
+        events.addSource(venue, s -> events.setValue(Collections.emptyList()));
+    }
+
+    public LiveData<List<EventModel>> getEvents() {
+        return events;
+    }
+
+    public void loadMoreEvents() {
+        VenueId venueId = venue.getValue().id;
+
+         eventRepository.getEventsForVenue(lastEvent.getValue(), venueId, 10, lists -> {
              List<WithId<EventId, EventModel>> e = lists.get(); //get list from getEventsForVenue
              List<EventModel> eventList = new ArrayList<>();
              for(WithId<EventId, EventModel> event: e){
@@ -40,7 +51,5 @@ public class VenueListViewModel {
                  events.setValue(eventList);
              }
         });
-         return events;
     }
-
 }
