@@ -30,6 +30,7 @@ public class FirebaseVenueRepository implements VenueRepository {
     public void getVenues(Consumer<Try<List<WithId<VenueId, VenueModel>>>> callback) {
         Query query = FirebaseUtil.getVenues()
                 .orderByKey();
+        //TODO this needs something added to firebase's "rules" to work
 //                .orderByChild("name");
         query.get().addOnSuccessListener(dataSnapshot -> {
             List<WithId<VenueId, VenueModel>> venues = Stream.ofAll(dataSnapshot.getChildren())
