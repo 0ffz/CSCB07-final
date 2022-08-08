@@ -29,21 +29,15 @@ public interface EventRepository {
     void removeEvent(EventId event, Consumer<Try<?>> callback);
 
     void getUpcomingEventsForCurrentUser(
-            EventId startAt,
-            int count,
             Consumer<Try<List<WithId<EventId, EventModel>>>> callback
     );
 
     void getAllUpcomingEvents(
-            EventId startAt,
-            int count,
             Consumer<Try<List<WithId<EventId, EventModel>>>> callback
     );
 
     void getEventsForVenue(
-        EventId startAt,
         VenueId venue,
-        int count,
         Consumer<Try<List<WithId<EventId, EventModel>>>> callback
     );
 }

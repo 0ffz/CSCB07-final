@@ -120,18 +120,18 @@ public class FirebaseEventRepository implements EventRepository {
 
 
     @Override
-    public void getUpcomingEventsForCurrentUser(EventId startAt, int count, Consumer<Try<List<WithId<EventId, EventModel>>>> callback) {
+    public void getUpcomingEventsForCurrentUser(Consumer<Try<List<WithId<EventId, EventModel>>>> callback) {
         String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference ref = FirebaseUtil.getUsers().child(userID).child("events"); //get the events
-        ref.orderByValue().startAfter(startAt.eventId).limitToFirst(count).addListenerForSingleValueEvent(new ValueEventListener() {
+        ref.orderByValue().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<String> eventIds = new ArrayList<String>();
+                List<String> eventIds = new ArrayList<>();
                 for(DataSnapshot event: snapshot.getChildren()){
                     eventIds.add(event.getKey());
                 }
                      FirebaseUtil.getEvents().get().addOnSuccessListener(dataSnapshot->{
-                        List<WithId<EventId, EventModel>> events = new ArrayList<WithId<EventId, EventModel>>();
+                        List<WithId<EventId, EventModel>> events = new ArrayList<>();
                         for(String e: eventIds){
                             EventModel event = dataSnapshot.child(e).getValue(EventModel.class);
                             events.add(WithId.of(new EventId(e), event));
@@ -152,13 +152,13 @@ public class FirebaseEventRepository implements EventRepository {
     }
 
     @Override
-    public void getAllUpcomingEvents(EventId startAt, int count, Consumer<Try<List<WithId<EventId, EventModel>>>> callback) {
+    public void getAllUpcomingEvents(Consumer<Try<List<WithId<EventId, EventModel>>>> callback) {
         DatabaseReference d = ServiceLocator.getInstance().getDb().getReference();
-        d.child("events").orderByChild("startTime").startAfter(startAt.eventId).limitToFirst(count).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        d.child("events").orderByChild("startTime").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (task.isSuccessful()){
-                    List<WithId<EventId, EventModel>> events = new ArrayList<WithId<EventId, EventModel>>();
+                    List<WithId<EventId, EventModel>> events = new ArrayList<>();
                     DataSnapshot snap = task.getResult();
                     for (DataSnapshot s : snap.getChildren()){
                         EventModel e = s.getValue(EventModel.class);
@@ -174,17 +174,17 @@ public class FirebaseEventRepository implements EventRepository {
     }
 
     @Override
-    public void getEventsForVenue(EventId startAt, VenueId venue, int count, Consumer<Try<List<WithId<EventId, EventModel>>>> callback) {
+    public void getEventsForVenue(VenueId venue, Consumer<Try<List<WithId<EventId, EventModel>>>> callback) {
         DatabaseReference ref = FirebaseUtil.getVenues().child(venue.venueId).child("events"); //get the events
-        ref.orderByValue().startAfter(startAt.eventId).limitToFirst(count).addListenerForSingleValueEvent(new ValueEventListener() {
+        ref.orderByValue().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<String> eventIds = new ArrayList<String>();
+                List<String> eventIds = new ArrayList<>();
                 for(DataSnapshot event: snapshot.getChildren()){
                     eventIds.add(event.getKey());
                 }
                 FirebaseUtil.getEvents().get().addOnSuccessListener(dataSnapshot->{
-                    List<WithId<EventId, EventModel>> events = new ArrayList<WithId<EventId, EventModel>>();
+                    List<WithId<EventId, EventModel>> events = new ArrayList<>();
                     for(String e: eventIds){
                         EventModel event = dataSnapshot.child(e).getValue(EventModel.class);
                         events.add(WithId.of(new EventId(e), event));
