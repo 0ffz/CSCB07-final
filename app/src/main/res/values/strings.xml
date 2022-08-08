@@ -19,6 +19,7 @@
     <string name="error_signup_failed">An unexpected error occurred while creating your account.</string>
     <string name="error_login_failed">An unexpected error occurred while logging you in.</string>
     <string name="error_passwords_dont_match">Passwords do not match</string>
+    <string name="error_fail_to_get_events">Failed to get events for this venue, try again later!</string>
 
     <string name="title_home">Venues</string>
     <string name="title_upcoming">Upcoming</string>

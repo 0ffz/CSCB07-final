@@ -48,9 +48,12 @@ public class AuthViewModel extends ViewModel {
     public void signUp(String email, String password, String passwordRetype) {
         //TODO do we want name?
         if (!verify(email, password)) return;
-        if(!password.equals(passwordRetype)) MessageUtil.showError(R.string.error_passwords_dont_match);
-        attemptingLogin.setValue(true);
-        userRepository.registerUser(email, password, this::handleAuthResult);
+        if(!password.equals(passwordRetype)) {
+            MessageUtil.showError(R.string.error_passwords_dont_match);
+            return;
+        }
+            attemptingLogin.setValue(true);
+            userRepository.registerUser(email, password, this::handleAuthResult);
     }
 
     public void signOut() {

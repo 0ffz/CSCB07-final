@@ -39,4 +39,11 @@ public interface EventRepository {
             int count,
             Consumer<Try<List<WithId<EventId, EventModel>>>> callback
     );
+
+    void getEventsForVenue(
+        EventId startAt,
+        VenueId venue,
+        int count,
+        Consumer<Try<List<WithId<EventId, EventModel>>>> callback
+    );
 }
