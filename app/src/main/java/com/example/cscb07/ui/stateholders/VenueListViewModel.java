@@ -27,18 +27,16 @@ public class VenueListViewModel {
     public LiveData<List<EventModel>> getEvents(VenueId venue) {
         MutableLiveData<List<EventModel>> events = new MutableLiveData<>();
          eventRepository.getEventsForVenue(lastEvent, venue, 10, lists -> {
-             if(lists.isSuccess()) {
-                 List<WithId<EventId, EventModel>> e = lists.get();
-                 List<EventModel> eventList = new ArrayList<>();
-                 for(WithId<EventId, EventModel> event: e){
-                     eventList.add(event.model);
-                 }
-                 if(e.size() == 0)
-                     lastEvent = new EventId("");
-                 else {
-                     lastEvent = e.get(e.size() - 1).id;
-                     events.setValue(eventList);
-                 }
+             List<WithId<EventId, EventModel>> e = lists.get();
+             List<EventModel> eventList = new ArrayList<>();
+             for(WithId<EventId, EventModel> event: e){
+                 eventList.add(event.model);
+             }
+             if(e.size() == 0)
+                 lastEvent = new EventId("");
+             else {
+                 lastEvent = e.get(e.size() - 1).id;
+                 events.setValue(eventList);
              }
         });
          return events;
