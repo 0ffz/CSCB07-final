@@ -9,6 +9,7 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import com.example.cscb07.R;
@@ -28,6 +29,7 @@ public class DialogAddVenue extends Fragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         TitleBarUtil.setupTitleBar(this);
         NavController navController = Navigation.findNavController(view);
+        addVenueViewModel = new ViewModelProvider(requireActivity()).get(AddVenueViewModel.class);
 
         EditText venueName = view.findViewById(R.id.venue_name);
         EditText venueDescription = view.findViewById(R.id.venue_description);

@@ -44,7 +44,7 @@ public class HomeScreen extends Fragment {
         // TODO conditional only show when admin
         ExtendedFloatingActionButton addVenueButton = view.findViewById(R.id.floatingActionButton);
         addVenueButton.setOnClickListener(v -> {
-            navController.navigate(HomeScreenDirections.actionScreenHomeToDialogAddEvent());
+            navController.navigate(HomeScreenDirections.actionScreenHomeToDialogAddVenue());
         });
 
         RecyclerView r = view.findViewById(R.id.venues_container);
