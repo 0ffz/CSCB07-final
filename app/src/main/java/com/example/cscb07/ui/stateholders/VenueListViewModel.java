@@ -7,28 +7,43 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.cscb07.R;
 import com.example.cscb07.data.models.EventModel;
 import com.example.cscb07.data.repositories.EventRepository;
+import com.example.cscb07.data.repositories.VenueRepository;
 import com.example.cscb07.data.results.EventId;
 import com.example.cscb07.data.results.VenueId;
 import com.example.cscb07.data.results.WithId;
+import com.example.cscb07.data.util.MessageUtil;
 import com.example.cscb07.data.util.ServiceLocator;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
+import com.example.cscb07.ui.state.EventUiState;
 import com.example.cscb07.ui.state.VenueUiState;
 import io.vavr.Value;
 import io.vavr.control.Try;
 
 public class VenueListViewModel {
-    private final EventRepository eventRepository = ServiceLocator.getInstance().getEventRepository();
-    private final MutableLiveData<EventId> lastEvent = new MutableLiveData<>(new EventId(""));
+    private final VenueRepository eventRepository = ServiceLocator.getInstance().getEventRepository();
     private final MutableLiveData<VenueUiState> venue = new MutableLiveData<>();
-    private final MediatorLiveData<List<EventModel>> events = new MediatorLiveData<>();
+    private final MediatorLiveData<List<VenueUiState>> events = new MediatorLiveData<>();
 
     public VenueListViewModel() {
         // Clear loaded events when venue changes
-        events.addSource(venue, s -> events.setValue(Collections.emptyList()));
+        events.addSource(venue, newVenue -> events.setValue(
+                // TODO update function call
+                eventRepository.getVenues(null, null, null, result -> {
+                    result.onSuccess(newEvents -> {
+                        events.setValue(
+                            newEvents.stream()
+                                    .map(it -> new VenueUiState(it.model.name, it.model.description, it.id))
+                                    .collect(Collectors.toList());
+                        );
+                    }).onFailure(f -> MessageUtil.showError(R.string.error_fail_to_get_events));
+                });
+        ));
     }
 
     public LiveData<List<EventModel>> getEvents() {
@@ -36,7 +51,6 @@ public class VenueListViewModel {
     }
 
     public void loadMoreEvents() {
-        VenueId venueId = venue.getValue().id;
 
          eventRepository.getEventsForVenue(lastEvent.getValue(), venueId, 10, lists -> {
              List<WithId<EventId, EventModel>> e = lists.get(); //get list from getEventsForVenue
