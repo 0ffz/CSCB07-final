@@ -6,6 +6,7 @@
         android:layout_margin="8dp"
         android:clickable="true"
         android:focusable="true"
+        android:elevation="0dp"
         style="?attr/materialCardViewFilledStyle">
 
     <LinearLayout android:layout_width="match_parent"
@@ -17,7 +18,7 @@
                 android:text="Venue name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/card_event_title"
+                android:id="@+id/venueTitle"
                 android:textAppearance="?attr/textAppearanceTitleMedium"/>
         <TextView
                 android:text="Venue description"
@@ -26,21 +27,7 @@
                 android:layout_marginTop="8dp"
                 android:textAppearance="?attr/textAppearanceBodyMedium"
                 android:textColor="?android:attr/textColorSecondary"
-                android:layout_marginBottom="15dp"
-        />
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content">
-            <ImageView android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       app:srcCompat="@drawable/ic_round_location_on_24"
-                       app:tint="?attr/colorOnBackground"
-                       android:layout_marginEnd="8dp"/>
-            <TextView
-                    android:text="Venue address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="?android:attr/textColorSecondary"
-                    tools:layout_marginEnd="15dp"/>
-        </LinearLayout>
+                android:id="@+id/venueDescription"/>
 <!--        <LinearLayout-->
 <!--                android:layout_width="match_parent"-->
 <!--                android:layout_height="wrap_content"-->

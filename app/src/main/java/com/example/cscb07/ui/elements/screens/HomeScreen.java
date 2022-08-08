@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -14,7 +13,6 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.cscb07.R;
-import com.example.cscb07.data.util.MessageUtil;
 import com.example.cscb07.ui.state.VenueUiState;
 import com.example.cscb07.ui.stateholders.AuthViewModel;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
@@ -38,29 +36,21 @@ public class HomeScreen extends Fragment implements RecyclerAdapt.ItemClickListe
         navController = Navigation.findNavController(view);
         authViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
 
-        // TODO make home screen
-        ExtendedFloatingActionButton button = view.findViewById(R.id.floatingActionButton);
-        button.setOnClickListener(v -> {
+        // FAB for adding venue
+        // TODO conditional only show when admin
+        ExtendedFloatingActionButton addVenueButton = view.findViewById(R.id.floatingActionButton);
+        addVenueButton.setOnClickListener(v -> {
             navController.navigate(HomeScreenDirections.actionScreenHomeToDialogAddEvent());
         });
-        authViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
-            if (user == null) navController.navigate(HomeScreenDirections.actionScreenHomeToScreenLogin());
-            else {
-                Button button = view.findViewById(R.id.nextViewButton);
-                button.setOnClickListener(v -> {
-                    MessageUtil.showError(R.string.error_email);
-                });
-                // TODO make home screen
-                ArrayList<VenueUiState> state = new ArrayList<VenueUiState>();
-                for (int i = 0; i < 10; i++) {
-                    state.add(new VenueUiState("Venue ", "Description"));
-                }
-                RecyclerView r = view.findViewById(R.id.venues_container);
-                RecyclerAdapt recyclerAdapt = new RecyclerAdapt(state, this);
-                r.setAdapter(recyclerAdapt);
-                r.setLayoutManager(new LinearLayoutManager(this.getActivity()));
-            }
-        });
+
+        ArrayList<VenueUiState> state = new ArrayList<VenueUiState>();
+        for (int i = 0; i < 10; i++) {
+            state.add(new VenueUiState("Venue ", "Description"));
+        }
+        RecyclerView r = view.findViewById(R.id.venues_container);
+        RecyclerAdapt recyclerAdapt = new RecyclerAdapt(state, this);
+        r.setAdapter(recyclerAdapt);
+        r.setLayoutManager(new LinearLayoutManager(this.getActivity()));
     }
 
     @Override
