@@ -16,8 +16,9 @@ public class AddVenueViewModel extends ViewModel {
     private final VenueRepository venueRepository = ServiceLocator.getInstance().getVenueRepository();
     //TODO have a separate class for handling messages
     private final FirebaseVenueLiveData venue = new FirebaseVenueLiveData();
+    private final MutableLiveData<VenueId> createdVenue = new MutableLiveData<>();
 
-    private final MutableLiveData<Boolean> attemptingAddVenue = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> attemptingAddVenue = new MutableLiveData<>(false);
 
     // checks if dialog fields empty (do smt about listof added sports)
     boolean validate(String name, String description) {
@@ -36,11 +37,13 @@ public class AddVenueViewModel extends ViewModel {
 
     private void handleAddVenueResult(Try<VenueId> result) {
         attemptingAddVenue.setValue(false);
+        result.onSuccess(createdVenue::postValue);
         result.onFailure(MessageUtil::showError);
     }
 
     public void addVenue(String name, String description) {
         if (!validate(name, description)) return;
+        if(attemptingAddVenue.getValue()) return;
         attemptingAddVenue.setValue(true);
         venueRepository.addVenue(name, description, this::handleAddVenueResult);
     }
