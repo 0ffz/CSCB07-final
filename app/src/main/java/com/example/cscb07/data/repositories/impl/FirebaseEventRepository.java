@@ -123,7 +123,7 @@ public class FirebaseEventRepository implements EventRepository {
     public void getUpcomingEventsForCurrentUser(Consumer<Try<List<WithId<EventId, EventModel>>>> callback) {
         String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference ref = FirebaseUtil.getUsers().child(userID).child("events"); //get the events
-        ref.orderByValue().startAfter(startAt.eventId).limitToFirst(count).addListenerForSingleValueEvent(new ValueEventListener() {
+        ref.orderByValue().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 List<String> eventIds = new ArrayList<>();
