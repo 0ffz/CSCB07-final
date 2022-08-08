@@ -19,12 +19,12 @@ import java.util.stream.IntStream;
 public class FirebaseVenueRepository implements VenueRepository {
     @Override
     public void addVenue(String name, String description, Consumer<Try<VenueId>> callback) {
-        DatabaseReference venuesRef = FirebaseUtil.getVenues().child(name);
+        DatabaseReference venuesRef = FirebaseUtil.getVenues();
         venuesRef.get().addOnSuccessListener(snapshot -> {
             VenueModel venue = new VenueModel(name, description);
-            DatabaseReference venueRef = venuesRef.push();
-            venueRef.setValue(venue);
-            callback.accept(Try.success(new VenueId(venueRef.getKey())));
+            String id = venuesRef.push().getKey();
+            venuesRef.child(id).setValue(venue);
+            callback.accept(Try.success(new VenueId(id)));
         }).addOnFailureListener(e -> callback.accept(Try.failure(e)));
     }
 

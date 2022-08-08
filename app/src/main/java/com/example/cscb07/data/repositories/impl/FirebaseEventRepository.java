@@ -130,8 +130,7 @@ public class FirebaseEventRepository implements EventRepository {
                 for(DataSnapshot event: snapshot.getChildren()){
                     eventIds.add(event.getKey());
                 }
-                    Query q = FirebaseUtil.getEvents();
-                    q.get().addOnSuccessListener(dataSnapshot->{
+                     FirebaseUtil.getEvents().get().addOnSuccessListener(dataSnapshot->{
                         List<WithId<EventId, EventModel>> events = new ArrayList<WithId<EventId, EventModel>>();
                         for(String e: eventIds){
                             EventModel event = dataSnapshot.child(e).getValue(EventModel.class);
@@ -173,4 +172,36 @@ public class FirebaseEventRepository implements EventRepository {
             }
         });
     }
+
+    @Override
+    public void getEventsForVenue(EventId startAt, VenueId venue, int count, Consumer<Try<List<WithId<EventId, EventModel>>>> callback) {
+        DatabaseReference ref = FirebaseUtil.getVenues().child(venue.venueId).child("events"); //get the events
+        ref.orderByValue().startAfter(startAt.eventId).limitToFirst(count).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<String> eventIds = new ArrayList<String>();
+                for(DataSnapshot event: snapshot.getChildren()){
+                    eventIds.add(event.getKey());
+                }
+                FirebaseUtil.getEvents().get().addOnSuccessListener(dataSnapshot->{
+                    List<WithId<EventId, EventModel>> events = new ArrayList<WithId<EventId, EventModel>>();
+                    for(String e: eventIds){
+                        EventModel event = dataSnapshot.child(e).getValue(EventModel.class);
+                        events.add(WithId.of(new EventId(e), event));
+                    }
+
+                    callback.accept(Try.success(events));
+                });
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                callback.accept(Try.failure(error.toException()));
+            }
+
+        });
+    }
+
+
 }
