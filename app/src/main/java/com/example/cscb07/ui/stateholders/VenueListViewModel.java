@@ -1,5 +1,6 @@
 package com.example.cscb07.ui.stateholders;
 
+import android.media.metrics.Event;
 import android.os.Handler;
 
 import androidx.lifecycle.LiveData;
@@ -22,20 +23,20 @@ import io.vavr.control.Try;
 
 public class VenueListViewModel {
     private final EventRepository eventRepository = ServiceLocator.getInstance().getEventRepository();
-    private EventId lastEvent = new EventId("");
+    private final MutableLiveData<EventId> lastEvent = new MutableLiveData<>(new EventId(""));
 
     public LiveData<List<EventModel>> getEvents(VenueId venue) {
         MutableLiveData<List<EventModel>> events = new MutableLiveData<>();
-         eventRepository.getEventsForVenue(lastEvent, venue, 10, lists -> {
+         eventRepository.getEventsForVenue(lastEvent.getValue(), venue, 10, lists -> {
              List<WithId<EventId, EventModel>> e = lists.get(); //get list from getEventsForVenue
              List<EventModel> eventList = new ArrayList<>();
              for(WithId<EventId, EventModel> event: e){
                  eventList.add(event.model);
              }
              if(e.size() == 0)
-                 lastEvent = new EventId(""); //reset lastEvent if the list is empty
+                 lastEvent.setValue(new EventId("")); //reset lastEvent if the list is empty
              else {
-                 lastEvent = e.get(e.size() - 1).id; //sets lastEvent to last id in the list
+                 lastEvent.setValue(e.get(e.size() - 1).id); //sets lastEvent to last id in the list
                  events.setValue(eventList);
              }
         });
