@@ -1,4 +1,4 @@
-package com.example.cscb07.ui.elements.screens;
+package com.example.cscb07.ui.elements.screens.venuelist;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,16 +13,19 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.cscb07.R;
+import com.example.cscb07.ui.elements.screens.TitleBarUtil;
 import com.example.cscb07.ui.state.VenueUiState;
 import com.example.cscb07.ui.stateholders.AuthViewModel;
+import com.example.cscb07.ui.stateholders.VenueViewModel;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class HomeScreen extends Fragment implements RecyclerAdapt.ItemClickListener {
+public class HomeScreen extends Fragment {
     private NavController navController;
     private AuthViewModel authViewModel;
+    private VenueViewModel venueViewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -35,6 +38,7 @@ public class HomeScreen extends Fragment implements RecyclerAdapt.ItemClickListe
         TitleBarUtil.setupTitleBar(this);
         navController = Navigation.findNavController(view);
         authViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
+        venueViewModel = new ViewModelProvider(requireActivity()).get(VenueViewModel.class);
 
         // FAB for adding venue
         // TODO conditional only show when admin
@@ -48,8 +52,10 @@ public class HomeScreen extends Fragment implements RecyclerAdapt.ItemClickListe
             state.add(new VenueUiState("Venue ", "Description"));
         }
         RecyclerView r = view.findViewById(R.id.venues_container);
-        RecyclerAdapt recyclerAdapt = new RecyclerAdapt(state, this);
-        r.setAdapter(recyclerAdapt);
+        VenueCardAdapter venueCardAdapter = new VenueCardAdapter(state, dataModel -> {
+
+        });
+        r.setAdapter(venueCardAdapter);
         r.setLayoutManager(new LinearLayoutManager(this.getActivity()));
     }
 

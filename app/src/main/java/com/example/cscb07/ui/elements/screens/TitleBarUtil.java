@@ -13,7 +13,7 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.shape.MaterialShapeDrawable;
 
 public class TitleBarUtil {
-    static void setupTitleBar(Fragment fragment) {
+    public static void setupTitleBar(Fragment fragment) {
         View view = fragment.requireView();
         Activity activity = fragment.requireActivity();
         NavController navController = Navigation.findNavController(view);

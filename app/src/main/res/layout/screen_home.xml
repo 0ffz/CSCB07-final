@@ -4,7 +4,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
-              tools:context=".ui.elements.screens.HomeScreen"
+              tools:context=".ui.elements.screens.venuelist.HomeScreen"
               android:fitsSystemWindows="true">
     <include layout="@layout/topbar_simple"/>
     <androidx.constraintlayout.widget.ConstraintLayout

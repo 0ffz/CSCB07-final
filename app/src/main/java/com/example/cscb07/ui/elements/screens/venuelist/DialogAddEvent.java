@@ -1,4 +1,4 @@
-package com.example.cscb07.ui.elements.screens;
+package com.example.cscb07.ui.elements.screens.venuelist;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.example.cscb07.R;
+import com.example.cscb07.ui.elements.screens.TitleBarUtil;
 import org.jetbrains.annotations.NotNull;
 
 public class DialogAddEvent extends Fragment {
