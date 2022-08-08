@@ -6,16 +6,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import com.example.cscb07.R;
 import com.example.cscb07.ui.stateholders.AddVenueViewModel;
-
 import org.jetbrains.annotations.NotNull;
-
-import java.util.concurrent.atomic.AtomicReference;
 
 public class DialogAddVenue extends Fragment {
 
@@ -29,6 +27,7 @@ public class DialogAddVenue extends Fragment {
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         TitleBarUtil.setupTitleBar(this);
+        NavController navController = Navigation.findNavController(view);
 
         EditText venueName = view.findViewById(R.id.venue_name);
         EditText venueDescription = view.findViewById(R.id.venue_description);
@@ -42,10 +41,11 @@ public class DialogAddVenue extends Fragment {
             String description = venueDescription.getText().toString();
 
             addVenueViewModel.addVenue(name, description);
-
         });
 
+        addVenueViewModel.getCreatedVenue().observe(getViewLifecycleOwner(), venueId -> {
+            navController.popBackStack();
+            // TODO move to opened venue
+        });
     }
-
-
 }

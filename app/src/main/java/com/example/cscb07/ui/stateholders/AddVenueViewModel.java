@@ -1,6 +1,5 @@
 package com.example.cscb07.ui.stateholders;
 
-import android.util.Patterns;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -43,12 +42,16 @@ public class AddVenueViewModel extends ViewModel {
 
     public void addVenue(String name, String description) {
         if (!validate(name, description)) return;
-        if(attemptingAddVenue.getValue()) return;
+        if (attemptingAddVenue.getValue()) return;
         attemptingAddVenue.setValue(true);
         venueRepository.addVenue(name, description, this::handleAddVenueResult);
     }
 
     public LiveData<Boolean> isAttemptingAddVenue() {
         return attemptingAddVenue;
+    }
+
+    public LiveData<VenueId> getCreatedVenue() {
+        return createdVenue;
     }
 }
