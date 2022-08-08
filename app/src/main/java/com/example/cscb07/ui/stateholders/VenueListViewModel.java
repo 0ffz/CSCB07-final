@@ -22,19 +22,23 @@ import io.vavr.control.Try;
 
 public class VenueListViewModel {
     private final EventRepository eventRepository = ServiceLocator.getInstance().getEventRepository();
-    private EventId prev = new EventId("");
+    private EventId lastEvent = new EventId("");
 
     public LiveData<List<EventModel>> getEvents(VenueId venue) {
         MutableLiveData<List<EventModel>> events = new MutableLiveData<>();
-         eventRepository.getEventsForVenue(prev, venue, 10, lists -> {
+         eventRepository.getEventsForVenue(lastEvent, venue, 10, lists -> {
              if(lists.isSuccess()) {
                  List<WithId<EventId, EventModel>> e = lists.get();
                  List<EventModel> eventList = new ArrayList<>();
                  for(WithId<EventId, EventModel> event: e){
                      eventList.add(event.model);
                  }
-                 prev = e.get(e.size() - 1).id;
-                 events.setValue(eventList);
+                 if(e.size() == 0)
+                     lastEvent = new EventId("");
+                 else {
+                     lastEvent = e.get(e.size() - 1).id;
+                     events.setValue(eventList);
+                 }
              }
         });
          return events;
