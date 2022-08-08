@@ -5,12 +5,9 @@
             app:startDestination="@id/screenHome">
     <fragment android:name="com.example.cscb07.ui.elements.screens.venuelist.HomeScreen"
               tools:layout="@layout/screen_home" android:label="@string/title_home" android:id="@+id/screenHome">
-        <action android:id="@+id/action_screenHome_to_dialogAddEvent" app:destination="@id/dialogAddEvent"
+        <action android:id="@+id/action_screenHome_to_dialogAddVenue" app:destination="@id/dialogAddVenue"
                 app:enterAnim="@android:anim/fade_in" app:exitAnim="@android:anim/fade_out"
                 app:popExitAnim="@android:anim/fade_out" app:popEnterAnim="@android:anim/fade_in"/>
-        <action android:id="@+id/action_screenHome_to_dialogAddVenue" app:destination="@id/dialogAddVenue"
-            app:enterAnim="@android:anim/fade_in" app:exitAnim="@android:anim/fade_out"
-            app:popExitAnim="@android:anim/fade_out" app:popEnterAnim="@android:anim/fade_in"/>
     </fragment>
     <fragment android:id="@+id/dialogAddEvent" android:name="com.example.cscb07.ui.elements.screens.venuelist.DialogAddEvent"
               android:label="DialogAddEvent">
