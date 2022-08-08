@@ -20,6 +20,7 @@
     <string name="error_login_failed">An unexpected error occurred while logging you in.</string>
     <string name="error_passwords_dont_match">Passwords do not match</string>
     <string name="error_fail_to_get_events">Failed to get events for this venue, try again later!</string>
+    <string name="error_empty">This field cannot be empty.</string>
 
     <string name="title_home">Venues</string>
     <string name="title_upcoming">Upcoming</string>
@@ -37,6 +38,7 @@
     <string name="fab_add_venue">New venue</string>
 
     <string name="title_venue_name">Venue Name</string>
+    <string name="title_add_venue">Add Venue</string>
 
     <string name="spinner_desc_event_type">Event type</string>
 
@@ -47,6 +49,13 @@
     <string name="dialog_section_end_time">To</string>
     <string name="hint_date">Date</string>
     <string name="hint_time">Time</string>
+
+    <string name="hint_venue_name">Venue name</string>
+    <string name="hint_venue_description">Venue description</string>
+    <string name="dialog_section_add_sports">Add sports</string>
+    <string name="hint_venue_sports">Sports available at venue</string>
+    <string name="dialog_section_sports">Sports:</string>
+    <string name="button_add">ADD</string>
 
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
