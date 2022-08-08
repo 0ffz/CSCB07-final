@@ -71,63 +71,6 @@
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="88dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/dialog_section_add_sports"
-                android:textAppearance="@style/TextAppearance.Material3.LabelMedium" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="240dp"
-                    android:layout_height="match_parent"
-                    android:hint="@string/hint_venue_sports">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/venue_add_sports"
-                        android:layout_width="238dp"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/hint_venue_sports"
-                        android:maxLines="3" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <Button
-                    android:id="@+id/buttonAddSport"
-                    android:layout_width="101dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/button_add" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                      android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/dialog_section_sports"
-                android:textAppearance="@style/TextAppearance.Material3.LabelMedium" />
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                          android:orientation="horizontal">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/venueSports"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </LinearLayout>
-        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
         <!--

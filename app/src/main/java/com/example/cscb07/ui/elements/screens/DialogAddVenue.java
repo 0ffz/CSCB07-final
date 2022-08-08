@@ -32,21 +32,14 @@ public class DialogAddVenue extends Fragment {
 
         EditText venueName = view.findViewById(R.id.venue_name);
         EditText venueDescription = view.findViewById(R.id.venue_description);
-//        EditText venueSportToAdd = view.findViewById(R.id.venue_add_sports);
-//        Button addSportButton = view.findViewById((R.id.buttonAddSport));
+
         Button saveVenue = view.findViewById((R.id.buttonSave));
 
-//        addSportButton.setOnClickListener(v -> {
-//            // Get sport to add
-//            String sport = venueSportToAdd.getText().toString();
-//
-//        });
 
         saveVenue.setOnClickListener(v -> {
-            // Get sport to add
+
             String name = venueName.getText().toString();
             String description = venueDescription.getText().toString();
-//            String sports = venueSportToAdd.getText().toString();
 
             addVenueViewModel.addVenue(name, description);
 
