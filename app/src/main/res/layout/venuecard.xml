@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp" >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp" >
+
+    <TextView
+        android:id="@+id/venueTitle"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:fontFamily="sans-serif"
+        android:text="VenueName"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:id="@+id/venueDescription"
+        android:layout_height="wrap_content"
+        android:text="Description placeholder"
+        />
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>

@@ -7,23 +7,22 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.example.cscb07.R;
+import com.example.cscb07.data.util.MessageUtil;
+import com.example.cscb07.ui.state.VenueUiState;
 import com.example.cscb07.ui.stateholders.AuthViewModel;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import org.jetbrains.annotations.NotNull;
 
-import static androidx.navigation.ui.NavigationUI.setupWithNavController;
+import java.util.ArrayList;
 
-public class HomeScreen extends Fragment {
+public class HomeScreen extends Fragment implements RecyclerAdapt.ItemClickListener {
     private NavController navController;
     private AuthViewModel authViewModel;
 
@@ -44,5 +43,35 @@ public class HomeScreen extends Fragment {
         button.setOnClickListener(v -> {
             navController.navigate(HomeScreenDirections.actionScreenHomeToDialogAddEvent());
         });
+        authViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
+            if (user == null) navController.navigate(HomeScreenDirections.actionScreenHomeToScreenLogin());
+            else {
+                Button button = view.findViewById(R.id.nextViewButton);
+                button.setOnClickListener(v -> {
+                    MessageUtil.showError(R.string.error_email);
+                });
+                // TODO make home screen
+                ArrayList<VenueUiState> state = new ArrayList<VenueUiState>();
+                for (int i = 0; i < 10; i++) {
+                    state.add(new VenueUiState("Venue ", "Description"));
+                }
+                RecyclerView r = view.findViewById(R.id.venues_container);
+                RecyclerAdapt recyclerAdapt = new RecyclerAdapt(state, this);
+                r.setAdapter(recyclerAdapt);
+                r.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+            }
+        });
+    }
+
+    @Override
+    public void onItemClick(VenueUiState dataModel) {
+        //Fragment fragment = EventsFragment.newInstance(dataModel.getName());
+        //FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        //transaction.replace(R.id.venues_container, fragment, "events_fragment");
+
+        //transaction.hide(getActivity().getSupportFragmentManager().findFragmentByTag("main_fragment"));
+        //transaction.add(R.id.frame_container, fragment);
+        //transaction.addToBackStack(null);
+        //transaction.commit();
     }
 }
