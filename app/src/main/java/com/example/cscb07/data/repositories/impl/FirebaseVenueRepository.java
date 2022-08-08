@@ -1,6 +1,5 @@
 package com.example.cscb07.data.repositories.impl;
 
-import android.util.Pair;
 import com.example.cscb07.data.models.VenueModel;
 import com.example.cscb07.data.repositories.VenueRepository;
 import com.example.cscb07.data.results.VenueId;
@@ -13,7 +12,6 @@ import io.vavr.control.Try;
 
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.stream.IntStream;
 
 
 public class FirebaseVenueRepository implements VenueRepository {
@@ -29,15 +27,10 @@ public class FirebaseVenueRepository implements VenueRepository {
     }
 
     @Override
-    public void getVenues(VenueId startAt, int amount, String searchFilter, Consumer<Try<List<WithId<VenueId, VenueModel>>>> callback) {
+    public void getVenues(Consumer<Try<List<WithId<VenueId, VenueModel>>>> callback) {
         Query query = FirebaseUtil.getVenues()
-                .orderByKey()
-                .startAfter(startAt.venueId)
-                .orderByChild("name")
-                .startAt(searchFilter)
-                // Some big unicode character in the end to get anything that starts with the filter
-                .endAt(searchFilter + "\uf8ff")
-                .limitToFirst(amount);
+                .orderByKey();
+//                .orderByChild("name");
         query.get().addOnSuccessListener(dataSnapshot -> {
             List<WithId<VenueId, VenueModel>> venues = Stream.ofAll(dataSnapshot.getChildren())
                     .map(snapshot -> WithId.of(new VenueId(snapshot.getKey()), snapshot.getValue(VenueModel.class)))

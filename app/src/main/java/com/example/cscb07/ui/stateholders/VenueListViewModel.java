@@ -1,32 +1,20 @@
 package com.example.cscb07.ui.stateholders;
 
-import android.media.metrics.Event;
-import android.os.Handler;
-
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import androidx.lifecycle.ViewModel;
 import com.example.cscb07.R;
-import com.example.cscb07.data.models.EventModel;
-import com.example.cscb07.data.repositories.EventRepository;
 import com.example.cscb07.data.repositories.VenueRepository;
-import com.example.cscb07.data.results.EventId;
-import com.example.cscb07.data.results.VenueId;
-import com.example.cscb07.data.results.WithId;
 import com.example.cscb07.data.util.MessageUtil;
 import com.example.cscb07.data.util.ServiceLocator;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-import com.example.cscb07.ui.state.EventUiState;
 import com.example.cscb07.ui.state.VenueUiState;
 
-import io.vavr.Value;
-import io.vavr.control.Try;
-
-public class VenueListViewModel {
+public class VenueListViewModel extends ViewModel {
     private final VenueRepository venueRepository = ServiceLocator.getInstance().getVenueRepository();
     private final MutableLiveData<List<VenueUiState>> venues = new MutableLiveData<>();
 
@@ -35,7 +23,7 @@ public class VenueListViewModel {
     }
 
     public void loadVenues() {
-        venueRepository.getVenues(null, 10, "", result -> {
+        venueRepository.getVenues(result -> {
             result.onSuccess(newVenues -> {
                 venues.setValue(newVenues.stream()
                         .map(it -> new VenueUiState(it.model.name, it.model.description, it.id))

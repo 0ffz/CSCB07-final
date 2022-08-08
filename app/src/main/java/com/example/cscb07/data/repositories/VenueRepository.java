@@ -11,10 +11,5 @@ import java.util.function.Consumer;
 public interface VenueRepository {
     void addVenue(String name, String description, Consumer<Try<VenueId>> callback);
 
-    void getVenues(
-            VenueId startAt,
-            int amount,
-            String searchFilter,
-            Consumer<Try<List<WithId<VenueId, VenueModel>>>> callback
-    );
+    void getVenues(Consumer<Try<List<WithId<VenueId, VenueModel>>>> callback);
 }

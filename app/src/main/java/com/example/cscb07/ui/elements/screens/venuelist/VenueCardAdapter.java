@@ -37,9 +37,8 @@ public class VenueCardAdapter extends RecyclerView.Adapter<VenueCard> {
     public void onBindViewHolder(VenueCard venueCard, @SuppressLint("RecyclerView") final int position) {
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        venueCard.name.setText(localDataSet.get(position).getName());
-        venueCard.description.setText(localDataSet.get(position).getDescription());
-
+        venueCard.name.setText(localDataSet.get(position).name);
+        venueCard.description.setText(localDataSet.get(position).description);
         venueCard.itemView.setOnClickListener(v -> clickListener.accept(localDataSet.get(position)));
     }
 

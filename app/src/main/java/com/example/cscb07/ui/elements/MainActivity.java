@@ -9,16 +9,13 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 import com.example.cscb07.R;
 import com.example.cscb07.data.util.MessageUtil;
-import com.example.cscb07.ui.elements.screens.HomeScreenDirections;
+import com.example.cscb07.ui.elements.screens.venuelist.HomeScreenDirections;
 import com.example.cscb07.ui.stateholders.AuthViewModel;
-import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.elevation.SurfaceColors;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Objects;
 
-import static androidx.navigation.ui.NavigationUI.setupActionBarWithNavController;
 import static androidx.navigation.ui.NavigationUI.setupWithNavController;
 
 public class MainActivity extends AppCompatActivity {
@@ -51,11 +48,6 @@ public class MainActivity extends AppCompatActivity {
                 navController.navigate(HomeScreenDirections.actionGlobalAuthNav());
                 return;
             }
-
-//            if (hideTopbar) // Hide bottom bar on login screens
-//                getSupportActionBar().hide();
-//            else
-//                getSupportActionBar().show();
 
             if (hideBottombar)
                 bottomNav.setVisibility(View.GONE);
