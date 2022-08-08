@@ -51,4 +51,6 @@
     <string name="hint_password">Password</string>
     <string name="hint_retype_password">Retype password</string>
     <string name="button_save">Save</string>
+    <string name="dialog_select_date">Select date</string>
+    <string name="dialog_select_time">Select time</string>
 </resources>
