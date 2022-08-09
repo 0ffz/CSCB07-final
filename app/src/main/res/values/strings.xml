@@ -69,4 +69,9 @@
     <string name="input_error_empty">Cannot be empty</string>
     <string name="input_error_end_date_valid">End date must come after start date</string>
     <string name="success_event_created">Event created, you will see it when an admin approves it.</string>
+
+    <string name="button_join">Join</string>
+    <string name="button_approve">Approve</string>
+    <string name="button_deny">Deny</string>
+
 </resources>
