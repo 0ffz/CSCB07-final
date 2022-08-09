@@ -66,4 +66,6 @@
     <string name="dialog_select_date">Select date</string>
     <string name="dialog_select_time">Select time</string>
     <string name="hint_max_capacity">Max capacity</string>
+    <string name="input_error_empty_venue">Venue cannot be empty!</string>
+    <string name="input_error_empty_venue_desc">Venue description cannot be empty!</string>
 </resources>
