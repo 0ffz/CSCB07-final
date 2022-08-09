@@ -28,6 +28,7 @@ import com.google.android.material.timepicker.MaterialTimePicker;
 import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.function.Consumer;
 
@@ -83,9 +84,9 @@ public class DialogAddEvent extends Fragment {
         });
 
         // Observe updates to update text on date and time pickers
-        addEventViewModel.getStartDate().observe(getViewLifecycleOwner(), date -> startDate.getEditText().setText(SimpleDateFormat.getDateInstance().format(date)));
+        addEventViewModel.getStartDate().observe(getViewLifecycleOwner(), date -> startDate.getEditText().setText(SimpleDateFormat.getDateInstance().format(addOneDay(date))));
         addEventViewModel.getStartTime().observe(getViewLifecycleOwner(), time -> startTime.getEditText().setText(time.toString()));
-        addEventViewModel.getEndDate().observe(getViewLifecycleOwner(), date -> endDate.getEditText().setText(SimpleDateFormat.getDateInstance().format(date)));
+        addEventViewModel.getEndDate().observe(getViewLifecycleOwner(), date -> endDate.getEditText().setText(SimpleDateFormat.getDateInstance().format(addOneDay(date))));
         addEventViewModel.getEndTime().observe(getViewLifecycleOwner(), time -> endTime.getEditText().setText(time.toString()));
 
         saveButton.setOnClickListener(v -> addEventViewModel.addEvent(
@@ -129,4 +130,10 @@ public class DialogAddEvent extends Fragment {
         field.getEditText().setOnClickListener((v) -> onSelected.run());
     }
 
+    private Date addOneDay(Date date) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(Calendar.DATE, 1);
+        return new Date(c.getTimeInMillis());
+    }
 }
