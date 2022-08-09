@@ -1,53 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools" android:id="@+id/nav_graph"
-            app:startDestination="@id/screenHome">
-    <fragment android:name="com.example.cscb07.ui.elements.screens.venuelist.HomeScreen"
-              tools:layout="@layout/screen_home" android:label="@string/title_home" android:id="@+id/screenHome">
-        <action android:id="@+id/action_screenHome_to_dialogAddVenue" app:destination="@id/dialogAddVenue"
-                app:enterAnim="@android:anim/fade_in" app:exitAnim="@android:anim/fade_out"
-                app:popExitAnim="@android:anim/fade_out" app:popEnterAnim="@android:anim/fade_in"/>
-        <action android:id="@+id/action_screenHome_to_dialogAddEvent" app:destination="@id/dialogAddEvent"
-                app:enterAnim="@android:anim/fade_in" app:exitAnim="@android:anim/fade_out"
-                app:popEnterAnim="@android:anim/fade_in" app:popExitAnim="@android:anim/fade_out"/>
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/screenHome">
+    <fragment
+        android:id="@+id/screenHome"
+        android:name="com.example.cscb07.ui.elements.screens.venuelist.HomeScreen"
+        android:label="@string/title_home"
+        tools:layout="@layout/screen_home">
+        <action
+            android:id="@+id/action_screenHome_to_dialogAddVenue"
+            app:destination="@id/dialogAddVenue"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_screenHome_to_dialogAddEvent"
+            app:destination="@id/dialogAddEvent"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
-    <fragment android:id="@+id/dialogAddEvent" android:name="com.example.cscb07.ui.elements.screens.eventlist.DialogAddEvent"
-              android:label="DialogAddEvent">
-        <argument android:name="hide_bottombar" app:argType="boolean" android:defaultValue="true"/>
-        <argument android:name="venue" app:argType="com.example.cscb07.ui.state.VenueUiState"/>
+    <fragment
+        android:id="@+id/dialogAddEvent"
+        android:name="com.example.cscb07.ui.elements.screens.eventlist.DialogAddEvent"
+        android:label="DialogAddEvent">
+        <argument
+            android:name="hide_bottombar"
+            android:defaultValue="true"
+            app:argType="boolean" />
+        <argument
+            android:name="venue"
+            app:argType="com.example.cscb07.ui.state.VenueUiState" />
     </fragment>
-    <fragment android:id="@+id/dialogAddVenue" android:name="com.example.cscb07.ui.elements.screens.venuelist.DialogAddVenue"
-              android:label="@string/fab_add_venue">
-        <argument android:name="hide_bottombar" app:argType="boolean" android:defaultValue="true"/>
+    <fragment
+        android:id="@+id/dialogAddVenue"
+        android:name="com.example.cscb07.ui.elements.screens.venuelist.DialogAddVenue"
+        android:label="@string/fab_add_venue">
+        <argument
+            android:name="hide_bottombar"
+            android:defaultValue="true"
+            app:argType="boolean" />
     </fragment>
-    <fragment android:id="@+id/screenUpcoming" android:name="com.example.cscb07.ui.elements.screens.UpcomingScreen"
-              android:label="@string/title_upcoming" tools:layout="@layout/screen_upcoming"/>
-    <navigation android:id="@+id/authNav" app:startDestination="@id/screenLogin" android:label="Auth Navigation">
+    <fragment
+        android:id="@+id/screenUpcoming"
+        android:name="com.example.cscb07.ui.elements.screens.UpcomingScreen"
+        android:label="@string/title_upcoming"
+        tools:layout="@layout/screen_upcoming" />
+    <fragment
+        android:id="@+id/screenBookings"
+        android:name="com.example.cscb07.ui.elements.screens.BookingsScreen"
+        android:label="@string/title_bookings"
+        tools:layout="@layout/screen_bookings" />
+    <navigation
+        android:id="@+id/authNav"
+        android:label="Auth Navigation"
+        app:startDestination="@id/screenLogin">
         <fragment
-                android:id="@+id/screenSignup"
-                android:name="com.example.cscb07.ui.elements.screens.auth.SignupScreen"
-                android:label="Signup"
-                tools:layout="@layout/screen_signup">
-            <action android:id="@+id/action_screenSignup_to_screenLogin" app:destination="@id/screenLogin"
-                    app:popUpToInclusive="true" app:enterAnim="@android:anim/slide_in_left"
-                    app:exitAnim="@android:anim/slide_out_right"
-                    app:popEnterAnim="@android:anim/slide_in_left" app:popExitAnim="@android:anim/slide_out_right"
-                    app:popUpTo="@id/screenLogin"/>
-            <argument android:name="hide_topbar" app:argType="boolean" android:defaultValue="true"/>
-            <argument android:name="hide_bottombar" app:argType="boolean" android:defaultValue="true"/>
+            android:id="@+id/screenSignup"
+            android:name="com.example.cscb07.ui.elements.screens.auth.SignupScreen"
+            android:label="Signup"
+            tools:layout="@layout/screen_signup">
+            <action
+                android:id="@+id/action_screenSignup_to_screenLogin"
+                app:destination="@id/screenLogin"
+                app:enterAnim="@android:anim/slide_in_left"
+                app:exitAnim="@android:anim/slide_out_right"
+                app:popEnterAnim="@android:anim/slide_in_left"
+                app:popExitAnim="@android:anim/slide_out_right"
+                app:popUpTo="@id/screenLogin"
+                app:popUpToInclusive="true" />
+            <argument
+                android:name="hide_topbar"
+                android:defaultValue="true"
+                app:argType="boolean" />
+            <argument
+                android:name="hide_bottombar"
+                android:defaultValue="true"
+                app:argType="boolean" />
         </fragment>
-        <fragment android:id="@+id/screenLogin" android:name="com.example.cscb07.ui.elements.screens.auth.LoginScreen"
-                  android:label="@string/title_login" tools:layout="@layout/screen_login">
-            <action android:id="@+id/action_screenLogin_to_screenSignup" app:destination="@id/screenSignup"
-                    app:popUpToInclusive="true" app:enterAnim="@android:anim/slide_in_left"
-                    app:exitAnim="@android:anim/slide_out_right"
-                    app:popEnterAnim="@android:anim/slide_in_left" app:popExitAnim="@android:anim/slide_out_right"
-                    app:popUpTo="@id/screenSignup"/>
-            <argument android:name="hide_topbar" app:argType="boolean" android:defaultValue="true"/>
-            <argument android:name="hide_bottombar" app:argType="boolean" android:defaultValue="true"/>
+        <fragment
+            android:id="@+id/screenLogin"
+            android:name="com.example.cscb07.ui.elements.screens.auth.LoginScreen"
+            android:label="@string/title_login"
+            tools:layout="@layout/screen_login">
+            <action
+                android:id="@+id/action_screenLogin_to_screenSignup"
+                app:destination="@id/screenSignup"
+                app:enterAnim="@android:anim/slide_in_left"
+                app:exitAnim="@android:anim/slide_out_right"
+                app:popEnterAnim="@android:anim/slide_in_left"
+                app:popExitAnim="@android:anim/slide_out_right"
+                app:popUpTo="@id/screenSignup"
+                app:popUpToInclusive="true" />
+            <argument
+                android:name="hide_topbar"
+                android:defaultValue="true"
+                app:argType="boolean" />
+            <argument
+                android:name="hide_bottombar"
+                android:defaultValue="true"
+                app:argType="boolean" />
         </fragment>
     </navigation>
-    <action android:id="@+id/action_global_authNav" app:destination="@id/authNav"
-            app:popExitAnim="@android:anim/slide_out_right"/>
+    <action
+        android:id="@+id/action_global_authNav"
+        app:destination="@id/authNav"
+        app:popExitAnim="@android:anim/slide_out_right" />
 </navigation>

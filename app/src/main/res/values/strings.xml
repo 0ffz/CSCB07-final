@@ -69,4 +69,5 @@
     <string name="input_error_empty">Cannot be empty</string>
     <string name="input_error_end_date_valid">End date must come after start date</string>
     <string name="success_event_created">Event created, you will see it when an admin approves it.</string>
+    <string name="input_error_capacity_valid">Capacity must be greater than 0</string>
 </resources>

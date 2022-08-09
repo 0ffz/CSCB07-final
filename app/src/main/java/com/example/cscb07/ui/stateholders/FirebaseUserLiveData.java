@@ -2,11 +2,13 @@ package com.example.cscb07.ui.stateholders;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
+
 import com.example.cscb07.data.repositories.UserRepository;
 import com.example.cscb07.data.util.ServiceLocator;
 import com.example.cscb07.ui.state.UserUiState;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
 import org.jetbrains.annotations.NotNull;
 
 public class FirebaseUserLiveData extends LiveData<UserUiState> implements FirebaseAuth.AuthStateListener {
@@ -34,7 +36,7 @@ public class FirebaseUserLiveData extends LiveData<UserUiState> implements Fireb
 
         // call checkIfAdmin function from userRepos, get isAdmin callback
         // not implemented yet
-        userRepository.checkIfAdmin();
+//        userRepository.checkIfAdmin();
 
         // set true for now
         boolean isAdmin = true;

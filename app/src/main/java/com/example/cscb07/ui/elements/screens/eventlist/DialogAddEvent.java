@@ -6,11 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+
 import com.example.cscb07.R;
 import com.example.cscb07.data.util.MessageUtil;
 import com.example.cscb07.ui.elements.screens.TitleBarUtil;
@@ -22,6 +24,7 @@ import com.example.cscb07.ui.stateholders.InputValidator;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.timepicker.MaterialTimePicker;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
@@ -72,6 +75,12 @@ public class DialogAddEvent extends Fragment {
         }, startDate, startTime, endTime);
         inputValidator.validateNotEmpty(endTime, empty);
         inputValidator.validateNotEmpty(maxCapacity, empty);
+        inputValidator.validate(maxCapacity, s -> {
+            if (s.isEmpty()) return empty;
+            else if (!addEventViewModel.isCapacityValid(s))
+                return getString(R.string.input_error_capacity_valid);
+            else return null;
+        });
 
         // Observe updates to update text on date and time pickers
         addEventViewModel.getStartDate().observe(getViewLifecycleOwner(), date -> startDate.getEditText().setText(SimpleDateFormat.getDateInstance().format(date)));

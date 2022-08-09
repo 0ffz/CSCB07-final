@@ -3,16 +3,18 @@ package com.example.cscb07.ui.stateholders;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
 import com.example.cscb07.data.repositories.EventRepository;
 import com.example.cscb07.data.results.EventId;
 import com.example.cscb07.data.results.VenueId;
 import com.example.cscb07.data.util.MessageUtil;
 import com.example.cscb07.data.util.ServiceLocator;
 import com.example.cscb07.ui.state.TimeUiState;
-import io.vavr.control.Try;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+
+import io.vavr.control.Try;
 
 public class AddEventViewModel extends ViewModel {
     public final VenueId currentVenue;
@@ -126,6 +128,10 @@ public class AddEventViewModel extends ViewModel {
         if (endDate == null || endTime == null || startDate == null || startTime == null) return false;
         // checks if end date comes after start date
         return calculateDateMillis(endDate, endTime) > calculateDateMillis(startDate, startTime);
+    }
+
+    public boolean isCapacityValid(String maxCapacity) {
+        return Integer.parseInt(maxCapacity) >= 1;
     }
 
     public LiveData<EventId> getCreatedEvent() {
