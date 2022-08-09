@@ -61,4 +61,6 @@
     <string name="hint_password">Password</string>
     <string name="hint_retype_password">Retype password</string>
     <string name="button_save">Save</string>
+    <string name="dialog_section_maximum_capacity">Maximum capacity</string>
+    <string name="hint_max_capacity">Max capacity</string>
 </resources>
