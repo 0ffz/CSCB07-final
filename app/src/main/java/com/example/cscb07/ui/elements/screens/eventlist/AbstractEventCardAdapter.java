@@ -26,18 +26,25 @@ public abstract class AbstractEventCardAdapter<T extends AbstractEventCard> exte
         eventCard.description.setText(eventList.get(position).description);
         //TODO get venue name
         if (showVenue) eventCard.location.setText(eventList.get(position).venueId.venueId);
-        //TODO hide whole row if no location
+            //TODO hide whole row if no location
         else eventCard.location.setVisibility(View.GONE);
         String cap = eventList.get(position).attendeeCount + "/" + eventList.get(position).maxCapacity;
         eventCard.attendees.setText(cap);
 
         Date start_date = eventList.get(position).startDate;
         Date end_date = eventList.get(position).endDate;
-        String time =
-                DateFormat.getDateInstance(DateFormat.MEDIUM).format(start_date) + " " +
-                DateFormat.getTimeInstance(DateFormat.SHORT).format(start_date) + "\n" +
-                DateFormat.getDateInstance(DateFormat.MEDIUM).format(end_date) + " " +
-                DateFormat.getTimeInstance(DateFormat.SHORT).format(end_date);
+        String time;
+        if (DateFormat.getDateInstance(DateFormat.MEDIUM).format(start_date).equals(DateFormat.getDateInstance(DateFormat.MEDIUM).format(end_date))) {
+            // if end date is the same day as start date
+            time = DateFormat.getDateInstance(DateFormat.MEDIUM).format(start_date) + " ⋅ " +
+                    DateFormat.getTimeInstance(DateFormat.SHORT).format(start_date) + " – " +
+                    DateFormat.getTimeInstance(DateFormat.SHORT).format(end_date);
+        } else {
+            time = DateFormat.getDateInstance(DateFormat.MEDIUM).format(start_date) + " ⋅ " +
+                    DateFormat.getTimeInstance(DateFormat.SHORT).format(start_date) + "\n" +
+                    DateFormat.getDateInstance(DateFormat.MEDIUM).format(end_date) + " ⋅ " +
+                    DateFormat.getTimeInstance(DateFormat.SHORT).format(end_date);
+        }
         eventCard.time.setText(time);
     }
 
