@@ -12,7 +12,7 @@ public class EventUiState {
     public final String description;
     public final Date startDate;
     public final Date endDate;
-    public final int attendeeCount;
+    public int attendeeCount;
     public final int maxCapacity;
     public final EventId eventId;
     public final VenueId venueId;
