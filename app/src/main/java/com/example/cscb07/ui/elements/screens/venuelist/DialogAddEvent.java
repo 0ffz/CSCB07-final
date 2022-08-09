@@ -5,20 +5,31 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.example.cscb07.R;
 import com.example.cscb07.ui.elements.screens.TitleBarUtil;
+import com.example.cscb07.ui.stateholders.AddEventViewModel;
+import com.example.cscb07.ui.stateholders.InputValidator;
 import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.timepicker.MaterialTimePicker;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;
 import java.util.function.Consumer;
 
 public class DialogAddEvent extends Fragment {
+
+    protected AddEventViewModel addEventViewModel;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.dialog_add_event, container, false);
@@ -54,19 +65,29 @@ public class DialogAddEvent extends Fragment {
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         TitleBarUtil.setupTitleBar(this);
+        InputValidator inputValidator = new InputValidator();
+        addEventViewModel = new ViewModelProvider(requireActivity()).get(AddEventViewModel.class);
 
-        EditText startDate = view.findViewById(R.id.event_start_date);
-        EditText startTime = view.findViewById(R.id.event_start_time);
-        EditText endDate = view.findViewById(R.id.event_end_date);
-        EditText endTime = view.findViewById(R.id.event_end_time);
+        TextInputLayout eventName = view.findViewById(R.id.event_name);
+        TextInputLayout eventDesc = view.findViewById(R.id.event_description);
+        TextInputLayout startDate = view.findViewById(R.id.event_start_date);
+        TextInputLayout startTime = view.findViewById(R.id.event_start_time);
+        TextInputLayout endDate = view.findViewById(R.id.event_end_date);
+        TextInputLayout endTime = view.findViewById(R.id.event_end_time);
+        TextInputLayout maxCapacity = view.findViewById(R.id.max_capacity);
+        Button saveButton = view.findViewById(R.id.add_event_save_button);
 
-        setupField(startDate, () -> showDatePicker(date -> { /* TODO set date in viewmodel */ }));
-        setupField(startTime, () -> showTimePicker(time -> {
+        setupField(startDate.getEditText(), () -> showDatePicker(date -> { /* TODO set date in viewmodel */ }));
+        setupField(startTime.getEditText(), () -> showTimePicker(time -> {
         }));
-        setupField(endDate, () -> showDatePicker(date -> {
+        setupField(endDate.getEditText(), () -> showDatePicker(date -> {
         }));
-        setupField(endTime, () -> showTimePicker(time -> {
+        setupField(endTime.getEditText(), () -> showTimePicker(time -> {
         }));
+
+        saveButton.setOnClickListener(v -> {
+//            addEventViewModel.addEvent();
+        });
 
         //TODO observe LiveData from viewmodel
 //        date.setText(SimpleDateFormat.getDateInstance().format(new Date(result)));

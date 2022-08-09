@@ -23,7 +23,7 @@
             app:title="Venue Name">
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/add_event_save_button"
                 style="@style/Widget.Material3.Button.TextButton.Dialog"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -47,12 +47,13 @@
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/event_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:errorEnabled="true"
                 android:hint="@string/hint_event_name">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/event_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
@@ -61,12 +62,13 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/event_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:errorEnabled="true"
                 android:hint="@string/hint_event_description">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/event_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLines="3" />
@@ -90,16 +92,16 @@
                 android:orientation="horizontal">
 
                 <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/event_start_date_layout"
+                        android:id="@+id/event_start_date"
                         android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        app:errorEnabled="true"
                         android:hint="@string/hint_date"
                         app:startIconDrawable="@drawable/ic_round_calendar_today_24"
                         android:layout_marginEnd="10dp"
                         style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
                     <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/event_start_date"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="none"
@@ -107,12 +109,13 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/event_start_time"
                         android:layout_weight="0.6"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        app:errorEnabled="true"
                         android:hint="@string/hint_time">
                     <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/event_start_time"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="none"
@@ -138,14 +141,15 @@
                 android:orientation="horizontal">
 
                 <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/event_end_date"
                         android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        app:errorEnabled="true"
                         android:hint="@string/hint_date"
                         android:layout_marginEnd="10dp"
                         app:startIconDrawable="@drawable/ic_round_calendar_today_24">
                     <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/event_end_date"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="none"
@@ -153,12 +157,13 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/event_end_time"
                         android:layout_weight="0.6"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        app:errorEnabled="true"
                         android:hint="@string/hint_time">
                     <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/event_end_time"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="none"
@@ -173,12 +178,13 @@
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/max_capacity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:errorEnabled="true"
                 android:hint="@string/hint_max_capacity">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/max_capacity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
