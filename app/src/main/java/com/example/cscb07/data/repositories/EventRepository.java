@@ -40,4 +40,6 @@ public interface EventRepository {
         VenueId venue,
         Consumer<Try<List<WithId<EventId, EventModel>>>> callback
     );
+
+    void getAllPendingEvents(Consumer<Try<List<WithId<EventId, EventModel>>>> callback);
 }

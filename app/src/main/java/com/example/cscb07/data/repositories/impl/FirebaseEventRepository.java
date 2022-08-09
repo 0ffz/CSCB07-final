@@ -208,4 +208,14 @@ public class FirebaseEventRepository implements EventRepository {
 
         });
     }
+    public void getAllPendingEvents(Consumer<Try<List<WithId<EventId, EventModel>>>> callback) {
+        Query query = FirebaseUtil.getPendingEvents();
+        query.get().addOnSuccessListener(dataSnapshot -> {
+            List<WithId<EventId, EventModel>> events = Stream.ofAll(dataSnapshot.getChildren())
+                    .map(snapshot -> WithId.of(new EventId(snapshot.getKey()), snapshot.child("event").getValue(EventModel.class)))
+                    .toJavaList();
+            callback.accept(Try.success(events));
+        }).addOnFailureListener(e ->
+                callback.accept(Try.failure(e)));
+    }
 }
