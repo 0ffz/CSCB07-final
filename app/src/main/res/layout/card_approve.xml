@@ -4,8 +4,7 @@
     style="?attr/materialCardViewFilledStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardBackgroundColor="#6164AAA9">
+    android:layout_margin="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -113,10 +112,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:backgroundTint="#4CAF50"
+                    android:backgroundTint="#5DCF61"
                     android:text="@string/button_approve"
+                    android:textColor="?attr/colorOnErrorContainer"
                     app:icon="@drawable/ic_round_check_24"
-                    app:iconTint="?attr/colorOn" />
+                    app:iconTint="?attr/colorOnErrorContainer" />
 
                 <Space
                     android:layout_width="0dp"
@@ -129,9 +129,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:backgroundTint="#E91E63"
+                    android:backgroundTint="#E8786F"
                     android:text="@string/button_deny"
-                    app:icon="@drawable/ic_round_block_24" />
+                    android:textColor="?attr/colorOnErrorContainer"
+                    app:icon="@drawable/ic_round_block_24"
+                    app:iconTint="?attr/colorOnErrorContainer" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
