@@ -14,6 +14,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import com.example.cscb07.R;
 import com.example.cscb07.ui.stateholders.AddVenueViewModel;
+import com.google.android.material.textfield.TextInputLayout;
 import org.jetbrains.annotations.NotNull;
 
 public class DialogAddVenue extends Fragment {
@@ -31,16 +32,23 @@ public class DialogAddVenue extends Fragment {
         NavController navController = Navigation.findNavController(view);
         addVenueViewModel = new ViewModelProvider(requireActivity()).get(AddVenueViewModel.class);
 
-        EditText venueName = view.findViewById(R.id.venue_name);
-        EditText venueDescription = view.findViewById(R.id.venue_description);
+        TextInputLayout venueName = view.findViewById(R.id.venue_name);
+        TextInputLayout venueDescription = view.findViewById(R.id.venue_description);
 
         Button saveVenue = view.findViewById((R.id.buttonSave));
 
+        addVenueViewModel.inputValidator.validate(venueName, s -> {
+            if(s.isEmpty()) return getString(R.string.input_error_empty_venue);
+            else return null;
+        });
+        addVenueViewModel.inputValidator.validate(venueDescription, s -> {
+            if(s.isEmpty()) return getString(R.string.input_error_empty_venue_desc);
+            else return null;
+        });
 
         saveVenue.setOnClickListener(v -> {
-
-            String name = venueName.getText().toString();
-            String description = venueDescription.getText().toString();
+            String name = venueName.getEditText().getText().toString();
+            String description = venueDescription.getEditText().getText().toString();
 
             addVenueViewModel.addVenue(name, description);
         });
