@@ -14,6 +14,7 @@ import java.util.function.BiConsumer;
 public class PendingEventCardAdapter extends AbstractEventCardAdapter<PendingEventCard> {
     public BiConsumer<EventUiState, Integer> approveClickListener;
     public BiConsumer<EventUiState, Integer> denyClickListener;
+    public BiConsumer<EventUiState, Integer> cardClickListener;
 
     public PendingEventCardAdapter(List<EventUiState> dataSet, boolean showVenue) {
         super(dataSet, showVenue);
@@ -31,5 +32,9 @@ public class PendingEventCardAdapter extends AbstractEventCardAdapter<PendingEve
         super.onBindViewHolder(pendingCard, position);
         pendingCard.approveButton.setOnClickListener(v -> approveClickListener.accept(eventList.get(position), position));
         pendingCard.denyButton.setOnClickListener(v -> denyClickListener.accept(eventList.get(position), position));
+        if (cardClickListener != null) {
+            pendingCard.card.setClickable(true);
+            pendingCard.card.setOnClickListener(v -> cardClickListener.accept(eventList.get(position), position));
+        }
     }
 }

@@ -17,8 +17,8 @@
                 app:popEnterAnim="@android:anim/fade_in"
                 app:popExitAnim="@android:anim/fade_out"/>
         <action
-                android:id="@+id/action_screenHome_to_dialogAddEvent"
-                app:destination="@id/dialogAddEvent"
+                android:id="@+id/action_screenHome_to_eventListForVenueScreen"
+                app:destination="@id/eventListForVenueScreen"
                 app:enterAnim="@android:anim/fade_in"
                 app:exitAnim="@android:anim/fade_out"
                 app:popEnterAnim="@android:anim/fade_in"
@@ -46,7 +46,7 @@
                 app:argType="boolean"/>
     </fragment>
     <fragment android:id="@+id/screenUpcoming"
-              android:name="com.example.cscb07.ui.elements.screens.upcominglist.UpcomingScreen"
+              android:name="com.example.cscb07.ui.elements.screens.UpcomingScreen"
               android:label="@string/title_upcoming"
               tools:layout="@layout/screen_upcoming"/>
     <fragment
@@ -109,4 +109,18 @@
             android:id="@+id/action_global_authNav"
             app:destination="@id/authNav"
             app:popExitAnim="@android:anim/slide_out_right"/>
+    <fragment android:id="@+id/eventListForVenueScreen"
+              android:name="com.example.cscb07.ui.elements.screens.EventListForVenueScreen"
+              android:label="EventListForVenueScreen">
+        <argument
+                android:name="venue"
+                app:argType="com.example.cscb07.ui.state.VenueUiState"/>
+        <action
+                android:id="@+id/action_screenHome_to_dialogAddEvent"
+                app:destination="@id/dialogAddEvent"
+                app:enterAnim="@android:anim/fade_in"
+                app:exitAnim="@android:anim/fade_out"
+                app:popEnterAnim="@android:anim/fade_in"
+                app:popExitAnim="@android:anim/fade_out"/>
+    </fragment>
 </navigation>

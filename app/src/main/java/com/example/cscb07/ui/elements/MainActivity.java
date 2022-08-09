@@ -2,7 +2,6 @@ package com.example.cscb07.ui.elements;
 
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -87,7 +86,13 @@ public class MainActivity extends AppCompatActivity {
         bottomNav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
             if (id == R.id.screenLogout) authViewModel.signOut();
-            else return NavigationUI.onNavDestinationSelected(item, navController);
+            if(bottomNav.getSelectedItemId() == id) {
+                navController.popBackStack(id, false);
+            }
+            else {
+                NavigationUI.onNavDestinationSelected(item, navController);
+                return true;
+            }
             return false;
         });
     }

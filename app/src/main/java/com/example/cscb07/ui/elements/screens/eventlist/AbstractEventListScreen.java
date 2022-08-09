@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.ConcatAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.cscb07.R;
+import com.example.cscb07.ui.state.EventUiState;
 import com.example.cscb07.ui.stateholders.AuthViewModel;
 import com.example.cscb07.ui.stateholders.EventListViewModel;
 import org.jetbrains.annotations.NotNull;
@@ -23,7 +24,9 @@ public abstract class AbstractEventListScreen extends Fragment {
     protected AuthViewModel authViewModel;
 
     protected NavController navController;
-    RecyclerView eventsContainer;
+    private RecyclerView eventsContainer;
+    protected PendingEventCardAdapter pendingEventCardAdapter;
+    protected EventCardAdapter eventCardAdapter;
 
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
@@ -33,42 +36,64 @@ public abstract class AbstractEventListScreen extends Fragment {
         eventsContainer = view.findViewById(R.id.events_container);
     }
 
-    public void setupList(boolean showVenue) {
+    public void setupList() {
         authViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
             if (user.isAdmin) {
-                eventsContainer.setAdapter(new ConcatAdapter(createPendingAdapter(showVenue), createEventAdapter(showVenue)));
+                eventsContainer.setAdapter(new ConcatAdapter(createPendingAdapter(), createEventAdapter()));
             } else {
-                eventsContainer.setAdapter(createEventAdapter(showVenue));
+                eventsContainer.setAdapter(createEventAdapter());
             }
             eventsContainer.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         });
 
     }
 
-    private PendingEventCardAdapter createPendingAdapter(boolean showVenue) {
-        PendingEventCardAdapter pendingEventCardAdapter = new PendingEventCardAdapter(Collections.emptyList(), showVenue);
+    private PendingEventCardAdapter createPendingAdapter() {
+        pendingEventCardAdapter = new PendingEventCardAdapter(Collections.emptyList(), showVenueTitle());
         eventListViewModel.getPendingEvents().observe(getViewLifecycleOwner(), pendingEventCardAdapter::setEventList);
 
-        pendingEventCardAdapter.approveClickListener = (eventState, position) -> eventListViewModel.approveEvent(eventState.eventId, () -> {
-            pendingEventCardAdapter.remove(position);
-        });
-        pendingEventCardAdapter.denyClickListener = (eventState, position) -> eventListViewModel.denyEvent(eventState.eventId, () -> {
-            pendingEventCardAdapter.remove(position);
-        });
+        pendingEventCardAdapter.approveClickListener = this::onApprove;
+        pendingEventCardAdapter.denyClickListener = this::onDeny;
+        if(isCardClickable()) pendingEventCardAdapter.cardClickListener = this::onClickCard;
         return pendingEventCardAdapter;
     }
 
-    private EventCardAdapter createEventAdapter(boolean showVenue) {
-        EventCardAdapter eventCardAdapter = new EventCardAdapter(Collections.emptyList(), showVenue);
+    private EventCardAdapter createEventAdapter() {
+        eventCardAdapter = new EventCardAdapter(Collections.emptyList(), showVenueTitle());
         eventListViewModel.getEvents().observe(getViewLifecycleOwner(), eventCardAdapter::setEventList);
 
-        eventCardAdapter.clickListener = (eventState, position) -> {
-            eventListViewModel.joinEvent(eventState.eventId, () -> {
-                eventState.joined = true;
-                eventState.attendeeCount += 1;
-                eventCardAdapter.notifyItemChanged(position);
-            });
-        };
+        eventCardAdapter.clickListener = this::onJoin;
         return eventCardAdapter;
+    }
+
+    public boolean showVenueTitle() {
+        return true;
+    }
+
+    public void onApprove(EventUiState eventState, Integer position) {
+        eventListViewModel.approveEvent(eventState.eventId, () -> {
+            pendingEventCardAdapter.remove(position);
+        });
+    }
+
+    private void onDeny(EventUiState eventState, Integer position) {
+        eventListViewModel.denyEvent(eventState.eventId, () -> {
+            pendingEventCardAdapter.remove(position);
+        });
+    }
+
+    private void onJoin(EventUiState eventState, Integer position) {
+        eventListViewModel.joinEvent(eventState.eventId, () -> {
+            eventState.joined = true;
+            eventState.attendeeCount += 1;
+            eventCardAdapter.notifyItemChanged(position);
+        });
+    }
+
+    public boolean isCardClickable() {
+        return false;
+    }
+
+    private void onClickCard(EventUiState eventState, Integer position) {
     }
 }
