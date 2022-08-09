@@ -12,5 +12,5 @@ public interface UserRepository {
 
     void signOutCurrentUser();
 
-    void checkIfAdmin();
+    void checkIfAdmin(Consumer<Boolean> callback);
 }

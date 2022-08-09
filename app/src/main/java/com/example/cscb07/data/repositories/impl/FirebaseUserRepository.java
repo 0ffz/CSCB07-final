@@ -60,7 +60,7 @@ public class FirebaseUserRepository implements UserRepository {
     }
 
     @Override
-    public void checkIfAdmin() {
+    public void checkIfAdmin(Consumer<Boolean> callback) {
         DatabaseReference d = FirebaseUtil.getDb(); //get database reference
         String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
         d.child("users").child(user).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
@@ -69,6 +69,7 @@ public class FirebaseUserRepository implements UserRepository {
                 if (task.isSuccessful()){
                     DataSnapshot snap = task.getResult();
                     boolean admin = snap.child("admin").getValue(boolean.class);
+                    callback.accept(admin);
                 }
             }
         });
