@@ -100,7 +100,7 @@ public class FirebaseEventRepository implements EventRepository {
                     e.numAttendees = 1; // remove from pending means there should only be 1 person attending (the User)
                     d.child("events").child(event.eventId).setValue(e); // make the event in Events
                     d.child("users").child(p.creator).child("events").child(event.eventId).setValue(e.startDate); // make the event under the currentUser
-                    d.child("venues").child(e.venue).child("events").setValue(event.eventId); //add event to under the venue it is in
+                    d.child("venues").child(e.venue).child("events").child(event.eventId).setValue(e.startDate); //add event to under the venue it is in
                     removeEvent(event, callback);
 
                 }
@@ -202,6 +202,4 @@ public class FirebaseEventRepository implements EventRepository {
 
         });
     }
-
-
 }
