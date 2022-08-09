@@ -15,14 +15,23 @@ import com.example.cscb07.data.util.ServiceLocator;
 import com.example.cscb07.ui.state.EventUiState;
 import io.vavr.control.Try;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class UpcomingListViewModel extends ViewModel {
+public class EventListViewModel extends ViewModel {
     private final EventRepository eventRepository = ServiceLocator.getInstance().getEventRepository();
     private final UserRepository userRepository = ServiceLocator.getInstance().getUserRepository();
     private final MutableLiveData<List<EventUiState>> events = new MutableLiveData<>();
     private final MutableLiveData<List<EventUiState>> pendingEvents = new MutableLiveData<>();
+
+    public void clearEvents() {
+        events.setValue(Collections.emptyList());
+    }
+
+    public void clearPendingEvents() {
+        pendingEvents.setValue(Collections.emptyList());
+    }
 
     public void loadAllUpcomingEvents() {
         eventRepository.getAllUpcomingEvents(result -> setEvents(result, events));
@@ -80,7 +89,7 @@ public class UpcomingListViewModel extends ViewModel {
                                 joined.contains(it.id)
                         ))
                         .collect(Collectors.toList()))
-                );
+                ).onFailure(MessageUtil::showMessage);
             });
         });
         result.onFailure(f -> MessageUtil.showMessage(R.string.error_fail_to_get_events));

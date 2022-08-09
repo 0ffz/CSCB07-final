@@ -2,9 +2,7 @@ package com.example.cscb07.ui.elements.screens.eventlist;
 
 import android.annotation.SuppressLint;
 import android.view.View;
-
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.cscb07.ui.state.EventUiState;
 
 import java.text.DateFormat;
@@ -12,7 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 public abstract class AbstractEventCardAdapter<T extends AbstractEventCard> extends RecyclerView.Adapter<T> {
-    protected final List<EventUiState> eventList;
+    protected List<EventUiState> eventList;
     protected final boolean showVenue;
 
     public AbstractEventCardAdapter(List<EventUiState> eventList, boolean showVenue) {
@@ -56,5 +54,10 @@ public abstract class AbstractEventCardAdapter<T extends AbstractEventCard> exte
     public void remove(int index) {
         eventList.remove(index);
         notifyItemRemoved(index);
+    }
+
+    public void setEventList(List<EventUiState> list) {
+        eventList = list;
+        notifyDataSetChanged();
     }
 }

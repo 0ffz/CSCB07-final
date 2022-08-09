@@ -87,20 +87,20 @@ public class FirebaseEventRepository implements EventRepository {
 
     @Override
     public void getUpcomingEventsForCurrentUser(Consumer<Try<List<WithId<EventId, EventModel>>>> callback) {
-        Query q = FirebaseUtil.getCurrentUserRef().child("events").orderByChild("endDate").startAt(new Date().getTime()); //get the events
+        Query q = FirebaseUtil.getCurrentUserRef().child("events");
         q.get().addOnSuccessListener(dataSnapshot -> {
-            List<String> userEvents = Stream.ofAll(dataSnapshot.getChildren())
-                    .map(snapshot -> (snapshot.getKey())).toJavaList();
-            Query q2 = FirebaseUtil.getEvents().orderByKey();
+            Stream<String> userEvents = Stream.ofAll(dataSnapshot.getChildren()).map(DataSnapshot::getKey);
+
+            Query q2 = FirebaseUtil.getEvents().orderByChild("endDateMillis").startAt(new Date().getTime());
             q2.get().addOnSuccessListener(dataSnapshot1 -> {
-                List<WithId<EventId, EventModel>> events = Stream.ofAll(userEvents)
-                        .map(event -> WithId.of(new EventId(event), dataSnapshot1.child(event).getValue(EventModel.class)))
+                List<WithId<EventId, EventModel>> events = userEvents
+                        .map(key ->  WithId.of(new EventId(key), dataSnapshot1.child(key).getValue(EventModel.class)))
+                        .filter(withId -> withId.model != null)
                         .toJavaList();
                 callback.accept(Try.success(events));
-            }).addOnFailureListener(e ->
-                    callback.accept(Try.failure(e)));
+            }).addOnFailureListener(e -> callback.accept(Try.failure(e)));
 
-        });
+        }).addOnFailureListener(e -> callback.accept(Try.failure(e)));
     }
 
     @Override
