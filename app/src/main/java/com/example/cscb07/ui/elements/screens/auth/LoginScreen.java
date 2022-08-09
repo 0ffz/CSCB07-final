@@ -5,10 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
+
 import androidx.annotation.Nullable;
+
 import com.example.cscb07.R;
+import com.example.cscb07.ui.stateholders.InputValidator;
+import com.google.android.material.textfield.TextInputLayout;
+
 import org.jetbrains.annotations.NotNull;
 
 public class LoginScreen extends AuthScreen {
@@ -23,18 +27,22 @@ public class LoginScreen extends AuthScreen {
     public void onViewCreated(@NotNull View view, @Nullable Bundle savedInstanceState) {
         setupAuthScreen();
 
-        EditText editTextEmail = view.findViewById(R.id.editTextEmail);
-        EditText editTextPassword = view.findViewById(R.id.editTextPassword);
+        TextInputLayout email = view.findViewById(R.id.editTextEmail);
+        TextInputLayout password = view.findViewById(R.id.editTextPassword);
         Button loginButton = view.findViewById(R.id.loginButton);
         TextView signupLink = view.findViewById((R.id.signupButton));
 
-        loginButton.setOnClickListener(v -> {
-            // Get email/pass as Strings
-            String email = editTextEmail.getText().toString();
-            String password = editTextPassword.getText().toString();
+        InputValidator inputValidator = new InputValidator();
+        String empty = getString(R.string.input_error_empty);
 
-            authViewModel.login(email, password);
-        });
+        inputValidator.validateNotEmpty(email, empty);
+        inputValidator.validateNotEmpty(password, empty);
+
+        loginButton.setOnClickListener(v -> authViewModel.login(
+                email.getEditText().getText().toString(),
+                password.getEditText().getText().toString(),
+                inputValidator
+        ));
 
         signupLink.setOnClickListener(v -> navController.navigate(LoginScreenDirections.actionScreenLoginToScreenSignup()));
     }
