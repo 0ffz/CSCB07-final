@@ -2,9 +2,7 @@ package com.example.cscb07.ui.stateholders;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
-
 import com.example.cscb07.data.repositories.UserRepository;
-import com.example.cscb07.data.util.FirebaseUtil;
 import com.example.cscb07.data.util.ServiceLocator;
 import com.example.cscb07.ui.state.UserUiState;
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,6 +39,8 @@ public class FirebaseUserLiveData extends LiveData<UserUiState> implements Fireb
         // set true for now
         boolean isAdmin = true;
 
-        setValue(new UserUiState(firebaseAuth.getCurrentUser(), isAdmin));
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if (user == null) setValue(null);
+        else setValue(new UserUiState(user, isAdmin));
     }
 }
