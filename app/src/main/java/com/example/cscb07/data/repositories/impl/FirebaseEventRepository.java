@@ -119,14 +119,14 @@ public class FirebaseEventRepository implements EventRepository {
     public void getEventsForVenue(VenueId venue, Consumer<Try<List<WithId<EventId, EventModel>>>> callback) {
         Query q = FirebaseUtil.getVenues().child(venue.venueId).child("events").orderByValue().startAt(new Date().getTime()); //get the events
         q.get().addOnSuccessListener(dataSnapshot -> {
-            List<String> venueEvents = Stream.ofAll(dataSnapshot.getChildren())
-                    .map(snapshot -> (snapshot.getKey())).toJavaList();
-            Query q2 = FirebaseUtil.getEvents().orderByKey();
+            Stream<String> venueEvents = Stream.ofAll(dataSnapshot.getChildren()).map(DataSnapshot::getKey);
+            Query q2 = FirebaseUtil.getEvents();
             q2.get().addOnSuccessListener(dataSnapshot1 -> {
-                List<WithId<EventId, EventModel>> events = Stream.ofAll(venueEvents)
+                List<WithId<EventId, EventModel>> events = venueEvents
                         .map(event -> WithId.of(new EventId(event), dataSnapshot1.child(event).getValue(EventModel.class)))
                         .toJavaList();
                 callback.accept(Try.success(events));
+
             }).addOnFailureListener(e ->
                     callback.accept(Try.failure(e)));
 

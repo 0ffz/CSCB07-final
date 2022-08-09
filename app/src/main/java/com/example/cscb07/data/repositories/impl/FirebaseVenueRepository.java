@@ -12,6 +12,7 @@ import io.vavr.collection.Stream;
 import io.vavr.control.Try;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -40,5 +41,6 @@ public class FirebaseVenueRepository implements VenueRepository {
         }).addOnFailureListener(e ->
                 callback.accept(Try.failure(e)));
     }
+
 
 }
