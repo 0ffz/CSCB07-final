@@ -9,11 +9,11 @@
                 app:enterAnim="@android:anim/fade_in" app:exitAnim="@android:anim/fade_out"
                 app:popExitAnim="@android:anim/fade_out" app:popEnterAnim="@android:anim/fade_in"/>
     </fragment>
-    <fragment android:id="@+id/dialogAddEvent" android:name="com.example.cscb07.ui.elements.screens.venuelist.DialogAddEvent"
+    <fragment android:id="@+id/dialogAddEvent" android:name="com.example.cscb07.ui.elements.screens.eventlist.DialogAddEvent"
               android:label="DialogAddEvent">
         <argument android:name="hide_bottombar" app:argType="boolean" android:defaultValue="true"/>
     </fragment>
-    <fragment android:id="@+id/dialogAddVenue" android:name="com.example.cscb07.ui.elements.screens.DialogAddVenue"
+    <fragment android:id="@+id/dialogAddVenue" android:name="com.example.cscb07.ui.elements.screens.venuelist.DialogAddVenue"
               android:label="@string/fab_add_venue">
         <argument android:name="hide_bottombar" app:argType="boolean" android:defaultValue="true"/>
     </fragment>

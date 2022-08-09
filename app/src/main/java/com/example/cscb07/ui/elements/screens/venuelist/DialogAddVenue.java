@@ -1,4 +1,4 @@
-package com.example.cscb07.ui.elements.screens;
+package com.example.cscb07.ui.elements.screens.venuelist;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import com.example.cscb07.R;
+import com.example.cscb07.ui.elements.screens.TitleBarUtil;
 import com.example.cscb07.ui.stateholders.AddVenueViewModel;
 import com.example.cscb07.ui.stateholders.InputValidator;
 import com.google.android.material.textfield.TextInputLayout;
