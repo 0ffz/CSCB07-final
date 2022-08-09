@@ -7,6 +7,7 @@ import com.example.cscb07.data.repositories.VenueRepository;
 import com.example.cscb07.data.results.VenueId;
 import com.example.cscb07.data.results.WithId;
 import com.example.cscb07.data.util.FirebaseUtil;
+import com.example.cscb07.ui.state.VenueUiState;
 import com.google.firebase.database.*;
 import io.vavr.collection.Stream;
 import io.vavr.control.Try;
@@ -18,13 +19,13 @@ import java.util.function.Consumer;
 
 public class FirebaseVenueRepository implements VenueRepository {
     @Override
-    public void addVenue(String name, String description, Consumer<Try<VenueId>> callback) {
+    public void addVenue(String name, String description, Consumer<Try<VenueUiState>> callback) {
         DatabaseReference venuesRef = FirebaseUtil.getVenues();
         venuesRef.get().addOnSuccessListener(snapshot -> {
             VenueModel venue = new VenueModel(name, description);
             String id = venuesRef.push().getKey();
             venuesRef.child(id).setValue(venue);
-            callback.accept(Try.success(new VenueId(id)));
+            callback.accept(Try.success(new VenueUiState(name, description, new VenueId(id))));
         }).addOnFailureListener(e -> callback.accept(Try.failure(e)));
     }
 

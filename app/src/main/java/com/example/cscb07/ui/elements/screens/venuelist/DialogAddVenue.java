@@ -50,9 +50,9 @@ public class DialogAddVenue extends Fragment {
             addVenueViewModel.addVenue(name, description, inputValidator);
         });
 
-        addVenueViewModel.getCreatedVenue().observe(getViewLifecycleOwner(), venueId -> {
+        addVenueViewModel.getCreatedVenue().observe(getViewLifecycleOwner(), venue -> {
             navController.popBackStack();
-            // TODO move to opened venue
+            navController.navigate(HomeScreenDirections.actionScreenHomeToEventListForVenueScreen(venue));
         });
     }
 }

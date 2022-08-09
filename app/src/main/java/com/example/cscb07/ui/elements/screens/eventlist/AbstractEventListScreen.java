@@ -66,7 +66,7 @@ public abstract class AbstractEventListScreen extends Fragment {
         return eventCardAdapter;
     }
 
-    boolean showVenueTitle() {
+    public boolean showVenueTitle() {
         return true;
     }
 

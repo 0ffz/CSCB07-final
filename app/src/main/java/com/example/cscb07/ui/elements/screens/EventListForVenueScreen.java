@@ -9,10 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.example.cscb07.R;
 import com.example.cscb07.ui.elements.screens.eventlist.AbstractEventListScreen;
-import com.example.cscb07.ui.elements.screens.eventlist.DialogAddEventArgs;
 import com.example.cscb07.ui.state.VenueUiState;
-import com.example.cscb07.ui.stateholders.AddEventViewModel;
-import com.example.cscb07.ui.stateholders.AddEventViewModelFactory;
 import org.jetbrains.annotations.NotNull;
 
 public class EventListForVenueScreen extends AbstractEventListScreen {
@@ -32,5 +29,10 @@ public class EventListForVenueScreen extends AbstractEventListScreen {
         Button fab = view.findViewById(R.id.floatingActionButton);
         fab.setOnClickListener(v -> navController.navigate(EventListForVenueScreenDirections.actionScreenHomeToDialogAddEvent(venue)));
         setupList();
+    }
+
+    @Override
+    public boolean showVenueTitle() {
+        return false;
     }
 }

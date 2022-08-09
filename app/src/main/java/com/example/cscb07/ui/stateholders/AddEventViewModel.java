@@ -26,7 +26,6 @@ public class AddEventViewModel extends ViewModel {
     private final MutableLiveData<TimeUiState> endTime = new MutableLiveData<>();
 
     private final MutableLiveData<EventId> createdEvent = new MutableLiveData<>();
-    //TODO have separate class for handling messages
     private final MutableLiveData<Boolean> attemptingAddEvent = new MutableLiveData<>(false);
 
     public AddEventViewModel(VenueId currentVenue) {

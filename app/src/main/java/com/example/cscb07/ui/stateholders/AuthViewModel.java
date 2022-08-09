@@ -18,24 +18,9 @@ import io.vavr.control.Try;
 
 public class AuthViewModel extends ViewModel {
     private final UserRepository userRepository = ServiceLocator.getInstance().getUserRepository();
-    //TODO have a separate class for handling messages
     private final FirebaseUserLiveData user = new FirebaseUserLiveData();
 
     private final MutableLiveData<Boolean> attemptingLogin = new MutableLiveData<>();
-
-/*    boolean verify(String email, String password) {
-        if (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            MessageUtil.showMessage(R.string.error_email);
-            return false;
-        }
-
-        if (password.isEmpty()) {
-            MessageUtil.showMessage(R.string.error_password);
-            return false;
-        }
-
-        return true;
-    }*/
 
     private void handleAuthResult(Try<FirebaseUser> result) {
         attemptingLogin.setValue(false);
@@ -55,7 +40,6 @@ public class AuthViewModel extends ViewModel {
 
     public void signUp(String email, String password, String passwordRetype,
                        InputValidator inputValidator) {
-        //TODO do we want name?
         if (!inputValidator.isValid()) return;
         if (!isEmailValid(email)) {
             MessageUtil.showMessage(R.string.error_email);

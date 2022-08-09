@@ -39,9 +39,13 @@ public class HomeScreen extends Fragment {
         authViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
         venueViewModel = new ViewModelProvider(requireActivity()).get(VenueListViewModel.class);
 
-        // FAB for adding venue
-        // TODO conditional only show when admin
+        // FAB for adding venue (only shows for admins)
         ExtendedFloatingActionButton addVenueButton = view.findViewById(R.id.floatingActionButton);
+        authViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
+            if(user.isAdmin) addVenueButton.setVisibility(View.VISIBLE);
+            else addVenueButton.setVisibility(View.GONE);
+        });
+
         addVenueButton.setOnClickListener(v -> {
             navController.navigate(HomeScreenDirections.actionScreenHomeToDialogAddVenue());
         });
@@ -50,7 +54,6 @@ public class HomeScreen extends Fragment {
         venueViewModel.loadVenues();
         venueViewModel.getVenues().observe(getViewLifecycleOwner(), venues -> {
             VenueCardAdapter venueCardAdapter = new VenueCardAdapter(new ArrayList<>(venues), venueState -> {
-                // TODO open specific venue model
                 navController.navigate(HomeScreenDirections.actionScreenHomeToEventListForVenueScreen(venueState));
             });
             r.setAdapter(venueCardAdapter);

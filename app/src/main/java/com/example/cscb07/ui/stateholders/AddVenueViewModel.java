@@ -9,32 +9,17 @@ import com.example.cscb07.data.results.VenueId;
 import com.example.cscb07.data.util.MessageUtil;
 import com.example.cscb07.data.util.ServiceLocator;
 
+import com.example.cscb07.ui.state.VenueUiState;
 import io.vavr.control.Try;
 
 public class AddVenueViewModel extends ViewModel {
 
     private final VenueRepository venueRepository = ServiceLocator.getInstance().getVenueRepository();
-    //TODO have a separate class for handling messages
-    private final MutableLiveData<VenueId> createdVenue = new MutableLiveData<>();
+    private final MutableLiveData<VenueUiState> createdVenue = new MutableLiveData<>();
 
     private final MutableLiveData<Boolean> attemptingAddVenue = new MutableLiveData<>(false);
 
-    // checks if dialog fields empty (do smt about listof added sports)
-//    boolean validate(String name, String description) {
-//        if (name.isEmpty()) {
-//            MessageUtil.showError(R.string.error_empty);
-//            return false;
-//        }
-//
-//        if (description.isEmpty()) {
-//            MessageUtil.showError(R.string.error_empty);
-//            return false;
-//        }
-//
-//        return true;
-//    }
-
-    private void handleAddVenueResult(Try<VenueId> result) {
+    private void handleAddVenueResult(Try<VenueUiState> result) {
         attemptingAddVenue.setValue(false);
         result.onSuccess(createdVenue::postValue);
         result.onFailure(MessageUtil::showMessage);
@@ -51,7 +36,7 @@ public class AddVenueViewModel extends ViewModel {
         return attemptingAddVenue;
     }
 
-    public LiveData<VenueId> getCreatedVenue() {
+    public LiveData<VenueUiState> getCreatedVenue() {
         return createdVenue;
     }
 }
