@@ -1,19 +1,20 @@
 package com.example.cscb07.ui.stateholders;
 
 import android.util.Patterns;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
 import com.example.cscb07.R;
 import com.example.cscb07.data.repositories.UserRepository;
 import com.example.cscb07.data.util.MessageUtil;
 import com.example.cscb07.data.util.ServiceLocator;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
 import io.vavr.control.Try;
 
 public class AuthViewModel extends ViewModel {
-    private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private final UserRepository userRepository = ServiceLocator.getInstance().getUserRepository();
     //TODO have a separate class for handling messages
     private final FirebaseUserLiveData user = new FirebaseUserLiveData();

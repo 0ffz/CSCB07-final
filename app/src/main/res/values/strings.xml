@@ -21,6 +21,8 @@
     <string name="error_passwords_dont_match">Passwords do not match</string>
     <string name="error_fail_to_get_events">Failed to get events for this venue, try again later!</string>
     <string name="error_empty">This field cannot be empty.</string>
+    <string name="error_capacity_value">This field must be greater than 0.</string>
+    <string name="error_invalid_date_range">Invalid date range.</string>
 
     <string name="title_home">Venues</string>
     <string name="title_upcoming">Upcoming</string>
@@ -63,4 +65,5 @@
     <string name="button_save">Save</string>
     <string name="dialog_select_date">Select date</string>
     <string name="dialog_select_time">Select time</string>
+    <string name="hint_max_capacity">Max capacity</string>
 </resources>
