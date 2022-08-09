@@ -45,11 +45,11 @@
             android:defaultValue="true"
             app:argType="boolean" />
     </fragment>
-    <fragment
-        android:id="@+id/screenUpcoming"
-        android:name="com.example.cscb07.ui.elements.screens.UpcomingScreen"
-        android:label="@string/title_upcoming"
-        tools:layout="@layout/screen_upcoming" />
+    <fragment android:id="@+id/screenUpcoming"
+              android:name="com.example.cscb07.ui.elements.screens.upcominglist.UpcomingScreen"
+              android:label="@string/title_upcoming"
+              tools:layout="@layout/screen_upcoming"/>
+    <navigation android:id="@+id/authNav" app:startDestination="@id/screenLogin" android:label="Auth Navigation">
     <fragment
         android:id="@+id/screenBookings"
         android:name="com.example.cscb07.ui.elements.screens.BookingsScreen"

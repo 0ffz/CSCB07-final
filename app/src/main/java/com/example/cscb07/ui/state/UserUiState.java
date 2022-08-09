@@ -4,7 +4,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class UserUiState {
     public final FirebaseUser user;
-    final boolean isAdmin;
+    public final boolean isAdmin;
 
     public UserUiState(FirebaseUser user, boolean isAdmin) {
         this.user = user;

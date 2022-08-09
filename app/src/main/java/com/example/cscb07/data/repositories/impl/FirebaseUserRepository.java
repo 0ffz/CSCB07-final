@@ -1,32 +1,26 @@
 package com.example.cscb07.data.repositories.impl;
 
-import android.provider.ContactsContract;
-
 import androidx.annotation.NonNull;
-
 import com.example.cscb07.data.models.UserModel;
-import com.example.cscb07.data.models.VenueModel;
 import com.example.cscb07.data.repositories.UserRepository;
-import com.example.cscb07.data.results.UserId;
-import com.example.cscb07.data.results.VenueId;
-import com.example.cscb07.data.results.WithId;
+import com.example.cscb07.data.results.EventId;
 import com.example.cscb07.data.util.FirebaseUtil;
-import com.example.cscb07.ui.state.UserUiState;
-import com.example.cscb07.ui.stateholders.FirebaseUserLiveData;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Query;
-
-import io.vavr.collection.Stream;
+import com.google.firebase.database.GenericTypeIndicator;
 import io.vavr.control.Try;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 public class FirebaseUserRepository implements UserRepository {
     FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -66,7 +60,7 @@ public class FirebaseUserRepository implements UserRepository {
         d.child("users").child(user).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (task.isSuccessful()){
+                if (task.isSuccessful()) {
                     DataSnapshot snap = task.getResult();
                     boolean admin = snap.child("admin").getValue(boolean.class);
                     callback.accept(admin);
@@ -75,4 +69,17 @@ public class FirebaseUserRepository implements UserRepository {
         });
     }
 
+    @Override
+    public void getJoinedEvents(Consumer<Try<Set<EventId>>> callback) {
+        GenericTypeIndicator<Map<String, Object>> t = new GenericTypeIndicator<Map<String, Object>>() {
+        };
+        FirebaseUtil.getCurrentUserRef().child("events").get()
+                .addOnSuccessListener(dataSnapshot -> {
+                    Set<String> eventIds = Optional.ofNullable(dataSnapshot.getValue(t))
+                            .map(Map::keySet)
+                            .orElse(Collections.emptySet());
+                    callback.accept(Try.success(eventIds.stream().map(EventId::new).collect(Collectors.toSet())));
+                })
+                .addOnFailureListener(e -> callback.accept(Try.failure(e)));
+    }
 }

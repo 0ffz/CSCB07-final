@@ -1,4 +1,4 @@
-package com.example.cscb07.ui.stateholders;
+package com.example.cscb07.ui.stateholders.firebase;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;

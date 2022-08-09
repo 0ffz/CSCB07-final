@@ -37,40 +37,19 @@ public class FirebaseEventRepository implements EventRepository {
 
     @Override
     public void signUpEvent(EventId event, Consumer<Try<?>> callback) {
-
-        DatabaseReference d = FirebaseUtil.getDb(); //get database reference
-        String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        d.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful())
-                    callback.accept(Try.failure(task.getException()));
-
-                else {
-                    DataSnapshot snapshot = task.getResult();
-                    DataSnapshot userEvent = snapshot.child("users").child(user).child("events").child(event.eventId);
-                    DataSnapshot eventSnapshot = snapshot.child("events");
-                    if (!(eventSnapshot.child(event.eventId).exists()))
-                        callback.accept(Try.failure(new Exception("event not found")));
-                    if (userEvent.exists())
-                        callback.accept(Try.failure(new Exception("already signed up for event")));
-                    else {
-                        EventModel e = eventSnapshot.getValue(EventModel.class);
-                        if (e.numAttendees >= e.maxCapacity)
-                            callback.accept(Try.failure(new Exception("event is fully booked")));
-                        else {
-                            int num = e.numAttendees;
-                            num += 1;
-                            d.child("events").child(event.eventId).child("numAttendees").setValue(num);
-                            d.child("users").child(user).child("events").child(event.eventId).setValue(e.startDate); //keys map to start date
-                            callback.accept(Try.success(e));
-                        }
-                    }
-                }
+        DatabaseReference eventRef = FirebaseUtil.getEvent(event);
+        eventRef.get().addOnSuccessListener(snapshot -> {
+            EventModel e = snapshot.getValue(EventModel.class);
+            if (e == null)
+                callback.accept(Try.failure(new Exception("event not found")));
+            else if (e.numAttendees >= e.maxCapacity)
+                callback.accept(Try.failure(new Exception("event is fully booked")));
+            else {
+                eventRef.child("numAttendees").setValue(e.numAttendees + 1);
+                FirebaseUtil.getCurrentUserRef().child("events").child(event.eventId).setValue(true);
+                callback.accept(Try.success(null));
             }
-        });
-
+        }).addOnFailureListener(e -> callback.accept(Try.failure(e)));
     }
 
     @Override
@@ -87,8 +66,8 @@ public class FirebaseEventRepository implements EventRepository {
                     EventModel e = p.event; // make an object of the event
                     e.numAttendees = 1; // remove from pending means there should only be 1 person attending (the User)
                     d.child("events").child(event.eventId).setValue(e); // make the event in Events
-                    d.child("users").child(p.creator).child("events").child(event.eventId).setValue(e.startDate); // make the event under the currentUser
-                    d.child("venues").child(e.venue).child("events").child(event.eventId).setValue(e.startDate); //add event to under the venue it is in
+                    d.child("users").child(p.creator).child("events").child(event.eventId).setValue(e.startDateMillis); // make the event under the currentUser
+                    d.child("venues").child(e.venue).child("events").child(event.eventId).setValue(e.startDateMillis); //add event to under the venue it is in
                     removeEvent(event, callback);
 
                 } else {
@@ -139,7 +118,7 @@ public class FirebaseEventRepository implements EventRepository {
 
     @Override
     public void getEventsForVenue(VenueId venue, Consumer<Try<List<WithId<EventId, EventModel>>>> callback) {
-        Query q = FirebaseUtil.getVenues().child("events").orderByValue().startAt(new Date().getTime()); //get the events
+        Query q = FirebaseUtil.getVenues().child(venue.venueId).child("events").orderByValue().startAt(new Date().getTime()); //get the events
         q.get().addOnSuccessListener(dataSnapshot -> {
             List<String> venueEvents = Stream.ofAll(dataSnapshot.getChildren())
                     .map(snapshot -> (snapshot.getKey())).toJavaList();
