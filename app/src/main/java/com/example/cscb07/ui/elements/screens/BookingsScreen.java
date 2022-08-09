@@ -24,6 +24,6 @@ public class BookingsScreen extends AbstractEventListScreen {
         TitleBarUtil.setupToolbar(this);
         eventListViewModel.clearPendingEvents();
         eventListViewModel.loadUpcomingEventsForCurrentUser();
-        setupList(true);
+        setupList();
     }
 }

@@ -34,22 +34,27 @@ public class EventListViewModel extends ViewModel {
     }
 
     public void loadAllUpcomingEvents() {
+        clearEvents();
         eventRepository.getAllUpcomingEvents(result -> setEvents(result, events));
     }
 
     public void loadUpcomingEventsForCurrentUser() {
+        clearEvents();
         eventRepository.getUpcomingEventsForCurrentUser(result -> setEvents(result, events));
     }
 
     public void loadVenueEvents(VenueId id) {
+        clearEvents();
         eventRepository.getEventsForVenue(id, result -> setEvents(result, events));
     }
 
     public void loadAllPendingEvents() {
+        clearPendingEvents();
         eventRepository.getAllPendingEvents(result -> setEvents(result, pendingEvents));
     }
 
     public void loadPendingEventsForVenue(VenueId id) {
+        clearPendingEvents();
     }
 
     public void joinEvent(EventId event, Runnable callback) {

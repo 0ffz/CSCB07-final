@@ -76,4 +76,5 @@
     <string name="button_deny">Deny</string>
 
     <string name="error_fail_to_join_event">Failed to join event</string>
+    <string name="fab_add_event">New event</string>
 </resources>

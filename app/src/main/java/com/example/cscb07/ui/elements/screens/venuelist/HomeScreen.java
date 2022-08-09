@@ -51,7 +51,7 @@ public class HomeScreen extends Fragment {
         venueViewModel.getVenues().observe(getViewLifecycleOwner(), venues -> {
             VenueCardAdapter venueCardAdapter = new VenueCardAdapter(new ArrayList<>(venues), venueState -> {
                 // TODO open specific venue model
-                navController.navigate(HomeScreenDirections.actionScreenHomeToDialogAddEvent(venueState));
+                navController.navigate(HomeScreenDirections.actionScreenHomeToEventListForVenueScreen(venueState));
             });
             r.setAdapter(venueCardAdapter);
             r.setLayoutManager(new LinearLayoutManager(this.getActivity()));

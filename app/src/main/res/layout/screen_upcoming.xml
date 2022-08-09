@@ -4,7 +4,7 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
               android:orientation="vertical"
-             tools:context=".ui.elements.screens.upcominglist.UpcomingScreen">
+             tools:context=".ui.elements.screens.UpcomingScreen">
     <include layout="@layout/topbar_simple"/>
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/events_container"

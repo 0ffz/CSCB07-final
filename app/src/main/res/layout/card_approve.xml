@@ -4,106 +4,106 @@
     style="?attr/materialCardViewFilledStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp">
+    android:layout_margin="8dp" android:id="@+id/eventCard">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
-
-        <TextView
-            android:id="@+id/eventTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Event name"
-            android:textAppearance="?attr/textAppearanceTitleMedium" />
-
-        <TextView
-            android:id="@+id/eventDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="15dp"
-            android:text="Event description"
-            android:textAppearance="?attr/textAppearanceBodyMedium"
-            android:textColor="?android:attr/textColorSecondary" />
-
-        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp">
+            android:orientation="vertical"
+            android:padding="16dp">
+
+        <TextView
+                android:id="@+id/eventTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Event name"
+                android:textAppearance="?attr/textAppearanceTitleMedium"/>
+
+        <TextView
+                android:id="@+id/eventDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="15dp"
+                android:text="Event description"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                android:textColor="?android:attr/textColorSecondary"/>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                app:srcCompat="@drawable/ic_round_location_on_24"
-                app:tint="?attr/colorOnBackground" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    app:srcCompat="@drawable/ic_round_location_on_24"
+                    app:tint="?attr/colorOnBackground"/>
 
             <TextView
-                android:id="@+id/venueTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Venue name"
-                android:textColor="?android:attr/textColorSecondary"
-                tools:layout_marginEnd="15dp" />
+                    android:id="@+id/venueTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Venue name"
+                    android:textColor="?android:attr/textColorSecondary"
+                    tools:layout_marginEnd="15dp"/>
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="8dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                app:srcCompat="@drawable/ic_round_calendar_today_24"
-                app:tint="?attr/colorOnBackground" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    app:srcCompat="@drawable/ic_round_calendar_today_24"
+                    app:tint="?attr/colorOnBackground"/>
 
             <TextView
-                android:id="@+id/eventStartTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Aug 8  2022 ⋅ 7:00PM – 10:00PM"
-                android:textColor="?android:attr/textColorSecondary"
-                tools:layout_marginEnd="15dp" />
+                    android:id="@+id/eventStartTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Aug 8  2022 ⋅ 7:00PM – 10:00PM"
+                    android:textColor="?android:attr/textColorSecondary"
+                    tools:layout_marginEnd="15dp"/>
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                app:srcCompat="@drawable/ic_round_group_24"
-                app:tint="?attr/colorOnBackground" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    app:srcCompat="@drawable/ic_round_group_24"
+                    app:tint="?attr/colorOnBackground"/>
 
             <TextView
-                android:id="@+id/eventAttendees"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="8/10"
-                android:textColor="?android:attr/textColorSecondary"
-                tools:layout_marginEnd="15dp" />
+                    android:id="@+id/eventAttendees"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="8/10"
+                    android:textColor="?android:attr/textColorSecondary"
+                    tools:layout_marginEnd="15dp"/>
 
             <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
                 <Button
                         android:id="@+id/eventApproveButton"
@@ -117,8 +117,8 @@
                         app:iconTint="?attr/colorOnPrimary"/>
 
                 <Space
-                    android:layout_width="10dp"
-                    android:layout_height="wrap_content" />
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content"/>
 
                 <Button
                         android:id="@+id/eventDenyButton"

@@ -7,7 +7,7 @@
         android:clickable="true"
         android:focusable="true"
         android:elevation="0dp"
-        style="?attr/materialCardViewFilledStyle">
+        style="?attr/materialCardViewFilledStyle" android:id="@+id/eventCard">
 
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="wrap_content"
@@ -28,26 +28,26 @@
                 android:textAppearance="?attr/textAppearanceBodyMedium"
                 android:textColor="?android:attr/textColorSecondary"
                 android:id="@+id/venueDescription"/>
-<!--        <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="horizontal" android:gravity="center_vertical">-->
+        <!--        <LinearLayout-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:orientation="horizontal" android:gravity="center_vertical">-->
 
-<!--            <ImageView android:layout_width="wrap_content"-->
-<!--                       android:layout_height="wrap_content"-->
-<!--                       app:srcCompat="@drawable/ic_round_calendar_today_24"-->
-<!--                       app:tint="?attr/colorOnBackground"-->
-<!--                       android:layout_marginEnd="8dp"/>-->
-<!--            <TextView-->
-<!--                    android:text="Date"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:textColor="?android:attr/textColorSecondary"-->
-<!--                    tools:layout_marginEnd="15dp"/>-->
-<!--            <View-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="0dp"-->
-<!--                    android:layout_weight="1" />-->
-<!--        </LinearLayout>-->
+        <!--            <ImageView android:layout_width="wrap_content"-->
+        <!--                       android:layout_height="wrap_content"-->
+        <!--                       app:srcCompat="@drawable/ic_round_calendar_today_24"-->
+        <!--                       app:tint="?attr/colorOnBackground"-->
+        <!--                       android:layout_marginEnd="8dp"/>-->
+        <!--            <TextView-->
+        <!--                    android:text="Date"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:textColor="?android:attr/textColorSecondary"-->
+        <!--                    tools:layout_marginEnd="15dp"/>-->
+        <!--            <View-->
+        <!--                    android:layout_width="0dp"-->
+        <!--                    android:layout_height="0dp"-->
+        <!--                    android:layout_weight="1" />-->
+        <!--        </LinearLayout>-->
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

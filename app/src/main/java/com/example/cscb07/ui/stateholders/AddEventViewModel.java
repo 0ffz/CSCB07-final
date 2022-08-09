@@ -33,31 +33,6 @@ public class AddEventViewModel extends ViewModel {
         this.currentVenue = currentVenue;
     }
 
-//    boolean validate(VenueId venue, String name, String description, int maxCapacity) {
-//        Date s_date = startDate.getValue();
-//        TimeUiState s_time = startTime.getValue();
-//        Date e_date = endDate.getValue();
-//        TimeUiState e_time = endTime.getValue();
-//        if (venue.venueId.isEmpty() || name.isEmpty() ||
-//                s_date != null || s_time != null ||
-//                e_date != null || e_time != null) {
-//            MessageUtil.showError(R.string.error_empty);
-//            return false;
-//        }
-//
-//        if (maxCapacity < 0) {
-//            MessageUtil.showError(R.string.error_capacity_value);
-//            return false;
-//        }
-//
-//        if (calculateDateMillis(s_date, s_time) > calculateDateMillis(e_date, e_time)) {
-//            MessageUtil.showError(R.string.error_invalid_date_range);
-//            return false;
-//        }
-//
-//        return true;
-//    }
-
     private void handleAddEventResult(Try<EventId> result) {
         attemptingAddEvent.setValue(false);
         result.onSuccess(createdEvent::postValue);

@@ -1,14 +1,15 @@
 package com.example.cscb07.ui.elements.screens.eventlist;
 
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cscb07.R;
 
 public abstract class AbstractEventCard extends RecyclerView.ViewHolder{
+    public CardView card;
     public TextView title;
     public TextView description;
     public TextView location;
@@ -17,6 +18,7 @@ public abstract class AbstractEventCard extends RecyclerView.ViewHolder{
 
     public AbstractEventCard(View view) {
         super(view);
+        card = view.findViewById(R.id.eventCard);
         title = view.findViewById(R.id.eventTitle);
         description = view.findViewById(R.id.eventDescription);
         location = view.findViewById(R.id.venueTitle);
