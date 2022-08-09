@@ -15,11 +15,12 @@
             android:id="@+id/materialToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?android:attr/windowBackground"
+            android:background="?android:attr/colorBackground"
             android:elevation="4dp"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
             app:navigationIcon="@drawable/ic_round_close_24"
+            app:navigationIconTint="?attr/colorOnSurface"
             app:title="Venue Name">
 
             <Button

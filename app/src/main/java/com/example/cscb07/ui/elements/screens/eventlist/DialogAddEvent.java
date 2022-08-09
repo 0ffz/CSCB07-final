@@ -8,13 +8,15 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import com.example.cscb07.R;
+import com.example.cscb07.data.results.VenueId;
 import com.example.cscb07.ui.elements.screens.TitleBarUtil;
 import com.example.cscb07.ui.state.TimeUiState;
+import com.example.cscb07.ui.state.VenueUiState;
 import com.example.cscb07.ui.stateholders.AddEventViewModel;
-import com.example.cscb07.ui.stateholders.AuthViewModel;
+import com.example.cscb07.ui.stateholders.AddEventViewModelFactory;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import org.jetbrains.annotations.NotNull;
@@ -33,9 +35,11 @@ public class DialogAddEvent extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
-        TitleBarUtil.setupTitleBar(this);
-        addEventViewModel = new ViewModelProvider(requireActivity()).get(AddEventViewModel.class);
+        VenueUiState venue = DialogAddEventArgs.fromBundle(requireArguments()).getVenue();
+        TitleBarUtil.setupToolbar(this).setTitle(venue.name);
+        addEventViewModel = new AddEventViewModelFactory(venue.id).create(AddEventViewModel.class);
 
+        // Set up date and time pickers
         EditText startDate = view.findViewById(R.id.event_start_date);
         EditText startTime = view.findViewById(R.id.event_start_time);
         EditText endDate = view.findViewById(R.id.event_end_date);
@@ -46,6 +50,7 @@ public class DialogAddEvent extends Fragment {
         setupField(endDate, () -> showDatePicker(date -> addEventViewModel.setEndDate(date)));
         setupField(endTime, () -> showTimePicker(time -> addEventViewModel.setEndTime(time)));
 
+        // Observe updates to update text on date and time pickers
         addEventViewModel.getStartDate().observe(getViewLifecycleOwner(), date -> startDate.setText(SimpleDateFormat.getDateInstance().format(date)));
         addEventViewModel.getStartTime().observe(getViewLifecycleOwner(), time -> startTime.setText(time.toString()));
         addEventViewModel.getEndDate().observe(getViewLifecycleOwner(), date -> endDate.setText(SimpleDateFormat.getDateInstance().format(date)));

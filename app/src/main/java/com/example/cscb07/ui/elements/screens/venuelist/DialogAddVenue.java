@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -30,7 +29,7 @@ public class DialogAddVenue extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
-        TitleBarUtil.setupTitleBar(this);
+        TitleBarUtil.setupToolbar(this);
         NavController navController = Navigation.findNavController(view);
         InputValidator inputValidator = new InputValidator();
         addVenueViewModel = new ViewModelProvider(requireActivity()).get(AddVenueViewModel.class);

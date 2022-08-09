@@ -18,9 +18,9 @@ import java.util.concurrent.TimeUnit;
 import io.vavr.control.Try;
 
 public class AddEventViewModel extends ViewModel {
+    public final VenueId currentVenue;
     private final EventRepository eventRepository = ServiceLocator.getInstance().getEventRepository();
 
-    private final MutableLiveData<VenueId> currentVenue = new MutableLiveData<>();
     private final MutableLiveData<Date> startDate = new MutableLiveData<>();
     private final MutableLiveData<TimeUiState> startTime = new MutableLiveData<>();
     private final MutableLiveData<Date> endDate = new MutableLiveData<>();
@@ -29,6 +29,10 @@ public class AddEventViewModel extends ViewModel {
     private final MutableLiveData<EventId> createdEvent = new MutableLiveData<>();
     //TODO have separate class for handling messages
     private final MutableLiveData<Boolean> attemptingAddEvent = new MutableLiveData<>(false);
+
+    public AddEventViewModel(VenueId currentVenue) {
+        this.currentVenue = currentVenue;
+    }
 
     boolean validate(VenueId venue, String name, String description, int maxCapacity) {
         Date s_date = startDate.getValue();
@@ -68,7 +72,7 @@ public class AddEventViewModel extends ViewModel {
         if(!validate(venue, name, description, maxCapacity)) return;
         if(attemptingAddEvent.getValue()) return;
         attemptingAddEvent.setValue(true);
-        eventRepository.addEvent(currentVenue.getValue(), name, description,
+        eventRepository.addEvent(currentVenue, name, description,
                 calculateDateMillis(getStartDate().getValue(), getStartTime().getValue()),
                 calculateDateMillis(getEndDate().getValue(), getEndTime().getValue()), maxCapacity, this::handleAddEventResult);
     }
