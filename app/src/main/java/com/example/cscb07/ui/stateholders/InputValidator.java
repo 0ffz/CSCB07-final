@@ -2,30 +2,35 @@ package com.example.cscb07.ui.stateholders;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.widget.TextView;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 
 public class InputValidator {
-    private final Set<TextView> invalidInputs = new HashSet<>();
+    private final Set<TextInputLayout> invalidInputs = new HashSet<>();
+    private final Map<TextInputLayout, TextWatcher> watchers = new HashMap<>();
 
-    public void validate(TextView input) {
+    public void validate(TextInputLayout input) {
         invalidInputs.remove(input);
     }
 
-    public void invalidate(TextView input) {
+    public void invalidate(TextInputLayout input) {
         invalidInputs.add(input);
     }
 
-    public boolean areAllValid() {
+    public boolean isValid() {
+        watchers.forEach((layout, watcher) -> {
+            watcher.onTextChanged(layout.getEditText().getText().toString(), 0, 0, 0);
+        });
         return invalidInputs.isEmpty();
     }
 
     public void validate(TextInputLayout inputLayout, Function<String, String> checkForError) {
-        inputLayout.getEditText().addTextChangedListener(new TextWatcher() {
+        TextWatcher watcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -34,12 +39,12 @@ public class InputValidator {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String error = checkForError.apply(s.toString());
-                if(error != null) {
-                    invalidate(inputLayout.getEditText());
+                if (error != null) {
+                    invalidate(inputLayout);
                     inputLayout.setError(error);
                 } else {
                     inputLayout.setError(null);
-                    validate(inputLayout.getEditText());
+                    validate(inputLayout);
                 }
             }
 
@@ -47,7 +52,9 @@ public class InputValidator {
             public void afterTextChanged(Editable s) {
 
             }
-        });
+        };
+        watchers.put(inputLayout, watcher);
+        inputLayout.getEditText().addTextChangedListener(watcher);
     }
 
 }

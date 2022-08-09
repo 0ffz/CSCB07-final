@@ -14,6 +14,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import com.example.cscb07.R;
 import com.example.cscb07.ui.stateholders.AddVenueViewModel;
+import com.example.cscb07.ui.stateholders.InputValidator;
 import com.google.android.material.textfield.TextInputLayout;
 import org.jetbrains.annotations.NotNull;
 
@@ -30,6 +31,7 @@ public class DialogAddVenue extends Fragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         TitleBarUtil.setupTitleBar(this);
         NavController navController = Navigation.findNavController(view);
+        InputValidator inputValidator = new InputValidator();
         addVenueViewModel = new ViewModelProvider(requireActivity()).get(AddVenueViewModel.class);
 
         TextInputLayout venueName = view.findViewById(R.id.venue_name);
@@ -37,11 +39,11 @@ public class DialogAddVenue extends Fragment {
 
         Button saveVenue = view.findViewById((R.id.buttonSave));
 
-        addVenueViewModel.inputValidator.validate(venueName, s -> {
+        inputValidator.validate(venueName, s -> {
             if(s.isEmpty()) return getString(R.string.input_error_empty_venue);
             else return null;
         });
-        addVenueViewModel.inputValidator.validate(venueDescription, s -> {
+        inputValidator.validate(venueDescription, s -> {
             if(s.isEmpty()) return getString(R.string.input_error_empty_venue_desc);
             else return null;
         });
@@ -50,7 +52,7 @@ public class DialogAddVenue extends Fragment {
             String name = venueName.getEditText().getText().toString();
             String description = venueDescription.getEditText().getText().toString();
 
-            addVenueViewModel.addVenue(name, description);
+            addVenueViewModel.addVenue(name, description, inputValidator);
         });
 
         addVenueViewModel.getCreatedVenue().observe(getViewLifecycleOwner(), venueId -> {

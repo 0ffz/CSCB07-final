@@ -19,7 +19,6 @@ public class AddVenueViewModel extends ViewModel {
     private final MutableLiveData<VenueId> createdVenue = new MutableLiveData<>();
 
     private final MutableLiveData<Boolean> attemptingAddVenue = new MutableLiveData<>(false);
-    public final InputValidator inputValidator = new InputValidator();
 
     // checks if dialog fields empty (do smt about listof added sports)
     boolean validate(String name, String description) {
@@ -42,8 +41,8 @@ public class AddVenueViewModel extends ViewModel {
         result.onFailure(MessageUtil::showError);
     }
 
-    public void addVenue(String name, String description) {
-        if(!inputValidator.areAllValid()) return;
+    public void addVenue(String name, String description, InputValidator inputValidator) {
+        if(!inputValidator.isValid()) return;
         if (attemptingAddVenue.getValue()) return;
         attemptingAddVenue.setValue(true);
         venueRepository.addVenue(name, description, this::handleAddVenueResult);
