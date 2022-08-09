@@ -25,23 +25,22 @@ public class UpcomingListViewModel extends ViewModel {
     private final MutableLiveData<List<EventUiState>> pendingEvents = new MutableLiveData<>();
 
     public void loadAllUpcomingEvents() {
-        eventRepository.getAllUpcomingEvents(this::setEvents);
+        eventRepository.getAllUpcomingEvents(result -> setEvents(result, events));
     }
 
     public void loadUpcomingEventsForCurrentUser() {
-        eventRepository.getUpcomingEventsForCurrentUser(this::setEvents);
+        eventRepository.getUpcomingEventsForCurrentUser(result -> setEvents(result, events));
     }
 
     public void loadVenueEvents(VenueId id) {
-        eventRepository.getUpcomingEventsForCurrentUser(this::setEvents);
+        eventRepository.getEventsForVenue(id, result -> setEvents(result, events));
     }
 
     public void loadAllPendingEvents() {
-
+        eventRepository.getAllPendingEvents(result -> setEvents(result, pendingEvents));
     }
 
     public void loadPendingEventsForVenue(VenueId id) {
-
     }
 
     public void joinEvent(EventId event, Runnable callback) {
@@ -51,7 +50,21 @@ public class UpcomingListViewModel extends ViewModel {
         });
     }
 
-    private void setEvents(Try<List<WithId<EventId, EventModel>>> result) {
+    public void approveEvent(EventId event, Runnable callback) {
+        eventRepository.approveEvent(event, result -> {
+            result.onSuccess((i) -> callback.run());
+            result.onFailure(MessageUtil::showMessage);
+        });
+    }
+
+    public void denyEvent(EventId event, Runnable callback) {
+        eventRepository.removeEvent(event, result -> {
+            result.onSuccess((i) -> callback.run());
+            result.onFailure(MessageUtil::showMessage);
+        });
+    }
+
+    private void setEvents(Try<List<WithId<EventId, EventModel>>> result, MutableLiveData<List<EventUiState>> events) {
         userRepository.getJoinedEvents(joinedResult -> {
             joinedResult.onSuccess(joined -> {
                 result.onSuccess(newVenues -> events.setValue(newVenues.stream()

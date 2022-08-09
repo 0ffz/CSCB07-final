@@ -5,12 +5,12 @@ import android.widget.Button;
 import com.example.cscb07.R;
 
 public class PendingEventCard extends AbstractEventCard {
-    public Button approve;
-    public Button deny;
+    public Button approveButton;
+    public Button denyButton;
 
     public PendingEventCard(View view) {
         super(view);
-//        approve = view.findViewById(R.id.eventApproveButton);
-//        deny = view.findViewById(R.id.eventDenyButton);
+        approveButton = view.findViewById(R.id.eventApproveButton);
+        denyButton = view.findViewById(R.id.eventDenyButton);
     }
 }

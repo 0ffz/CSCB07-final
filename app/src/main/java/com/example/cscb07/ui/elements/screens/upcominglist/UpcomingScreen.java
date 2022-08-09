@@ -25,5 +25,6 @@ public class UpcomingScreen extends AbstractEventListScreen {
         TitleBarUtil.setupToolbar(this);
         setupList(true);
         upcomingListViewModel.loadAllUpcomingEvents();
+        upcomingListViewModel.loadAllPendingEvents();
     }
 }

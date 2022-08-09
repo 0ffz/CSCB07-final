@@ -28,25 +28,29 @@ public abstract class AbstractEventListScreen extends Fragment {
         upcomingListViewModel = new ViewModelProvider(requireActivity()).get(UpcomingListViewModel.class);
         authViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
         navController = Navigation.findNavController(view);
-//        pendingEventsContainer = view.findViewById(R.id.pending_events_container);
+        pendingEventsContainer = view.findViewById(R.id.pending_events_container);
         eventsContainer = view.findViewById(R.id.events_container);
     }
 
     public void setupList(boolean showVenue) {
         authViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
-            if (user.isAdmin && pendingEventsContainer != null) createPendingList();
+            if (user.isAdmin && pendingEventsContainer != null) createPendingList(showVenue);
             createEventList(showVenue);
         });
     }
 
-    private void createPendingList() {
-//        upcomingListViewModel.getPendingEvents().observe(getViewLifecycleOwner(), events -> {
-//            AbstractEventCardAdapter eventCardAdapter = new AbstractEventCardAdapter(events, eventState -> {
-//                upcomingListViewModel.joinEvent(eventState.eventId);
-//            });
-//            eventsContainer.setAdapter(eventCardAdapter);
-//            eventsContainer.setLayoutManager(new LinearLayoutManager(this.getActivity()));
-//        });
+    private void createPendingList(boolean showVenue) {
+        upcomingListViewModel.getPendingEvents().observe(getViewLifecycleOwner(), events -> {
+            PendingEventCardAdapter eventCardAdapter = new PendingEventCardAdapter(events, showVenue);
+            eventCardAdapter.approveClickListener = (eventState, position) -> upcomingListViewModel.approveEvent(eventState.eventId, () -> {
+                eventCardAdapter.remove(position);
+            });
+            eventCardAdapter.denyClickListener = (eventState, position) -> upcomingListViewModel.denyEvent(eventState.eventId, () -> {
+                eventCardAdapter.remove(position);
+            });
+            pendingEventsContainer.setAdapter(eventCardAdapter);
+            pendingEventsContainer.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+        });
     }
 
     private void createEventList(boolean showVenue) {
