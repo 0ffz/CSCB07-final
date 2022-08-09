@@ -5,19 +5,19 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import com.example.cscb07.R;
-import com.example.cscb07.data.results.VenueId;
 import com.example.cscb07.ui.elements.screens.TitleBarUtil;
 import com.example.cscb07.ui.state.TimeUiState;
 import com.example.cscb07.ui.state.VenueUiState;
 import com.example.cscb07.ui.stateholders.AddEventViewModel;
 import com.example.cscb07.ui.stateholders.AddEventViewModelFactory;
 import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import org.jetbrains.annotations.NotNull;
 
@@ -40,10 +40,14 @@ public class DialogAddEvent extends Fragment {
         addEventViewModel = new AddEventViewModelFactory(venue.id).create(AddEventViewModel.class);
 
         // Set up date and time pickers
-        EditText startDate = view.findViewById(R.id.event_start_date);
-        EditText startTime = view.findViewById(R.id.event_start_time);
-        EditText endDate = view.findViewById(R.id.event_end_date);
-        EditText endTime = view.findViewById(R.id.event_end_time);
+        TextInputLayout eventName = view.findViewById(R.id.event_name);
+        TextInputLayout eventDesc = view.findViewById(R.id.event_description);
+        TextInputLayout startDate = view.findViewById(R.id.event_start_date);
+        TextInputLayout startTime = view.findViewById(R.id.event_start_time);
+        TextInputLayout endDate = view.findViewById(R.id.event_end_date);
+        TextInputLayout endTime = view.findViewById(R.id.event_end_time);
+        TextInputLayout maxCapacity = view.findViewById(R.id.max_capacity);
+        Button saveButton = view.findViewById(R.id.add_event_save_button);
 
         setupField(startDate, () -> showDatePicker(date -> addEventViewModel.setStartDate(date)));
         setupField(startTime, () -> showTimePicker(time -> addEventViewModel.setStartTime(time)));

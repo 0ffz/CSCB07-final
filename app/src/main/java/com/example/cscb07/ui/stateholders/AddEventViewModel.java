@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.cscb07.R;
 import com.example.cscb07.data.repositories.EventRepository;
 import com.example.cscb07.data.results.EventId;
 import com.example.cscb07.data.results.VenueId;
@@ -34,30 +33,30 @@ public class AddEventViewModel extends ViewModel {
         this.currentVenue = currentVenue;
     }
 
-    boolean validate(VenueId venue, String name, String description, int maxCapacity) {
-        Date s_date = startDate.getValue();
-        TimeUiState s_time = startTime.getValue();
-        Date e_date = endDate.getValue();
-        TimeUiState e_time = endTime.getValue();
-        if (venue.venueId.isEmpty() || name.isEmpty() ||
-                s_date != null || s_time != null ||
-                e_date != null || e_time != null) {
-            MessageUtil.showError(R.string.error_empty);
-            return false;
-        }
-
-        if (maxCapacity < 0) {
-            MessageUtil.showError(R.string.error_capacity_value);
-            return false;
-        }
-
-        if (calculateDateMillis(s_date, s_time) > calculateDateMillis(e_date, e_time)) {
-            MessageUtil.showError(R.string.error_invalid_date_range);
-            return false;
-        }
-
-        return true;
-    }
+//    boolean validate(VenueId venue, String name, String description, int maxCapacity) {
+//        Date s_date = startDate.getValue();
+//        TimeUiState s_time = startTime.getValue();
+//        Date e_date = endDate.getValue();
+//        TimeUiState e_time = endTime.getValue();
+//        if (venue.venueId.isEmpty() || name.isEmpty() ||
+//                s_date != null || s_time != null ||
+//                e_date != null || e_time != null) {
+//            MessageUtil.showError(R.string.error_empty);
+//            return false;
+//        }
+//
+//        if (maxCapacity < 0) {
+//            MessageUtil.showError(R.string.error_capacity_value);
+//            return false;
+//        }
+//
+//        if (calculateDateMillis(s_date, s_time) > calculateDateMillis(e_date, e_time)) {
+//            MessageUtil.showError(R.string.error_invalid_date_range);
+//            return false;
+//        }
+//
+//        return true;
+//    }
 
     private void handleAddEventResult(Try<EventId> result) {
         attemptingAddEvent.setValue(false);
@@ -68,8 +67,9 @@ public class AddEventViewModel extends ViewModel {
     public void addEvent(VenueId venue, String name, String description,
                          String startDate, String startTime,
                          String endDate, String endTime,
-                         int maxCapacity) {
-        if(!validate(venue, name, description, maxCapacity)) return;
+                         int maxCapacity,
+                         InputValidator inputValidator) {
+        if(!inputValidator.isValid()) return;
         if(attemptingAddEvent.getValue()) return;
         attemptingAddEvent.setValue(true);
         eventRepository.addEvent(currentVenue, name, description,
