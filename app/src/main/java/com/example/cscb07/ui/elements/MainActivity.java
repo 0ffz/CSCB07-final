@@ -14,6 +14,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.cscb07.R;
 import com.example.cscb07.data.util.MessageUtil;
 import com.example.cscb07.ui.elements.screens.venuelist.HomeScreenDirections;
+import com.example.cscb07.ui.state.UserUiState;
 import com.example.cscb07.ui.stateholders.AuthViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;

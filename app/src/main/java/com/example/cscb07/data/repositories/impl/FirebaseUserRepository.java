@@ -1,13 +1,22 @@
 package com.example.cscb07.data.repositories.impl;
 
 import com.example.cscb07.data.models.UserModel;
+import com.example.cscb07.data.models.VenueModel;
 import com.example.cscb07.data.repositories.UserRepository;
+import com.example.cscb07.data.results.UserId;
+import com.example.cscb07.data.results.VenueId;
+import com.example.cscb07.data.results.WithId;
 import com.example.cscb07.data.util.FirebaseUtil;
+import com.example.cscb07.ui.state.UserUiState;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.Query;
+
+import io.vavr.collection.Stream;
 import io.vavr.control.Try;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 public class FirebaseUserRepository implements UserRepository {
@@ -40,4 +49,10 @@ public class FirebaseUserRepository implements UserRepository {
     public void signOutCurrentUser() {
         auth.signOut();
     }
+
+    @Override
+    public void checkIfAdmin() {
+        // TO-DO
+    }
+
 }

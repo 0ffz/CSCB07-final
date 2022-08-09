@@ -1,11 +1,13 @@
 package com.example.cscb07.ui.state;
 
+import com.google.firebase.auth.FirebaseUser;
+
 public class UserUiState {
-    final String name;
+    public final FirebaseUser user;
     final boolean isAdmin;
 
-    public UserUiState(String name, boolean isAdmin) {
-        this.name = name;
+    public UserUiState(FirebaseUser user, boolean isAdmin) {
+        this.user = user;
         this.isAdmin = isAdmin;
     }
 }
