@@ -1,35 +1,26 @@
 package com.example.cscb07.data.repositories.impl;
 
-import android.media.metrics.Event;
-
 import androidx.annotation.NonNull;
 
 import com.example.cscb07.data.models.EventModel;
 import com.example.cscb07.data.models.PendingEventModel;
-import com.example.cscb07.data.models.VenueModel;
 import com.example.cscb07.data.repositories.EventRepository;
 import com.example.cscb07.data.results.EventId;
 import com.example.cscb07.data.results.VenueId;
 import com.example.cscb07.data.results.WithId;
 import com.example.cscb07.data.util.FirebaseUtil;
-import com.example.cscb07.data.util.MessageUtil;
 import com.example.cscb07.data.util.ServiceLocator;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import io.vavr.collection.Stream;
 import io.vavr.control.Try;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -75,7 +66,7 @@ public class FirebaseEventRepository implements EventRepository {
                             int num = e.numAttendees;
                             num += 1;
                             d.child("events").child(event.eventId).child("numAttendees").setValue(num);
-                            d.child("users").child(user).child("events").child(event.eventId).setValue(e.startDate); //keys map to start date
+                            d.child("users").child(user).child("events").child(event.eventId).setValue(e.getStartDate()); //keys map to start date
                             callback.accept(Try.success(e));
                         }
                     }
@@ -99,8 +90,8 @@ public class FirebaseEventRepository implements EventRepository {
                     EventModel e = p.event; // make an object of the event
                     e.numAttendees = 1; // remove from pending means there should only be 1 person attending (the User)
                     d.child("events").child(event.eventId).setValue(e); // make the event in Events
-                    d.child("users").child(p.creator).child("events").child(event.eventId).setValue(e.startDate); // make the event under the currentUser
-                    d.child("venues").child(e.venue).child("events").child(event.eventId).setValue(e.startDate); //add event to under the venue it is in
+                    d.child("users").child(p.creator).child("events").child(event.eventId).setValue(e.startDateMillis); // make the event under the currentUser
+                    d.child("venues").child(e.venue).child("events").child(event.eventId).setValue(e.startDateMillis); //add event to under the venue it is in
                     removeEvent(event, callback);
 
                 }

@@ -1,24 +1,44 @@
 package com.example.cscb07.data.models;
 
+import com.google.firebase.database.Exclude;
+
 import java.util.Date;
 
 public class EventModel {
     public String name;
     public String venue;
     public String description;
-    public long startDate;
-    public long endDate;
+    public long startDateMillis;
+    public long endDateMillis;
     public int maxCapacity; // need these public to create a new one and work with it in a different package
     public int numAttendees;
 
-    public EventModel(String name, String venue, String description, long startDate, long endDate, int maxCapacity) {
+    public EventModel(String name, String venue, String description, long startDateMillis, long endDateMillis, int maxCapacity) {
         this.name = name;
         this.venue = venue;
         this.description = description;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.startDateMillis = startDateMillis;
+        this.endDateMillis = endDateMillis;
         this.maxCapacity = maxCapacity;
         this.numAttendees = 0;
+    }
+
+    @Exclude
+    public Date getStartDate() {
+        return new Date(startDateMillis);
+    }
+
+    public void setStartDateMillis(Date startDateMillis) {
+        this.startDateMillis = startDateMillis.getTime();
+    }
+
+    @Exclude
+    public Date getEndDate() {
+        return new Date(endDateMillis);
+    }
+
+    public void setEndDate(Date endDateMillis) {
+        this.endDateMillis = endDateMillis.getTime();
     }
 
     public EventModel() {
@@ -29,8 +49,8 @@ public class EventModel {
         return "EventModel{" +
                 "name='" + name + '\'' +
                 ", venue='" + venue + '\'' +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
+                ", startDate=" + startDateMillis +
+                ", endDate=" + endDateMillis +
                 ", maxCapacity=" + maxCapacity +
                 ", numAttendees=" + numAttendees +
                 '}';
