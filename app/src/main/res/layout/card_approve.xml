@@ -104,7 +104,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="1.1"
                 android:orientation="horizontal">
 
                 <Button
@@ -115,7 +115,12 @@
                     android:layout_weight="2"
                     android:backgroundTint="#4CAF50"
                     android:text="@string/button_approve"
-                    app:icon="@drawable/ic_baseline_check_circle_24" />
+                    app:icon="@drawable/ic_round_check_24" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.1" />
 
                 <Button
                     android:id="@+id/eventDenyButton"
@@ -125,7 +130,7 @@
                     android:layout_weight="2"
                     android:backgroundTint="#E91E63"
                     android:text="@string/button_deny"
-                    app:icon="@drawable/ic_baseline_cancel_24_white" />
+                    app:icon="@drawable/ic_round_block_24" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
