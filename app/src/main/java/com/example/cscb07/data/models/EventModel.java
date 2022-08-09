@@ -28,7 +28,8 @@ public class EventModel {
         return new Date(startDateMillis);
     }
 
-    public void setStartDateMillis(Date startDateMillis) {
+    @Exclude
+    public void setStartDate(Date startDateMillis) {
         this.startDateMillis = startDateMillis.getTime();
     }
 
@@ -37,6 +38,7 @@ public class EventModel {
         return new Date(endDateMillis);
     }
 
+    @Exclude
     public void setEndDate(Date endDateMillis) {
         this.endDateMillis = endDateMillis.getTime();
     }

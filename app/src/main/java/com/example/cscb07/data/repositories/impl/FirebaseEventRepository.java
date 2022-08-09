@@ -87,8 +87,7 @@ public class FirebaseEventRepository implements EventRepository {
 
     @Override
     public void getUpcomingEventsForCurrentUser(Consumer<Try<List<WithId<EventId, EventModel>>>> callback) {
-        String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        Query q = FirebaseUtil.getUsers().child(userID).child("events").orderByValue().startAt(new Date().getTime()); //get the events
+        Query q = FirebaseUtil.getCurrentUserRef().child("events").orderByChild("endDate").startAt(new Date().getTime()); //get the events
         q.get().addOnSuccessListener(dataSnapshot -> {
             List<String> userEvents = Stream.ofAll(dataSnapshot.getChildren())
                     .map(snapshot -> (snapshot.getKey())).toJavaList();
@@ -106,7 +105,7 @@ public class FirebaseEventRepository implements EventRepository {
 
     @Override
     public void getAllUpcomingEvents(Consumer<Try<List<WithId<EventId, EventModel>>>> callback) {
-        Query q = FirebaseUtil.getEvents().orderByChild("startTime").startAt(new Date().getTime());
+        Query q = FirebaseUtil.getEvents().orderByChild("endDateMillis").startAt(new Date().getTime());
         q.get().addOnSuccessListener(dataSnapshot -> {
             List<WithId<EventId, EventModel>> events = Stream.ofAll(dataSnapshot.getChildren())
                     .map(snapshot -> WithId.of(new EventId(snapshot.getKey()), snapshot.getValue(EventModel.class)))

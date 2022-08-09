@@ -103,37 +103,33 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.1"
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/eventApproveButton"
-                    style="@style/Widget.Material3.Button"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:backgroundTint="#5DCF61"
-                    android:text="@string/button_approve"
-                    android:textColor="?attr/colorOnErrorContainer"
-                    app:icon="@drawable/ic_round_check_24"
-                    app:iconTint="?attr/colorOnErrorContainer" />
+                        android:id="@+id/eventApproveButton"
+                        style="@style/Widget.Material3.Button"
+                        android:layout_width="130dp"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="?attr/colorPrimary"
+                        android:text="@string/button_approve"
+                        android:textColor="?attr/colorOnPrimary"
+                        app:icon="@drawable/ic_round_check_24"
+                        app:iconTint="?attr/colorOnPrimary"/>
 
                 <Space
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.1" />
+                    android:layout_width="10dp"
+                    android:layout_height="wrap_content" />
 
                 <Button
-                    android:id="@+id/eventDenyButton"
-                    style="@style/Widget.Material3.Button"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:backgroundTint="#E8786F"
-                    android:text="@string/button_deny"
-                    android:textColor="?attr/colorOnErrorContainer"
-                    app:icon="@drawable/ic_round_block_24"
-                    app:iconTint="?attr/colorOnErrorContainer" />
+                        android:id="@+id/eventDenyButton"
+                        style="@style/Widget.Material3.Button"
+                        android:layout_width="110dp"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="?attr/colorError"
+                        android:text="@string/button_deny"
+                        android:textColor="?attr/colorOnError"
+                        app:icon="@drawable/ic_round_block_24"
+                        app:iconTint="?attr/colorOnError"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
