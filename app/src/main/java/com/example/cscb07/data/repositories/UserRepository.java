@@ -11,4 +11,6 @@ public interface UserRepository {
     void signIn(String email, String password, Consumer<Try<FirebaseUser>> callback);
 
     void signOutCurrentUser();
+
+    void checkIfAdmin();
 }

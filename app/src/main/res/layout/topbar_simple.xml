@@ -8,6 +8,8 @@
     <com.google.android.material.appbar.MaterialToolbar
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorSurface"
+            android:elevation="4dp"
             android:minHeight="?attr/actionBarSize" android:id="@+id/materialToolbar"
     />
 </com.google.android.material.appbar.AppBarLayout>

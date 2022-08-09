@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 public class MessageUtil {
     private static final MutableLiveData<Message> message = new MutableLiveData<>();
 
-    public static void showError(Throwable throwable) {
+    public static void showMessage(Throwable throwable) {
         if (throwable instanceof Message) {
             message.postValue((Message) throwable);
         } else {
@@ -14,11 +14,11 @@ public class MessageUtil {
         }
     }
 
-    public static void showError(int errorId) {
+    public static void showMessage(int errorId) {
         message.postValue(new Message(errorId));
     }
 
-    public static void showError(String error) {
+    public static void showMessage(String error) {
         message.postValue(new Message(error));
     }
 

@@ -100,7 +100,7 @@ public class FirebaseEventRepository implements EventRepository {
                     e.numAttendees = 1; // remove from pending means there should only be 1 person attending (the User)
                     d.child("events").child(event.eventId).setValue(e); // make the event in Events
                     d.child("users").child(p.creator).child("events").child(event.eventId).setValue(e.startDate); // make the event under the currentUser
-                    d.child("venues").child(e.venue).child("events").setValue(event.eventId); //add event to under the venue it is in
+                    d.child("venues").child(e.venue).child("events").child(event.eventId).setValue(e.startDate); //add event to under the venue it is in
                     removeEvent(event, callback);
 
                 }
@@ -134,7 +134,9 @@ public class FirebaseEventRepository implements EventRepository {
                         List<WithId<EventId, EventModel>> events = new ArrayList<>();
                         for(String e: eventIds){
                             EventModel event = dataSnapshot.child(e).getValue(EventModel.class);
-                            events.add(WithId.of(new EventId(e), event));
+                            Date end = new Date(event.endDate);
+                            if(end.before(new Date()))
+                                events.add(WithId.of(new EventId(e), event));
                         }
 
                         callback.accept(Try.success(events));
@@ -160,9 +162,11 @@ public class FirebaseEventRepository implements EventRepository {
                 if (task.isSuccessful()){
                     List<WithId<EventId, EventModel>> events = new ArrayList<>();
                     DataSnapshot snap = task.getResult();
-                    for (DataSnapshot s : snap.getChildren()){
-                        EventModel e = s.getValue(EventModel.class);
-                        events.add(WithId.of(new EventId(s.getKey()), e));
+                    for (DataSnapshot child : snap.getChildren()){
+                        EventModel e = child.getValue(EventModel.class);
+                        Date end = new Date(e.endDate);
+                        if(end.before(new Date()))
+                            events.add(WithId.of(new EventId(child.getKey()), e));
                     }
 
                     callback.accept(Try.success(events));
@@ -187,7 +191,9 @@ public class FirebaseEventRepository implements EventRepository {
                     List<WithId<EventId, EventModel>> events = new ArrayList<>();
                     for(String e: eventIds){
                         EventModel event = dataSnapshot.child(e).getValue(EventModel.class);
-                        events.add(WithId.of(new EventId(e), event));
+                        Date end = new Date(event.endDate);
+                        if(end.before(new Date()))
+                            events.add(WithId.of(new EventId(e), event));
                     }
 
                     callback.accept(Try.success(events));
@@ -202,6 +208,4 @@ public class FirebaseEventRepository implements EventRepository {
 
         });
     }
-
-
 }

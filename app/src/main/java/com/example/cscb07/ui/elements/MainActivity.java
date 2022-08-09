@@ -2,6 +2,7 @@ package com.example.cscb07.ui.elements;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -12,6 +13,7 @@ import com.example.cscb07.data.util.MessageUtil;
 import com.example.cscb07.ui.elements.screens.venuelist.HomeScreenDirections;
 import com.example.cscb07.ui.stateholders.AuthViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.elevation.SurfaceColors;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Objects;
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 //        setSupportActionBar(toolbar);
 //        setupActionBarWithNavController(this, navController);
+        getWindow().setStatusBarColor(SurfaceColors.getColorForElevation(this, 11));
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
         setupWithNavController(bottomNav, navController);

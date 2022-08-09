@@ -8,13 +8,17 @@
         <action android:id="@+id/action_screenHome_to_dialogAddVenue" app:destination="@id/dialogAddVenue"
                 app:enterAnim="@android:anim/fade_in" app:exitAnim="@android:anim/fade_out"
                 app:popExitAnim="@android:anim/fade_out" app:popEnterAnim="@android:anim/fade_in"/>
+        <action android:id="@+id/action_screenHome_to_dialogAddEvent" app:destination="@id/dialogAddEvent"
+                app:enterAnim="@android:anim/fade_in" app:exitAnim="@android:anim/fade_out"
+                app:popEnterAnim="@android:anim/fade_in" app:popExitAnim="@android:anim/fade_out"/>
     </fragment>
-    <fragment android:id="@+id/dialogAddEvent" android:name="com.example.cscb07.ui.elements.screens.venuelist.DialogAddEvent"
+    <fragment android:id="@+id/dialogAddEvent" android:name="com.example.cscb07.ui.elements.screens.eventlist.DialogAddEvent"
               android:label="DialogAddEvent">
         <argument android:name="hide_bottombar" app:argType="boolean" android:defaultValue="true"/>
+        <argument android:name="venue" app:argType="com.example.cscb07.ui.state.VenueUiState"/>
     </fragment>
-    <fragment android:id="@+id/dialogAddVenue" android:name="com.example.cscb07.ui.elements.screens.DialogAddVenue"
-        android:label="DialogAddVenue">
+    <fragment android:id="@+id/dialogAddVenue" android:name="com.example.cscb07.ui.elements.screens.venuelist.DialogAddVenue"
+              android:label="@string/fab_add_venue">
         <argument android:name="hide_bottombar" app:argType="boolean" android:defaultValue="true"/>
     </fragment>
     <fragment android:id="@+id/screenUpcoming" android:name="com.example.cscb07.ui.elements.screens.UpcomingScreen"

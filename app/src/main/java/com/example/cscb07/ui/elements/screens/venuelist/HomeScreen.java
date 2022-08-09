@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.cscb07.R;
 import com.example.cscb07.ui.elements.screens.TitleBarUtil;
-import com.example.cscb07.ui.state.VenueUiState;
 import com.example.cscb07.ui.stateholders.AuthViewModel;
 import com.example.cscb07.ui.stateholders.VenueListViewModel;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
@@ -35,7 +34,7 @@ public class HomeScreen extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
-        TitleBarUtil.setupTitleBar(this);
+        TitleBarUtil.setupToolbar(this);
         navController = Navigation.findNavController(view);
         authViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
         venueViewModel = new ViewModelProvider(requireActivity()).get(VenueListViewModel.class);
@@ -52,7 +51,7 @@ public class HomeScreen extends Fragment {
         venueViewModel.getVenues().observe(getViewLifecycleOwner(), venues -> {
             VenueCardAdapter venueCardAdapter = new VenueCardAdapter(new ArrayList<>(venues), venueState -> {
                 // TODO open specific venue model
-                // venueState.id
+                navController.navigate(HomeScreenDirections.actionScreenHomeToDialogAddEvent(venueState));
             });
             r.setAdapter(venueCardAdapter);
             r.setLayoutManager(new LinearLayoutManager(this.getActivity()));

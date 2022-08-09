@@ -2,15 +2,19 @@ package com.example.cscb07.ui.stateholders;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
+import com.example.cscb07.data.repositories.UserRepository;
+import com.example.cscb07.data.util.ServiceLocator;
+import com.example.cscb07.ui.state.UserUiState;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import org.jetbrains.annotations.NotNull;
 
-public class FirebaseUserLiveData extends LiveData<FirebaseUser> implements FirebaseAuth.AuthStateListener {
+public class FirebaseUserLiveData extends LiveData<UserUiState> implements FirebaseAuth.AuthStateListener {
     private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private final UserRepository userRepository = ServiceLocator.getInstance().getUserRepository();
 
     public FirebaseUserLiveData() {
-        super(FirebaseAuth.getInstance().getCurrentUser());
+        super(new UserUiState(FirebaseAuth.getInstance().getCurrentUser(), true));
     }
 
     @Override
@@ -27,6 +31,16 @@ public class FirebaseUserLiveData extends LiveData<FirebaseUser> implements Fire
 
     @Override
     public void onAuthStateChanged(@NonNull @NotNull FirebaseAuth firebaseAuth) {
-        setValue(firebaseAuth.getCurrentUser());
+
+        // call checkIfAdmin function from userRepos, get isAdmin callback
+        // not implemented yet
+        userRepository.checkIfAdmin();
+
+        // set true for now
+        boolean isAdmin = true;
+
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if (user == null) setValue(null);
+        else setValue(new UserUiState(user, isAdmin));
     }
 }
