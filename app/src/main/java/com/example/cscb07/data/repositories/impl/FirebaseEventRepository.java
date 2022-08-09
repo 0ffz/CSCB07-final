@@ -122,83 +122,48 @@ public class FirebaseEventRepository implements EventRepository {
     @Override
     public void getUpcomingEventsForCurrentUser(Consumer<Try<List<WithId<EventId, EventModel>>>> callback) {
         String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        DatabaseReference ref = FirebaseUtil.getUsers().child(userID).child("events"); //get the events
-        ref.orderByValue().addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<String> eventIds = new ArrayList<>();
-                for(DataSnapshot event: snapshot.getChildren()){
-                    eventIds.add(event.getKey());
-                }
-                     FirebaseUtil.getEvents().get().addOnSuccessListener(dataSnapshot->{
-                        List<WithId<EventId, EventModel>> events = new ArrayList<>();
-                        for(String e: eventIds){
-                            EventModel event = dataSnapshot.child(e).getValue(EventModel.class);
-                            events.add(WithId.of(new EventId(e), event));
-                        }
+        Query q = FirebaseUtil.getUsers().child(userID).child("events").orderByValue().startAt(new Date().getTime()); //get the events
+        q.get().addOnSuccessListener(dataSnapshot -> {
+            List<String> userEvents = Stream.ofAll(dataSnapshot.getChildren())
+                    .map(snapshot -> (snapshot.getKey())).toJavaList();
+           Query q2 = FirebaseUtil.getEvents().orderByKey();
+           q2.get().addOnSuccessListener(dataSnapshot1 -> {
+               List<WithId<EventId, EventModel>> events = Stream.ofAll(userEvents)
+                       .map(event -> WithId.of(new EventId(event), dataSnapshot1.child(event).getValue(EventModel.class)))
+                       .toJavaList();
+               callback.accept(Try.success(events));
+           }).addOnFailureListener(e ->
+                   callback.accept(Try.failure(e)));
 
-                        callback.accept(Try.success(events));
-                    });
-
-           }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                callback.accept(Try.failure(error.toException()));
-            }
-
-        });
-
+           });
     }
 
     @Override
     public void getAllUpcomingEvents(Consumer<Try<List<WithId<EventId, EventModel>>>> callback) {
-        DatabaseReference d = ServiceLocator.getInstance().getDb().getReference();
-        d.child("events").orderByChild("startTime").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (task.isSuccessful()){
-                    List<WithId<EventId, EventModel>> events = new ArrayList<>();
-                    DataSnapshot snap = task.getResult();
-                    for (DataSnapshot s : snap.getChildren()){
-                        EventModel e = s.getValue(EventModel.class);
-                        events.add(WithId.of(new EventId(s.getKey()), e));
-                    }
-
-                    callback.accept(Try.success(events));
-                }
-                else
-                    callback.accept(Try.failure(task.getException()));
-            }
-        });
+        Query q = FirebaseUtil.getEvents().orderByChild("startTime").startAt(new Date().getTime());
+        q.get().addOnSuccessListener(dataSnapshot -> {
+            List<WithId<EventId, EventModel>> events = Stream.ofAll(dataSnapshot.getChildren())
+                    .map(snapshot -> WithId.of(new EventId(snapshot.getKey()), snapshot.getValue(EventModel.class)))
+                    .toJavaList();
+            callback.accept(Try.success(events));
+        }).addOnFailureListener(e ->
+                callback.accept(Try.failure(e)));
     }
 
     @Override
     public void getEventsForVenue(VenueId venue, Consumer<Try<List<WithId<EventId, EventModel>>>> callback) {
-        DatabaseReference ref = FirebaseUtil.getVenues().child(venue.venueId).child("events"); //get the events
-        ref.orderByValue().addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<String> eventIds = new ArrayList<>();
-                for(DataSnapshot event: snapshot.getChildren()){
-                    eventIds.add(event.getKey());
-                }
-                FirebaseUtil.getEvents().get().addOnSuccessListener(dataSnapshot->{
-                    List<WithId<EventId, EventModel>> events = new ArrayList<>();
-                    for(String e: eventIds){
-                        EventModel event = dataSnapshot.child(e).getValue(EventModel.class);
-                        events.add(WithId.of(new EventId(e), event));
-                    }
-
-                    callback.accept(Try.success(events));
-                });
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                callback.accept(Try.failure(error.toException()));
-            }
+        Query q =  FirebaseUtil.getVenues().child("events").orderByValue().startAt(new Date().getTime()); //get the events
+        q.get().addOnSuccessListener(dataSnapshot -> {
+            List<String> venueEvents = Stream.ofAll(dataSnapshot.getChildren())
+                    .map(snapshot -> (snapshot.getKey())).toJavaList();
+            Query q2 = FirebaseUtil.getEvents().orderByKey();
+            q2.get().addOnSuccessListener(dataSnapshot1 -> {
+                List<WithId<EventId, EventModel>> events = Stream.ofAll(venueEvents)
+                        .map(event -> WithId.of(new EventId(event), dataSnapshot1.child(event).getValue(EventModel.class)))
+                        .toJavaList();
+                callback.accept(Try.success(events));
+            }).addOnFailureListener(e ->
+                    callback.accept(Try.failure(e)));
 
         });
     }
