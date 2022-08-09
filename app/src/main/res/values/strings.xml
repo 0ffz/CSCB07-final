@@ -63,4 +63,6 @@
     <string name="button_save">Save</string>
     <string name="dialog_section_maximum_capacity">Maximum capacity</string>
     <string name="hint_max_capacity">Max capacity</string>
+    <string name="error_capacity_value">This field must be greater than 0.</string>
+    <string name="error_invalid_date_range">Invalid date range.</string>
 </resources>
