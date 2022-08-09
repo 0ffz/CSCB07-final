@@ -8,6 +8,7 @@ import com.example.cscb07.R;
 import com.example.cscb07.data.repositories.UserRepository;
 import com.example.cscb07.data.util.MessageUtil;
 import com.example.cscb07.data.util.ServiceLocator;
+import com.example.cscb07.ui.state.UserUiState;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import io.vavr.control.Try;
@@ -60,7 +61,7 @@ public class AuthViewModel extends ViewModel {
         userRepository.signOutCurrentUser();
     }
 
-    public final LiveData<FirebaseUser> getUser() {
+    public final LiveData<UserUiState> getUser() {
         return user;
     }
 
