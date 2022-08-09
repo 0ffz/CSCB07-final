@@ -12,6 +12,7 @@ public class MessageUtil {
         } else {
             message.postValue(new Message(throwable.getLocalizedMessage()));
         }
+        throwable.printStackTrace();
     }
 
     public static void showMessage(int errorId) {

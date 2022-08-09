@@ -23,8 +23,8 @@ public class UpcomingScreen extends AbstractEventListScreen {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         TitleBarUtil.setupToolbar(this);
-        upcomingListViewModel.loadAllUpcomingEvents();
-        upcomingListViewModel.loadAllPendingEvents();
+        eventListViewModel.loadAllUpcomingEvents();
+        eventListViewModel.loadAllPendingEvents();
         setupList(true);
     }
 }

@@ -13,13 +13,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.cscb07.R;
 import com.example.cscb07.ui.stateholders.AuthViewModel;
-import com.example.cscb07.ui.stateholders.UpcomingListViewModel;
+import com.example.cscb07.ui.stateholders.EventListViewModel;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 
 public abstract class AbstractEventListScreen extends Fragment {
-    protected UpcomingListViewModel upcomingListViewModel;
+    protected EventListViewModel eventListViewModel;
     protected AuthViewModel authViewModel;
 
     protected NavController navController;
@@ -27,7 +27,7 @@ public abstract class AbstractEventListScreen extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
-        upcomingListViewModel = new ViewModelProvider(requireActivity()).get(UpcomingListViewModel.class);
+        eventListViewModel = new ViewModelProvider(requireActivity()).get(EventListViewModel.class);
         authViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
         navController = Navigation.findNavController(view);
         eventsContainer = view.findViewById(R.id.events_container);
@@ -47,12 +47,12 @@ public abstract class AbstractEventListScreen extends Fragment {
 
     private PendingEventCardAdapter createPendingAdapter(boolean showVenue) {
         PendingEventCardAdapter pendingEventCardAdapter = new PendingEventCardAdapter(Collections.emptyList(), showVenue);
-        upcomingListViewModel.getPendingEvents().observe(getViewLifecycleOwner(), pendingEventCardAdapter::setEventList);
+        eventListViewModel.getPendingEvents().observe(getViewLifecycleOwner(), pendingEventCardAdapter::setEventList);
 
-        pendingEventCardAdapter.approveClickListener = (eventState, position) -> upcomingListViewModel.approveEvent(eventState.eventId, () -> {
+        pendingEventCardAdapter.approveClickListener = (eventState, position) -> eventListViewModel.approveEvent(eventState.eventId, () -> {
             pendingEventCardAdapter.remove(position);
         });
-        pendingEventCardAdapter.denyClickListener = (eventState, position) -> upcomingListViewModel.denyEvent(eventState.eventId, () -> {
+        pendingEventCardAdapter.denyClickListener = (eventState, position) -> eventListViewModel.denyEvent(eventState.eventId, () -> {
             pendingEventCardAdapter.remove(position);
         });
         return pendingEventCardAdapter;
@@ -60,10 +60,10 @@ public abstract class AbstractEventListScreen extends Fragment {
 
     private EventCardAdapter createEventAdapter(boolean showVenue) {
         EventCardAdapter eventCardAdapter = new EventCardAdapter(Collections.emptyList(), showVenue);
-        upcomingListViewModel.getEvents().observe(getViewLifecycleOwner(), eventCardAdapter::setEventList);
+        eventListViewModel.getEvents().observe(getViewLifecycleOwner(), eventCardAdapter::setEventList);
 
         eventCardAdapter.clickListener = (eventState, position) -> {
-            upcomingListViewModel.joinEvent(eventState.eventId, () -> {
+            eventListViewModel.joinEvent(eventState.eventId, () -> {
                 eventState.joined = true;
                 eventState.attendeeCount += 1;
                 eventCardAdapter.notifyItemChanged(position);
