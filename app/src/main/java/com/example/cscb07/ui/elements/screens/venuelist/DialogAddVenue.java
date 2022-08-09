@@ -39,14 +39,9 @@ public class DialogAddVenue extends Fragment {
 
         Button saveVenue = view.findViewById((R.id.buttonSave));
 
-        inputValidator.validate(venueName, s -> {
-            if(s.isEmpty()) return getString(R.string.input_error_empty_venue);
-            else return null;
-        });
-        inputValidator.validate(venueDescription, s -> {
-            if(s.isEmpty()) return getString(R.string.input_error_empty_venue_desc);
-            else return null;
-        });
+        String empty = getString(R.string.input_error_empty);
+        inputValidator.validateNotEmpty(venueName, empty);
+        inputValidator.validateNotEmpty(venueDescription, empty);
 
         saveVenue.setOnClickListener(v -> {
             String name = venueName.getEditText().getText().toString();

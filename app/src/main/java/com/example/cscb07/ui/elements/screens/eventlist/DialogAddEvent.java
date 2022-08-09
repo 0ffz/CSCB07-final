@@ -6,16 +6,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import com.example.cscb07.R;
+import com.example.cscb07.data.util.MessageUtil;
 import com.example.cscb07.ui.elements.screens.TitleBarUtil;
 import com.example.cscb07.ui.state.TimeUiState;
 import com.example.cscb07.ui.state.VenueUiState;
 import com.example.cscb07.ui.stateholders.AddEventViewModel;
 import com.example.cscb07.ui.stateholders.AddEventViewModelFactory;
+import com.example.cscb07.ui.stateholders.InputValidator;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.timepicker.MaterialTimePicker;
@@ -37,6 +40,7 @@ public class DialogAddEvent extends Fragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         VenueUiState venue = DialogAddEventArgs.fromBundle(requireArguments()).getVenue();
         TitleBarUtil.setupToolbar(this).setTitle(venue.name);
+        NavController navController = Navigation.findNavController(view);
         addEventViewModel = new AddEventViewModelFactory(venue.id).create(AddEventViewModel.class);
 
         // Set up date and time pickers
@@ -54,11 +58,38 @@ public class DialogAddEvent extends Fragment {
         setupField(endDate, () -> showDatePicker(date -> addEventViewModel.setEndDate(date)));
         setupField(endTime, () -> showTimePicker(time -> addEventViewModel.setEndTime(time)));
 
+        // Add input validation for fields
+        InputValidator inputValidator = new InputValidator();
+        String empty = getString(R.string.input_error_empty);
+
+        inputValidator.validateNotEmpty(eventName, empty);
+        inputValidator.validateNotEmpty(startDate, empty);
+        inputValidator.validateNotEmpty(startTime, empty);
+        inputValidator.validate(endDate, s -> {
+            if (s.isEmpty()) return empty;
+            else if (!addEventViewModel.isEndDateValid()) return getString(R.string.input_error_end_date_valid);
+            else return null;
+        }, startDate, startTime, endTime);
+        inputValidator.validateNotEmpty(endTime, empty);
+        inputValidator.validateNotEmpty(maxCapacity, empty);
+
         // Observe updates to update text on date and time pickers
-        addEventViewModel.getStartDate().observe(getViewLifecycleOwner(), date -> startDate.setText(SimpleDateFormat.getDateInstance().format(date)));
-        addEventViewModel.getStartTime().observe(getViewLifecycleOwner(), time -> startTime.setText(time.toString()));
-        addEventViewModel.getEndDate().observe(getViewLifecycleOwner(), date -> endDate.setText(SimpleDateFormat.getDateInstance().format(date)));
-        addEventViewModel.getEndTime().observe(getViewLifecycleOwner(), time -> endTime.setText(time.toString()));
+        addEventViewModel.getStartDate().observe(getViewLifecycleOwner(), date -> startDate.getEditText().setText(SimpleDateFormat.getDateInstance().format(date)));
+        addEventViewModel.getStartTime().observe(getViewLifecycleOwner(), time -> startTime.getEditText().setText(time.toString()));
+        addEventViewModel.getEndDate().observe(getViewLifecycleOwner(), date -> endDate.getEditText().setText(SimpleDateFormat.getDateInstance().format(date)));
+        addEventViewModel.getEndTime().observe(getViewLifecycleOwner(), time -> endTime.getEditText().setText(time.toString()));
+
+        saveButton.setOnClickListener(v -> addEventViewModel.addEvent(
+                eventName.getEditText().getText().toString(),
+                eventDesc.getEditText().getText().toString(),
+                maxCapacity.getEditText().getText().toString(),
+                inputValidator
+        ));
+
+        addEventViewModel.getCreatedEvent().observe(getViewLifecycleOwner(), event -> {
+            navController.popBackStack();
+            MessageUtil.showMessage(R.string.success_event_created);
+        });
     }
 
     public void showDatePicker(Consumer<Date> consumer) {
@@ -75,19 +106,18 @@ public class DialogAddEvent extends Fragment {
                 .setTitleText(R.string.dialog_select_time)
                 .setInputMode(MaterialTimePicker.INPUT_MODE_CLOCK)
                 .build();
-        // TODO pass TimeUiState object
         picker.addOnPositiveButtonClickListener(result ->
                 consumer.accept(new TimeUiState(picker.getHour(), picker.getMinute()))
         );
         picker.show(requireActivity().getSupportFragmentManager(), "clock");
     }
 
-    public void setupField(EditText field, Runnable onSelected) {
-        field.setInputType(InputType.TYPE_NULL);
-        field.setOnFocusChangeListener((v, hasFocus) -> {
+    public void setupField(TextInputLayout field, Runnable onSelected) {
+        field.getEditText().setInputType(InputType.TYPE_NULL);
+        field.getEditText().setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) onSelected.run();
         });
-        field.setOnClickListener((v) -> onSelected.run());
+        field.getEditText().setOnClickListener((v) -> onSelected.run());
     }
 
 }

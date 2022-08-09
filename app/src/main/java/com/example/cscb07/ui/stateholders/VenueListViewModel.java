@@ -29,7 +29,7 @@ public class VenueListViewModel extends ViewModel {
                         .map(it -> new VenueUiState(it.model.name, it.model.description, it.id))
                         .collect(Collectors.toList()));
             });
-            result.onFailure(f -> MessageUtil.showError(R.string.error_fail_to_get_events));
+            result.onFailure(f -> MessageUtil.showMessage(R.string.error_fail_to_get_events));
         });
     }
 }

@@ -37,7 +37,7 @@ public class AddVenueViewModel extends ViewModel {
     private void handleAddVenueResult(Try<VenueId> result) {
         attemptingAddVenue.setValue(false);
         result.onSuccess(createdVenue::postValue);
-        result.onFailure(MessageUtil::showError);
+        result.onFailure(MessageUtil::showMessage);
     }
 
     public void addVenue(String name, String description, InputValidator inputValidator) {

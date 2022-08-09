@@ -29,7 +29,11 @@ public class InputValidator {
         return invalidInputs.isEmpty();
     }
 
-    public void validate(TextInputLayout inputLayout, Function<String, String> checkForError) {
+    public void validateNotEmpty(TextInputLayout input, String errorMessage) {
+        validate(input, s -> s.isEmpty() ? errorMessage : null);
+    }
+
+    public void validate(TextInputLayout inputLayout, Function<String, String> checkForError, TextInputLayout... additional) {
         TextWatcher watcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -53,6 +57,9 @@ public class InputValidator {
 
             }
         };
+        for (TextInputLayout input : additional) {
+            input.getEditText().addTextChangedListener(watcher);
+        }
         watchers.put(inputLayout, watcher);
         inputLayout.getEditText().addTextChangedListener(watcher);
     }

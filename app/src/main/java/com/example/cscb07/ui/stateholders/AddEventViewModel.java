@@ -3,18 +3,16 @@ package com.example.cscb07.ui.stateholders;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
 import com.example.cscb07.data.repositories.EventRepository;
 import com.example.cscb07.data.results.EventId;
 import com.example.cscb07.data.results.VenueId;
 import com.example.cscb07.data.util.MessageUtil;
 import com.example.cscb07.data.util.ServiceLocator;
 import com.example.cscb07.ui.state.TimeUiState;
+import io.vavr.control.Try;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
-
-import io.vavr.control.Try;
 
 public class AddEventViewModel extends ViewModel {
     public final VenueId currentVenue;
@@ -61,23 +59,28 @@ public class AddEventViewModel extends ViewModel {
     private void handleAddEventResult(Try<EventId> result) {
         attemptingAddEvent.setValue(false);
         result.onSuccess(createdEvent::postValue);
-        result.onFailure(MessageUtil::showError);
+        result.onFailure(MessageUtil::showMessage);
     }
 
-    public void addEvent(VenueId venue, String name, String description,
-                         String startDate, String startTime,
-                         String endDate, String endTime,
-                         int maxCapacity,
-                         InputValidator inputValidator) {
-        if(!inputValidator.isValid()) return;
-        if(attemptingAddEvent.getValue()) return;
+    public void addEvent(
+            String name,
+            String description,
+            String maxCapacity,
+            InputValidator inputValidator
+    ) {
+        if (!inputValidator.isValid()) return;
+        if (attemptingAddEvent.getValue()) return;
         attemptingAddEvent.setValue(true);
         eventRepository.addEvent(currentVenue, name, description,
                 calculateDateMillis(getStartDate().getValue(), getStartTime().getValue()),
-                calculateDateMillis(getEndDate().getValue(), getEndTime().getValue()), maxCapacity, this::handleAddEventResult);
+                calculateDateMillis(getEndDate().getValue(), getEndTime().getValue()), Integer.parseInt(maxCapacity),
+                this::handleAddEventResult
+        );
     }
 
-    public LiveData<Boolean> isAttemptingAddEvent() { return attemptingAddEvent; }
+    public LiveData<Boolean> isAttemptingAddEvent() {
+        return attemptingAddEvent;
+    }
 
     public void setStartDate(Date date) {
         startDate.setValue(date);
@@ -113,5 +116,19 @@ public class AddEventViewModel extends ViewModel {
 
     private long calculateDateMillis(Date date, TimeUiState time) {
         return date.getTime() + TimeUnit.HOURS.toMillis(time.hour) + TimeUnit.HOURS.toMillis(time.minute);
+    }
+
+    public boolean isEndDateValid() {
+        Date startDate = getStartDate().getValue();
+        TimeUiState startTime = getStartTime().getValue();
+        Date endDate = getEndDate().getValue();
+        TimeUiState endTime = getEndTime().getValue();
+        if (endDate == null || endTime == null || startDate == null || startTime == null) return false;
+        // checks if end date comes after start date
+        return calculateDateMillis(endDate, endTime) > calculateDateMillis(startDate, startTime);
+    }
+
+    public LiveData<EventId> getCreatedEvent() {
+        return createdEvent;
     }
 }
