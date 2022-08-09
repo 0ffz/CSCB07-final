@@ -24,8 +24,5 @@ public class EventCard extends RecyclerView.ViewHolder{
         time = view.findViewById(R.id.eventStartTime);
         attendees = view.findViewById(R.id.eventAttendees);
         joinButton = view.findViewById(R.id.eventJoinButton);
-
-
-
     }
 }
