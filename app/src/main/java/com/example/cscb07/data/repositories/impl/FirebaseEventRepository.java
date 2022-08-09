@@ -1,5 +1,7 @@
 package com.example.cscb07.data.repositories.impl;
 
+import android.provider.ContactsContract;
+
 import androidx.annotation.NonNull;
 import com.example.cscb07.data.models.EventModel;
 import com.example.cscb07.data.models.PendingEventModel;
@@ -28,8 +30,10 @@ public class FirebaseEventRepository implements EventRepository {
         EventModel e = new EventModel(eventName, venue.venueId, description, startDate, endDate, maxCapacity); //make event
         String creator = FirebaseAuth.getInstance().getCurrentUser().getUid(); //get current user
         DatabaseReference d = FirebaseUtil.getPendingEvents(); //get database reference
+        DatabaseReference venues = FirebaseUtil.getVenues().child(venue.venueId).child("pendingEvents");
         PendingEventModel p = new PendingEventModel(e, creator); //new pending event;
         String key = d.push().getKey(); // store key in variable
+        venues.child(key).setValue(startDate);
         d.child(key).setValue(p); // store the event under pendingEvents
         callback.accept(Try.success(new EventId(key)));
 
@@ -142,5 +146,23 @@ public class FirebaseEventRepository implements EventRepository {
             callback.accept(Try.success(events));
         }).addOnFailureListener(e ->
                 callback.accept(Try.failure(e)));
+    }
+
+    @Override
+    public void getPendingEventsForVenue(VenueId venue, Consumer<Try<List<WithId<EventId, EventModel>>>> callback) {
+        Query q = FirebaseUtil.getVenues().child(venue.venueId).child("pendingEvents").orderByValue().startAt(new Date().getTime()); //get the events
+        q.get().addOnSuccessListener(dataSnapshot -> {
+            Stream<String> venuePendingEvents = Stream.ofAll(dataSnapshot.getChildren()).map(DataSnapshot::getKey);
+            Query q2 = FirebaseUtil.getPendingEvents();
+            q2.get().addOnSuccessListener(dataSnapshot1 -> {
+                List<WithId<EventId, EventModel>> events = venuePendingEvents
+                        .map(event -> WithId.of(new EventId(event), dataSnapshot1.child(event).child("event").getValue(EventModel.class)))
+                        .toJavaList();
+                callback.accept(Try.success(events));
+
+            }).addOnFailureListener(e ->
+                    callback.accept(Try.failure(e)));
+
+        });
     }
 }

@@ -42,4 +42,6 @@ public interface EventRepository {
     );
 
     void getAllPendingEvents(Consumer<Try<List<WithId<EventId, EventModel>>>> callback);
+
+    void getPendingEventsForVenue(VenueId venue, Consumer<Try<List<WithId<EventId, EventModel>>>> callback);
 }
