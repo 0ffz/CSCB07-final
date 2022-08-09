@@ -5,12 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import com.example.cscb07.R;
-import com.example.cscb07.ui.stateholders.AuthViewModel;
+import com.example.cscb07.ui.stateholders.InputValidator;
+import com.google.android.material.textfield.TextInputLayout;
+
 import org.jetbrains.annotations.NotNull;
 
 public class SignupScreen extends AuthScreen {
@@ -26,20 +28,25 @@ public class SignupScreen extends AuthScreen {
         setupAuthScreen();
 
         // Info fields
-        EditText editTextEmail = view.findViewById(R.id.editTextEmail);
-        EditText editTextPassword = view.findViewById(R.id.editTextPassword);
-        EditText editTextPasswordRetype = view.findViewById(R.id.editTextPasswordRetype);
+        TextInputLayout email = view.findViewById(R.id.editTextEmail);
+        TextInputLayout password = view.findViewById(R.id.editTextPassword);
+        TextInputLayout passwordRetype = view.findViewById(R.id.editTextPasswordRetype);
         Button signupButton = view.findViewById(R.id.signupButton);
         Button loginLink = view.findViewById(R.id.loginButton);
 
-        signupButton.setOnClickListener(v -> {
-            // Get email/pass as Strings
-            String email = editTextEmail.getText().toString();
-            String password = editTextPassword.getText().toString();
-            String passwordRetype = editTextPasswordRetype.getText().toString();
+        InputValidator inputValidator = new InputValidator();
+        String empty = getString(R.string.input_error_empty);
 
-            authViewModel.signUp(email, password, passwordRetype);
-        });
+        inputValidator.validateNotEmpty(email, empty);
+        inputValidator.validateNotEmpty(password, empty);
+        inputValidator.validateNotEmpty(passwordRetype, empty);
+
+        signupButton.setOnClickListener(v -> authViewModel.signUp(
+                email.getEditText().getText().toString(),
+                password.getEditText().getText().toString(),
+                passwordRetype.getEditText().getText().toString(),
+                inputValidator
+        ));
 
         // navigate to login page
         loginLink.setOnClickListener(v -> navController.navigate(SignupScreenDirections.actionScreenSignupToScreenLogin()));
