@@ -15,9 +15,7 @@ import com.example.cscb07.ui.stateholders.AuthViewModel;
 import com.example.cscb07.ui.stateholders.UpcomingListViewModel;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-
-public class AbstractEventListScreen extends Fragment {
+public abstract class AbstractEventListScreen extends Fragment {
     protected UpcomingListViewModel upcomingListViewModel;
     protected AuthViewModel authViewModel;
 
@@ -30,32 +28,36 @@ public class AbstractEventListScreen extends Fragment {
         upcomingListViewModel = new ViewModelProvider(requireActivity()).get(UpcomingListViewModel.class);
         authViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
         navController = Navigation.findNavController(view);
-        pendingEventsContainer = view.findViewById(R.id.pending_events_container);
+//        pendingEventsContainer = view.findViewById(R.id.pending_events_container);
         eventsContainer = view.findViewById(R.id.events_container);
     }
 
-    public void setupList(boolean showVenueName) {
+    public void setupList(boolean showVenue) {
         authViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
-            if(user.isAdmin && pendingEventsContainer != null) createPendingList();
-            createEventList();
+            if (user.isAdmin && pendingEventsContainer != null) createPendingList();
+            createEventList(showVenue);
         });
     }
 
     private void createPendingList() {
-        upcomingListViewModel.getPendingEvents().observe(getViewLifecycleOwner(), events -> {
-            EventCardAdapter eventCardAdapter = new EventCardAdapter(new ArrayList<>(events), eventState -> {
-                upcomingListViewModel.joinEvent(eventState.eventId);
-            });
-            eventsContainer.setAdapter(eventCardAdapter);
-            eventsContainer.setLayoutManager(new LinearLayoutManager(this.getActivity()));
-        });
+//        upcomingListViewModel.getPendingEvents().observe(getViewLifecycleOwner(), events -> {
+//            AbstractEventCardAdapter eventCardAdapter = new AbstractEventCardAdapter(events, eventState -> {
+//                upcomingListViewModel.joinEvent(eventState.eventId);
+//            });
+//            eventsContainer.setAdapter(eventCardAdapter);
+//            eventsContainer.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+//        });
     }
 
-    private void createEventList() {
+    private void createEventList(boolean showVenue) {
         upcomingListViewModel.getEvents().observe(getViewLifecycleOwner(), events -> {
-            EventCardAdapter eventCardAdapter = new EventCardAdapter(new ArrayList<>(events), eventState -> {
-                upcomingListViewModel.joinEvent(eventState.eventId);
-            });
+            EventCardAdapter eventCardAdapter = new EventCardAdapter(events, showVenue);
+            eventCardAdapter.clickListener = (eventState, position) -> {
+                upcomingListViewModel.joinEvent(eventState.eventId, () -> {
+                    eventState.joined = true;
+                    eventCardAdapter.notifyItemChanged(position);
+                });
+            };
             eventsContainer.setAdapter(eventCardAdapter);
             eventsContainer.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         });

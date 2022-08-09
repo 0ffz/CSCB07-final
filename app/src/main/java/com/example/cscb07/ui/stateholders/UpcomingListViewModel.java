@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.cscb07.R;
 import com.example.cscb07.data.models.EventModel;
 import com.example.cscb07.data.repositories.EventRepository;
+import com.example.cscb07.data.repositories.UserRepository;
 import com.example.cscb07.data.results.EventId;
 import com.example.cscb07.data.results.VenueId;
 import com.example.cscb07.data.results.WithId;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 
 public class UpcomingListViewModel extends ViewModel {
     private final EventRepository eventRepository = ServiceLocator.getInstance().getEventRepository();
+    private final UserRepository userRepository = ServiceLocator.getInstance().getUserRepository();
     private final MutableLiveData<List<EventUiState>> events = new MutableLiveData<>();
     private final MutableLiveData<List<EventUiState>> pendingEvents = new MutableLiveData<>();
 
@@ -42,27 +44,32 @@ public class UpcomingListViewModel extends ViewModel {
 
     }
 
-    public void joinEvent(EventId event) {
+    public void joinEvent(EventId event, Runnable callback) {
         eventRepository.signUpEvent(event, result -> {
-            // TODO update ui
-//            result.onSuccess((i) -> events.setValue());
-            result.onFailure(f -> MessageUtil.showMessage(R.string.error_fail_to_join_event));
+            result.onSuccess((i) -> callback.run());
+            result.onFailure(MessageUtil::showMessage);
         });
     }
 
     private void setEvents(Try<List<WithId<EventId, EventModel>>> result) {
-        result.onSuccess(newVenues -> events.setValue(newVenues.stream()
-                .map(it -> new EventUiState(
-                        it.model.name,
-                        it.model.description,
-                        it.model.getStartDate(),
-                        it.model.getEndDate(),
-                        it.model.numAttendees,
-                        it.model.maxCapacity,
-                        it.id,
-                        new VenueId(it.model.venue)))
-                .collect(Collectors.toList()))
-        );
+        userRepository.getJoinedEvents(joinedResult -> {
+            joinedResult.onSuccess(joined -> {
+                result.onSuccess(newVenues -> events.setValue(newVenues.stream()
+                        .map(it -> new EventUiState(
+                                it.model.name,
+                                it.model.description,
+                                it.model.getStartDate(),
+                                it.model.getEndDate(),
+                                it.model.numAttendees,
+                                it.model.maxCapacity,
+                                it.id,
+                                new VenueId(it.model.venue),
+                                joined.contains(it.id)
+                        ))
+                        .collect(Collectors.toList()))
+                );
+            });
+        });
         result.onFailure(f -> MessageUtil.showMessage(R.string.error_fail_to_get_events));
     }
 

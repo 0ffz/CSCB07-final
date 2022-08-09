@@ -1,23 +1,19 @@
 package com.example.cscb07.data.repositories.impl;
 
 import com.example.cscb07.data.models.UserModel;
-import com.example.cscb07.data.models.VenueModel;
 import com.example.cscb07.data.repositories.UserRepository;
-import com.example.cscb07.data.results.UserId;
-import com.example.cscb07.data.results.VenueId;
-import com.example.cscb07.data.results.WithId;
+import com.example.cscb07.data.results.EventId;
 import com.example.cscb07.data.util.FirebaseUtil;
-import com.example.cscb07.ui.state.UserUiState;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.Query;
-
-import io.vavr.collection.Stream;
+import com.google.firebase.database.GenericTypeIndicator;
 import io.vavr.control.Try;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
+import java.util.*;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class FirebaseUserRepository implements UserRepository {
     FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -55,4 +51,17 @@ public class FirebaseUserRepository implements UserRepository {
         // TO-DO
     }
 
+    @Override
+    public void getJoinedEvents(Consumer<Try<Set<EventId>>> callback) {
+        GenericTypeIndicator<Map<String, Object>> t = new GenericTypeIndicator<Map<String, Object>>() {
+        };
+        FirebaseUtil.getCurrentUserRef().child("events").get()
+                .addOnSuccessListener(dataSnapshot -> {
+                    Set<String> eventIds = Optional.ofNullable(dataSnapshot.getValue(t))
+                            .map(Map::keySet)
+                            .orElse(Collections.emptySet());
+                    callback.accept(Try.success(eventIds.stream().map(EventId::new).collect(Collectors.toSet())));
+                })
+                .addOnFailureListener(e -> callback.accept(Try.failure(e)));
+    }
 }
