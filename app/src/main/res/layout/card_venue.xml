@@ -6,8 +6,9 @@
         android:layout_margin="8dp"
         android:clickable="true"
         android:focusable="true"
-        android:elevation="0dp"
-        style="?attr/materialCardViewFilledStyle" android:id="@+id/eventCard">
+        android:elevation="5dp"
+        style="?attr/materialCardViewElevatedStyle"
+        android:id="@+id/venueCardView">
 
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="wrap_content"
