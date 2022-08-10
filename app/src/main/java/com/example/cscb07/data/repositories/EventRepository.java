@@ -27,7 +27,7 @@ public interface EventRepository {
 
     void removePendingEvent(EventId event);
 
-    void getUpcomingEventsForCurrentUser(
+        void getUpcomingEventsForCurrentUser(
             Consumer<Try<List<WithId<EventId, EventModel>>>> callback
     );
 

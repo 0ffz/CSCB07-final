@@ -42,6 +42,7 @@ public class HomeScreen extends Fragment {
         // FAB for adding venue (only shows for admins)
         ExtendedFloatingActionButton addVenueButton = view.findViewById(R.id.floatingActionButton);
         authViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
+            if(user == null) return;
             if(user.isAdmin) addVenueButton.setVisibility(View.VISIBLE);
             else addVenueButton.setVisibility(View.GONE);
         });
