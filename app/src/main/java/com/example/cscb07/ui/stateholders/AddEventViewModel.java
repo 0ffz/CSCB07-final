@@ -91,7 +91,7 @@ public class AddEventViewModel extends ViewModel {
     }
 
     private long calculateDateMillis(Date date, TimeUiState time) {
-        return date.getTime() + TimeUnit.HOURS.toMillis(time.hour) + TimeUnit.HOURS.toMillis(time.minute);
+        return date.getTime() + TimeUnit.HOURS.toMillis(time.hour) + TimeUnit.MINUTES.toMillis(time.minute);
     }
 
     public boolean isEndDateValid() {
