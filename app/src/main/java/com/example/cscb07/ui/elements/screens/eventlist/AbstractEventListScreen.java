@@ -38,6 +38,7 @@ public abstract class AbstractEventListScreen extends Fragment {
 
     public void setupList() {
         authViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
+            if(user == null) return;
             if (user.isAdmin) {
                 eventsContainer.setAdapter(new ConcatAdapter(createPendingAdapter(), createEventAdapter()));
             } else {
