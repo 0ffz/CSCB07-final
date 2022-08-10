@@ -8,26 +8,16 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 import com.example.cscb07.R;
-import com.example.cscb07.data.models.EventModel;
-import com.example.cscb07.data.repositories.EventRepository;
-import com.example.cscb07.data.results.EventId;
-import com.example.cscb07.data.results.VenueId;
-import com.example.cscb07.data.results.WithId;
 import com.example.cscb07.data.util.MessageUtil;
-import com.example.cscb07.data.util.ServiceLocator;
 import com.example.cscb07.ui.elements.screens.venuelist.HomeScreenDirections;
 import com.example.cscb07.ui.stateholders.AuthViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.elevation.SurfaceColors;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.util.List;
 import java.util.Objects;
-import java.util.function.Consumer;
 
 import static androidx.navigation.ui.NavigationUI.setupWithNavController;
-
-import io.vavr.control.Try;
 
 public class MainActivity extends AppCompatActivity {
     private NavController navController;
@@ -86,10 +76,9 @@ public class MainActivity extends AppCompatActivity {
         bottomNav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
             if (id == R.id.screenLogout) authViewModel.signOut();
-            if(bottomNav.getSelectedItemId() == id) {
+            if (bottomNav.getSelectedItemId() == id) {
                 navController.popBackStack(id, false);
-            }
-            else {
+            } else {
                 NavigationUI.onNavDestinationSelected(item, navController);
                 return true;
             }

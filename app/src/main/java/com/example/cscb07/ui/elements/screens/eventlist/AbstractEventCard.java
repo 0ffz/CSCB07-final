@@ -3,13 +3,11 @@ package com.example.cscb07.ui.elements.screens.eventlist;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.cscb07.R;
 
-public abstract class AbstractEventCard extends RecyclerView.ViewHolder{
+public abstract class AbstractEventCard extends RecyclerView.ViewHolder {
     public CardView card;
     public TextView title;
     public TextView description;

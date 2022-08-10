@@ -3,12 +3,9 @@ package com.example.cscb07.ui.stateholders;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
 import com.example.cscb07.data.repositories.VenueRepository;
-import com.example.cscb07.data.results.VenueId;
 import com.example.cscb07.data.util.MessageUtil;
 import com.example.cscb07.data.util.ServiceLocator;
-
 import com.example.cscb07.ui.state.VenueUiState;
 import io.vavr.control.Try;
 
@@ -26,7 +23,7 @@ public class AddVenueViewModel extends ViewModel {
     }
 
     public void addVenue(String name, String description, InputValidator inputValidator) {
-        if(!inputValidator.isValid()) return;
+        if (!inputValidator.isValid()) return;
         if (attemptingAddVenue.getValue()) return;
         attemptingAddVenue.setValue(true);
         venueRepository.addVenue(name, description, this::handleAddVenueResult);

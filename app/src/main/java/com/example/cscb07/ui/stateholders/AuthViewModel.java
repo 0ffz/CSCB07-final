@@ -1,11 +1,9 @@
 package com.example.cscb07.ui.stateholders;
 
 import android.util.Patterns;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
 import com.example.cscb07.R;
 import com.example.cscb07.data.repositories.UserRepository;
 import com.example.cscb07.data.util.MessageUtil;
@@ -13,7 +11,6 @@ import com.example.cscb07.data.util.ServiceLocator;
 import com.example.cscb07.ui.state.UserUiState;
 import com.example.cscb07.ui.stateholders.firebase.FirebaseUserLiveData;
 import com.google.firebase.auth.FirebaseUser;
-
 import io.vavr.control.Try;
 
 public class AuthViewModel extends ViewModel {

@@ -2,24 +2,19 @@ package com.example.cscb07.ui.elements.screens.venuelist;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.cscb07.R;
 import com.example.cscb07.ui.state.VenueUiState;
-import com.google.android.material.elevation.SurfaceColors;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
 public class VenueCardAdapter extends RecyclerView.Adapter<VenueCard> {
-    private Context resources;
+    private final Context resources;
     private final ArrayList<VenueUiState> localDataSet;
     private final Consumer<VenueUiState> clickListener;
 
@@ -52,12 +47,10 @@ public class VenueCardAdapter extends RecyclerView.Adapter<VenueCard> {
     }
 
     public int getTintFor(String name) {
-        switch (name.hashCode() % 2) {
-            case 0:
-                return android.R.color.holo_red_light;
-            default:
-                return com.google.android.material.R.attr.colorSurfaceVariant;
+        if (name.hashCode() % 2 == 0) {
+            return android.R.color.holo_red_light;
         }
+        return com.google.android.material.R.attr.colorSurfaceVariant;
     }
 
     @Override

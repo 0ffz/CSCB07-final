@@ -38,7 +38,7 @@ public abstract class AbstractEventListScreen extends Fragment {
 
     public void setupList() {
         authViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
-            if(user == null) return;
+            if (user == null) return;
             if (user.isAdmin) {
                 eventsContainer.setAdapter(new ConcatAdapter(createPendingAdapter(), createEventAdapter()));
             } else {
@@ -55,7 +55,7 @@ public abstract class AbstractEventListScreen extends Fragment {
 
         pendingEventCardAdapter.approveClickListener = this::onApprove;
         pendingEventCardAdapter.denyClickListener = this::onDeny;
-        if(isCardClickable()) pendingEventCardAdapter.cardClickListener = this::onClickCard;
+        if (isCardClickable()) pendingEventCardAdapter.cardClickListener = this::onClickCard;
         return pendingEventCardAdapter;
     }
 

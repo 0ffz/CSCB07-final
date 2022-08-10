@@ -6,6 +6,7 @@ import com.example.cscb07.R;
 
 public class EventCard extends AbstractEventCard {
     public Button joinButton;
+
     public EventCard(View view) {
         super(view);
         joinButton = view.findViewById(R.id.eventJoinButton);

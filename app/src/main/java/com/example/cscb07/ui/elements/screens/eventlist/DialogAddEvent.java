@@ -6,13 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-
 import com.example.cscb07.R;
 import com.example.cscb07.data.util.MessageUtil;
 import com.example.cscb07.ui.elements.screens.TitleBarUtil;
@@ -24,7 +22,6 @@ import com.example.cscb07.ui.stateholders.InputValidator;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.timepicker.MaterialTimePicker;
-
 import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;

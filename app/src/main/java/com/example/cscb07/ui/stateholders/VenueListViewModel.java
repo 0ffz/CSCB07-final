@@ -2,17 +2,15 @@ package com.example.cscb07.ui.stateholders;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-
 import androidx.lifecycle.ViewModel;
 import com.example.cscb07.R;
 import com.example.cscb07.data.repositories.VenueRepository;
 import com.example.cscb07.data.util.MessageUtil;
 import com.example.cscb07.data.util.ServiceLocator;
-
-import java.util.*;
-import java.util.stream.Collectors;
-
 import com.example.cscb07.ui.state.VenueUiState;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class VenueListViewModel extends ViewModel {
     private final VenueRepository venueRepository = ServiceLocator.getInstance().getVenueRepository();

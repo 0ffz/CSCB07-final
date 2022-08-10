@@ -2,7 +2,6 @@ package com.example.cscb07.ui.elements.screens.venuelist;
 
 import android.view.View;
 import android.widget.TextView;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.cscb07.R;
 import com.google.android.material.card.MaterialCardView;

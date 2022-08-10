@@ -22,15 +22,13 @@ public abstract class AbstractEventCardAdapter<T extends AbstractEventCard> exte
     public void onBindViewHolder(T eventCard, @SuppressLint("RecyclerView") final int position) {
         eventCard.title.setText(eventList.get(position).name);
         String desc = eventList.get(position).description;
-        if(desc.isEmpty())
+        if (desc.isEmpty())
             eventCard.description.setVisibility(View.GONE);
         else {
             eventCard.description.setText(desc);
             eventCard.description.setVisibility(View.VISIBLE);
         }
 
-
-        //TODO get venue name
         if (showVenue) {
             eventCard.location.setText(eventList.get(position).venueName);
             eventCard.locationContainer.setVisibility(View.VISIBLE);

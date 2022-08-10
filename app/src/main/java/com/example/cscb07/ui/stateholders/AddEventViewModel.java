@@ -3,18 +3,16 @@ package com.example.cscb07.ui.stateholders;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
 import com.example.cscb07.data.repositories.EventRepository;
 import com.example.cscb07.data.results.EventId;
 import com.example.cscb07.data.results.VenueId;
 import com.example.cscb07.data.util.MessageUtil;
 import com.example.cscb07.data.util.ServiceLocator;
 import com.example.cscb07.ui.state.TimeUiState;
+import io.vavr.control.Try;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
-
-import io.vavr.control.Try;
 
 public class AddEventViewModel extends ViewModel {
     public final VenueId currentVenue;

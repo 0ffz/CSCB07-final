@@ -9,7 +9,6 @@ import com.google.firebase.auth.FirebaseUser;
 import io.vavr.control.Try;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Set;
 import java.util.function.Consumer;
 
 public class FirebaseUserRepository implements UserRepository {

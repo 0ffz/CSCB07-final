@@ -1,9 +1,5 @@
 package com.example.cscb07.data.models;
 
-import com.google.common.collect.ImmutableList;
-
-import java.util.List;
-
 public class VenueModel {
 
     public String name;
@@ -14,7 +10,6 @@ public class VenueModel {
         this.name = name;
         this.description = description;
     }
-
 
 
     public VenueModel() {

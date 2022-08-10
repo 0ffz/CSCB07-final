@@ -4,12 +4,10 @@ import com.example.cscb07.data.models.EventModel;
 import com.example.cscb07.data.results.EventId;
 import com.example.cscb07.data.results.VenueId;
 import com.example.cscb07.data.results.WithId;
-
 import com.example.cscb07.ui.state.EventUiState;
 import io.vavr.control.Try;
 
 import java.util.List;
-import java.util.Set;
 import java.util.function.Consumer;
 
 public interface EventRepository {
@@ -29,7 +27,7 @@ public interface EventRepository {
 
     void removePendingEvent(EventId event);
 
-        void getUpcomingEventsForCurrentUser(
+    void getUpcomingEventsForCurrentUser(
             Consumer<Try<List<WithId<EventId, EventModel>>>> callback
     );
 
@@ -38,8 +36,8 @@ public interface EventRepository {
     );
 
     void getEventsForVenue(
-        VenueId venue,
-        Consumer<Try<List<WithId<EventId, EventModel>>>> callback
+            VenueId venue,
+            Consumer<Try<List<WithId<EventId, EventModel>>>> callback
     );
 
     void getAllPendingEvents(Consumer<Try<List<WithId<EventId, EventModel>>>> callback);

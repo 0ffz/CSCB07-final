@@ -6,23 +6,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
-
 import com.example.cscb07.R;
 import com.example.cscb07.ui.stateholders.InputValidator;
 import com.google.android.material.textfield.TextInputLayout;
-
 import org.jetbrains.annotations.NotNull;
 
 public class LoginScreen extends AuthScreen {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.screen_login, container, false);
     }
 
-    // TODO: Declare FirebaseAuth instance
     @Override
     public void onViewCreated(@NotNull View view, @Nullable Bundle savedInstanceState) {
         setupAuthScreen();

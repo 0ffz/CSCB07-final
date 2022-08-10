@@ -1,7 +1,5 @@
 package com.example.cscb07.data.util;
 
-import androidx.annotation.Nullable;
-
 public class Message extends Throwable {
     public final String message;
     public final int messageId;

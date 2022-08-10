@@ -38,7 +38,9 @@ public class ServiceLocator {
         return new FirebaseVenueRepository();
     }
 
-    public EventRepository getEventRepository() {return new FirebaseEventRepository();}
+    public EventRepository getEventRepository() {
+        return new FirebaseEventRepository();
+    }
 
     public FirebaseDatabase getDb() {
         return db;
