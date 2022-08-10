@@ -30,7 +30,7 @@ public class FirebaseEventRepository implements EventRepository {
         EventModel e = new EventModel(eventName, venue.venueId, description, startDate, endDate, maxCapacity); //make event
         String creator = FirebaseAuth.getInstance().getCurrentUser().getUid(); //get current user
         DatabaseReference d = FirebaseUtil.getPendingEvents(); //get database reference
-        DatabaseReference venues = FirebaseUtil.getVenues().child(venue.venueId).child("pendingEvents");
+        DatabaseReference venues = FirebaseUtil.getVenues().child(venue.venueId).child("pendingEvents");//get pending events for this venue
         PendingEventModel p = new PendingEventModel(e, creator); //new pending event;
         String key = d.push().getKey(); // store key in variable
         venues.child(key).setValue(startDate);
