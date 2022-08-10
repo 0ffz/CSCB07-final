@@ -3,10 +3,10 @@ package com.example.cscb07.data.results;
 import java.util.Objects;
 
 public class EventId {
-    public final String eventId;
+    public final String key;
 
-    public EventId(String id) {
-        this.eventId = id;
+    public EventId(String key) {
+        this.key = key;
     }
 
     @Override
@@ -14,11 +14,11 @@ public class EventId {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         EventId eventId1 = (EventId) o;
-        return Objects.equals(eventId, eventId1.eventId);
+        return Objects.equals(key, eventId1.key);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(eventId);
+        return Objects.hash(key);
     }
 }

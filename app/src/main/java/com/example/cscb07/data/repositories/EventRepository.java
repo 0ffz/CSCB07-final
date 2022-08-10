@@ -7,7 +7,6 @@ import com.example.cscb07.data.results.WithId;
 
 import io.vavr.control.Try;
 
-import java.util.Date;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -26,7 +25,7 @@ public interface EventRepository {
 
     void approveEvent(EventId event, Consumer<Try<?>> callback);
 
-    void removeEvent(EventId event, Consumer<Try<?>> callback);
+    void removePendingEvent(EventId event);
 
     void getUpcomingEventsForCurrentUser(
             Consumer<Try<List<WithId<EventId, EventModel>>>> callback

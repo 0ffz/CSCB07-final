@@ -1,41 +1,27 @@
 package com.example.cscb07.data.repositories.impl;
 
-import androidx.annotation.NonNull;
 import com.example.cscb07.data.models.UserModel;
 import com.example.cscb07.data.repositories.UserRepository;
 import com.example.cscb07.data.results.EventId;
 import com.example.cscb07.data.util.FirebaseUtil;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.GenericTypeIndicator;
 import io.vavr.control.Try;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 public class FirebaseUserRepository implements UserRepository {
     FirebaseAuth auth = FirebaseAuth.getInstance();
 
     @Override
     public void registerUser(@NotNull String email, @NotNull String password, Consumer<Try<FirebaseUser>> callback) {
-        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                UserModel user = new UserModel(email, false);
-                FirebaseUtil.getUsers().child(auth.getCurrentUser().getUid()).setValue(user);
-                callback.accept(Try.success(auth.getCurrentUser()));
-            } else {
-                callback.accept(Try.failure(task.getException()));
-            }
-        });
+        auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(result -> {
+            UserModel user = new UserModel(email, false);
+            FirebaseUtil.getCurrentUserRef().setValue(user);
+            callback.accept(Try.success(auth.getCurrentUser()));
+        }).addOnFailureListener(e -> callback.accept(Try.failure(e)));
     }
 
     public void signIn(@NotNull String email, @NotNull String password, Consumer<Try<FirebaseUser>> callback) {
@@ -55,31 +41,20 @@ public class FirebaseUserRepository implements UserRepository {
 
     @Override
     public void checkIfAdmin(Consumer<Boolean> callback) {
-        DatabaseReference d = FirebaseUtil.getDb(); //get database reference
-        String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        d.child("users").child(user).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DataSnapshot snap = task.getResult();
-                    boolean admin = snap.child("admin").getValue(boolean.class);
-                    callback.accept(admin);
-                }
-            }
-        });
+        FirebaseUtil.getCurrentUserRef().child("admin").get().addOnCompleteListener(task ->
+                callback.accept(task.getResult().getValue(boolean.class))
+        );
     }
 
     @Override
     public void getJoinedEvents(Consumer<Try<Set<EventId>>> callback) {
-        GenericTypeIndicator<Map<String, Object>> t = new GenericTypeIndicator<Map<String, Object>>() {
-        };
-        FirebaseUtil.getCurrentUserRef().child("events").get()
-                .addOnSuccessListener(dataSnapshot -> {
-                    Set<String> eventIds = Optional.ofNullable(dataSnapshot.getValue(t))
-                            .map(Map::keySet)
-                            .orElse(Collections.emptySet());
-                    callback.accept(Try.success(eventIds.stream().map(EventId::new).collect(Collectors.toSet())));
-                })
-                .addOnFailureListener(e -> callback.accept(Try.failure(e)));
+        QueryUtil.readEventKeys(FirebaseUtil.getCurrentUserRef().child("events"), (snapshot, eventIds) ->
+                callback.accept(Try.success(eventIds.toJavaSet()))
+        );
+    }
+
+    private void isUserInEvent(EventId event, Consumer<Boolean> callback) {
+        FirebaseUtil.getCurrentUserRef().child("events").child(event.key)
+                .get().addOnCompleteListener(task -> callback.accept(task.getResult().exists()));
     }
 }

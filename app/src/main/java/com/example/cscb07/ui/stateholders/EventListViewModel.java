@@ -55,6 +55,7 @@ public class EventListViewModel extends ViewModel {
 
     public void loadPendingEventsForVenue(VenueId id) {
         clearPendingEvents();
+        eventRepository.getPendingEventsForVenue(id, result -> setEvents(result, pendingEvents));
     }
 
     public void joinEvent(EventId event, Runnable callback) {
@@ -72,10 +73,8 @@ public class EventListViewModel extends ViewModel {
     }
 
     public void denyEvent(EventId event, Runnable callback) {
-        eventRepository.removeEvent(event, result -> {
-            result.onSuccess((i) -> callback.run());
-            result.onFailure(MessageUtil::showMessage);
-        });
+        eventRepository.removePendingEvent(event);
+        callback.run();
     }
 
     private void setEvents(Try<List<WithId<EventId, EventModel>>> result, MutableLiveData<List<EventUiState>> events) {

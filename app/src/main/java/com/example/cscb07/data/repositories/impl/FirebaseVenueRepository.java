@@ -7,6 +7,7 @@ import com.example.cscb07.data.repositories.VenueRepository;
 import com.example.cscb07.data.results.VenueId;
 import com.example.cscb07.data.results.WithId;
 import com.example.cscb07.data.util.FirebaseUtil;
+import com.example.cscb07.data.util.TryValueListener;
 import com.example.cscb07.ui.state.VenueUiState;
 import com.google.firebase.database.*;
 import io.vavr.collection.Stream;
@@ -36,11 +37,19 @@ public class FirebaseVenueRepository implements VenueRepository {
                 .orderByChild("name");
         query.get().addOnSuccessListener(dataSnapshot -> {
             List<WithId<VenueId, VenueModel>> venues = Stream.ofAll(dataSnapshot.getChildren())
-                    .map(snapshot -> WithId.of(new VenueId(snapshot.getKey()), snapshot.getValue(VenueModel.class)))
+                    .map(child -> WithId.of(new VenueId(child.getKey()), child.getValue(VenueModel.class)))
                     .toJavaList();
             callback.accept(Try.success(venues));
         }).addOnFailureListener(e ->
                 callback.accept(Try.failure(e)));
+    }
+
+    public void getVenueName(VenueId venue, Consumer<Try<String>> callback) {
+        Query query = FirebaseUtil.getVenue(venue).child("name");
+        query.addListenerForSingleValueEvent((TryValueListener) snapshot -> {
+            callback.accept(Try.success(snapshot.getValue(String.class)));
+        });
+//        .addOnFailureListener(e -> callback.accept(Try.failure(e)));
     }
 
 
