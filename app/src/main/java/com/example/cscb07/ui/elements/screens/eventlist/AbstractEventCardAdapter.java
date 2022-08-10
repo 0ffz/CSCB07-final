@@ -6,8 +6,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.cscb07.ui.state.EventUiState;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 public abstract class AbstractEventCardAdapter<T extends AbstractEventCard> extends RecyclerView.Adapter<T> {
     protected List<EventUiState> eventList;
@@ -39,16 +41,19 @@ public abstract class AbstractEventCardAdapter<T extends AbstractEventCard> exte
         Date startDate = eventList.get(position).startDate;
         Date endDate = eventList.get(position).endDate;
         String time;
-        if (DateFormat.getDateInstance(DateFormat.MEDIUM).format(startDate).equals(DateFormat.getDateInstance(DateFormat.MEDIUM).format(endDate))) {
+        DateFormat shortFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
+        DateFormat mediumFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
+
+        if (mediumFormat.format(startDate).equals(mediumFormat.format(endDate))) {
             // if end date is the same day as start date
-            time = DateFormat.getDateInstance(DateFormat.MEDIUM).format(startDate) + " ⋅ " +
-                    DateFormat.getTimeInstance(DateFormat.SHORT).format(startDate) + " – " +
-                    DateFormat.getTimeInstance(DateFormat.SHORT).format(endDate);
+            time = mediumFormat.format(startDate) + " ⋅ " +
+                    shortFormat.format(startDate) + " – " +
+                    shortFormat.format(endDate);
         } else {
-            time = DateFormat.getDateInstance(DateFormat.MEDIUM).format(startDate) + " ⋅ " +
-                    DateFormat.getTimeInstance(DateFormat.SHORT).format(startDate) + "\n" +
-                    DateFormat.getDateInstance(DateFormat.MEDIUM).format(endDate) + " ⋅ " +
-                    DateFormat.getTimeInstance(DateFormat.SHORT).format(endDate);
+            time = mediumFormat.format(startDate) + " ⋅ " +
+                    shortFormat.format(startDate) + "\n" +
+                    mediumFormat.format(endDate) + " ⋅ " +
+                    shortFormat.format(endDate);
         }
         eventCard.time.setText(time);
     }

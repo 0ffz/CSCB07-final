@@ -24,9 +24,11 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import org.jetbrains.annotations.NotNull;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 import java.util.function.Consumer;
 
 public class DialogAddEvent extends Fragment {
@@ -81,11 +83,10 @@ public class DialogAddEvent extends Fragment {
         });
 
         // Observe updates to update text on date and time pickers
-        addEventViewModel.getStartDate().observe(getViewLifecycleOwner(), date -> startDate.getEditText().setText(SimpleDateFormat.getDateInstance().format(addOneDay(date))));
+        addEventViewModel.getStartDate().observe(getViewLifecycleOwner(), date -> startDate.getEditText().setText(SimpleDateFormat.getDateInstance().format(date)));
         addEventViewModel.getStartTime().observe(getViewLifecycleOwner(), time -> startTime.getEditText().setText(time.toString()));
-        addEventViewModel.getEndDate().observe(getViewLifecycleOwner(), date -> endDate.getEditText().setText(SimpleDateFormat.getDateInstance().format(addOneDay(date))));
+        addEventViewModel.getEndDate().observe(getViewLifecycleOwner(), date -> endDate.getEditText().setText(SimpleDateFormat.getDateInstance().format(date)));
         addEventViewModel.getEndTime().observe(getViewLifecycleOwner(), time -> endTime.getEditText().setText(time.toString()));
-
         saveButton.setOnClickListener(v -> addEventViewModel.addEvent(
                 eventName.getEditText().getText().toString(),
                 eventDesc.getEditText().getText().toString(),
@@ -104,7 +105,7 @@ public class DialogAddEvent extends Fragment {
                 .setTitleText(R.string.dialog_select_date)
                 .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
                 .build();
-        picker.addOnPositiveButtonClickListener(result -> consumer.accept(new Date(result)));
+        picker.addOnPositiveButtonClickListener(result -> consumer.accept(new Date(result - TimeZone.getDefault().getOffset(result))));
         picker.show(requireActivity().getSupportFragmentManager(), "date");
     }
 

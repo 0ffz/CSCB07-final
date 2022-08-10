@@ -11,7 +11,9 @@ import com.example.cscb07.data.util.ServiceLocator;
 import com.example.cscb07.ui.state.TimeUiState;
 import io.vavr.control.Try;
 
+import java.time.ZoneId;
 import java.util.Date;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 public class AddEventViewModel extends ViewModel {
@@ -89,7 +91,9 @@ public class AddEventViewModel extends ViewModel {
     }
 
     private long calculateDateMillis(Date date, TimeUiState time) {
-        return date.getTime() + TimeUnit.HOURS.toMillis(time.hour) + TimeUnit.MINUTES.toMillis(time.minute);
+        return date.getTime()
+                + TimeUnit.HOURS.toMillis(time.hour)
+                + TimeUnit.MINUTES.toMillis(time.minute);
     }
 
     public boolean isEndDateValid() {
