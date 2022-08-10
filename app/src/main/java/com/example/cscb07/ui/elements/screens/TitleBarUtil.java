@@ -16,6 +16,7 @@ public class TitleBarUtil {
         AppBarConfiguration appBarConfiguration =
                 new AppBarConfiguration.Builder(navController.getGraph()).build();
         Toolbar toolbar = view.findViewById(R.id.materialToolbar);
+        if(toolbar == null) return null;
         toolbar.setTitle(navController.getCurrentDestination().getLabel());
         toolbar.setNavigationOnClickListener(v -> navController.navigateUp());
         return toolbar;
