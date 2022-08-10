@@ -4,7 +4,9 @@ import android.view.View;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.FragmentNavigator;
 import com.example.cscb07.R;
 
 public class TitleBarUtil {
@@ -12,8 +14,9 @@ public class TitleBarUtil {
         View view = fragment.requireView();
         NavController navController = Navigation.findNavController(view);
         Toolbar toolbar = view.findViewById(R.id.materialToolbar);
-        if (toolbar == null) return null;
-        toolbar.setTitle(navController.getCurrentDestination().getLabel());
+        NavDestination dest = navController.getCurrentDestination();
+        if (toolbar == null || dest == null) return null;
+        toolbar.setTitle(dest.getLabel());
         toolbar.setNavigationOnClickListener(v -> navController.navigateUp());
         return toolbar;
     }
