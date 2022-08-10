@@ -32,7 +32,7 @@ public class DialogAddVenue extends Fragment {
         TitleBarUtil.setupToolbar(this);
         NavController navController = Navigation.findNavController(view);
         InputValidator inputValidator = new InputValidator();
-        addVenueViewModel = new ViewModelProvider(requireActivity()).get(AddVenueViewModel.class);
+        addVenueViewModel = ViewModelProvider.NewInstanceFactory.getInstance().create(AddVenueViewModel.class);
 
         TextInputLayout venueName = view.findViewById(R.id.venue_name);
         TextInputLayout venueDescription = view.findViewById(R.id.venue_description);
