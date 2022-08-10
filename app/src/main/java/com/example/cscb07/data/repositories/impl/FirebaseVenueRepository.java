@@ -41,4 +41,14 @@ public class FirebaseVenueRepository implements VenueRepository {
                 callback.accept(Try.failure(e)));
     }
 
+    @Override
+    public void getVenueName(VenueId venue, Consumer<Try<String>> callback) {
+        Query query = FirebaseUtil.getVenues().child(venue.venueId).child("name");
+        query.get().addOnSuccessListener(dataSnapshot -> {
+            String venueName = dataSnapshot.getValue(String.class);
+            callback.accept(Try.success(venueName));
+        }).addOnFailureListener(e ->
+                callback.accept(Try.failure(e)));
+    }
+
 }

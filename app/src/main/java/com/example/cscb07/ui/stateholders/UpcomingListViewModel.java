@@ -7,6 +7,7 @@ import com.example.cscb07.R;
 import com.example.cscb07.data.models.EventModel;
 import com.example.cscb07.data.repositories.EventRepository;
 import com.example.cscb07.data.repositories.UserRepository;
+import com.example.cscb07.data.repositories.VenueRepository;
 import com.example.cscb07.data.results.EventId;
 import com.example.cscb07.data.results.VenueId;
 import com.example.cscb07.data.results.WithId;
@@ -21,8 +22,10 @@ import java.util.stream.Collectors;
 public class UpcomingListViewModel extends ViewModel {
     private final EventRepository eventRepository = ServiceLocator.getInstance().getEventRepository();
     private final UserRepository userRepository = ServiceLocator.getInstance().getUserRepository();
+    //private final VenueRepository venueRepository = ServiceLocator.getInstance().getVenueRepository();
     private final MutableLiveData<List<EventUiState>> events = new MutableLiveData<>();
     private final MutableLiveData<List<EventUiState>> pendingEvents = new MutableLiveData<>();
+    //private final MutableLiveData<String> venueName = new MutableLiveData<String>();
 
     public void loadAllUpcomingEvents() {
         eventRepository.getAllUpcomingEvents(result -> setEvents(result, events));
@@ -70,6 +73,11 @@ public class UpcomingListViewModel extends ViewModel {
                 result.onSuccess(newVenues -> events.setValue(newVenues.stream()
                         .map(it -> new EventUiState(
                                 it.model.name,
+//                                venueRepository.getVenueName(new VenueId(it.model.venue), res -> {
+//                                    res.onSuccess(name -> {
+//                                        venueName.setValue(name);
+//                                            });
+//                                }),
                                 it.model.description,
                                 it.model.getStartDate(),
                                 it.model.getEndDate(),
@@ -81,6 +89,7 @@ public class UpcomingListViewModel extends ViewModel {
                         ))
                         .collect(Collectors.toList()))
                 );
+
             });
         });
         result.onFailure(f -> MessageUtil.showMessage(R.string.error_fail_to_get_events));

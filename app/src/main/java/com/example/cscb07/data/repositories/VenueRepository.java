@@ -12,4 +12,6 @@ public interface VenueRepository {
     void addVenue(String name, String description, Consumer<Try<VenueId>> callback);
 
     void getVenues(Consumer<Try<List<WithId<VenueId, VenueModel>>>> callback);
+
+    void getVenueName(VenueId venueId, Consumer<Try<String>> callback);
 }

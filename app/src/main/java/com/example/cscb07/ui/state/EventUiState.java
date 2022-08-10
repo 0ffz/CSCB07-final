@@ -9,6 +9,7 @@ import java.util.Date;
 
 public class EventUiState {
     public final String name;
+    //public final String venueName;
     public final String description;
     public final Date startDate;
     public final Date endDate;
@@ -21,6 +22,7 @@ public class EventUiState {
 
     public EventUiState(String name, String description, Date startDate, Date endDate, int attendeeCount, int maxCapacity, EventId eventId, VenueId venueId, boolean joined) {
         this.name = name;
+        //this.venueName = venueName;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
