@@ -41,7 +41,7 @@ public class FirebaseUserRepository implements UserRepository {
 
     @Override
     public void checkIfAdmin(Consumer<Boolean> callback) {
-        FirebaseUtil.getCurrentUserRef().child("admin").get().addOnCompleteListener(task ->
+        FirebaseUtil.getCurrentUserRef().child("isAdmin").get().addOnCompleteListener(task ->
                 callback.accept(Boolean.TRUE.equals(task.getResult().getValue(boolean.class)))
         );
     }
