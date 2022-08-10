@@ -18,7 +18,6 @@ import io.vavr.control.Try;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class EventListViewModel extends ViewModel {
     private final EventRepository eventRepository = ServiceLocator.getInstance().getEventRepository();
@@ -79,22 +78,9 @@ public class EventListViewModel extends ViewModel {
     }
 
     private void setEvents(Try<List<WithId<EventId, EventModel>>> result, MutableLiveData<List<EventUiState>> events) {
-
-        result.onSuccess(newVenues -> userRepository.getJoinedEvents(joinedResult -> {
-                    joinedResult.onSuccess(joined -> events.setValue(newVenues.stream()
-                            .map(it -> new EventUiState(
-                                    it.model.name,
-                                    it.model.description,
-                                    it.model.getStartDate(),
-                                    it.model.getEndDate(),
-                                    it.model.numAttendees,
-                                    it.model.maxCapacity,
-                                    it.id,
-                                    new VenueId(it.model.venue),
-                                    joined.contains(it.id)
-                            ))
-                            .collect(Collectors.toList())));
-                })
+        result.onSuccess(newVenues -> eventRepository.mapToEventUiState(newVenues, eventsResult -> eventsResult
+                .onSuccess(events::setValue)
+                .onFailure(MessageUtil::showMessage))
         );
         result.onFailure(f -> MessageUtil.showMessage(new Message(R.string.error_fail_to_get_events, f)));
     }

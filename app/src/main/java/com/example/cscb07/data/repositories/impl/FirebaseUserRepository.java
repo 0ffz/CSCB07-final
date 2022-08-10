@@ -46,14 +46,6 @@ public class FirebaseUserRepository implements UserRepository {
         );
     }
 
-    @Override
-    public void getJoinedEvents(Consumer<Try<Set<EventId>>> callback) {
-        QueryUtil.readEventKeys(FirebaseUtil.getCurrentUserRef().child("events"), (snapshot, result) ->
-                result.onSuccess(eventIds -> callback.accept(Try.success(eventIds.toJavaSet())))
-                        .onFailure(e -> callback.accept(Try.failure(e)))
-        );
-    }
-
     private void isUserInEvent(EventId event, Consumer<Boolean> callback) {
         FirebaseUtil.getCurrentUserRef().child("events").child(event.key)
                 .get().addOnCompleteListener(task -> callback.accept(task.getResult().exists()));

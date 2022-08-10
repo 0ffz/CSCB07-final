@@ -15,6 +15,4 @@ public interface UserRepository {
     void signOutCurrentUser();
 
     void checkIfAdmin(Consumer<Boolean> callback);
-
-    void getJoinedEvents(Consumer<Try<Set<EventId>>> callback);
 }

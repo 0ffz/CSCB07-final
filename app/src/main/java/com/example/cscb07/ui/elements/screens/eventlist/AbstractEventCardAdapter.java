@@ -32,7 +32,7 @@ public abstract class AbstractEventCardAdapter<T extends AbstractEventCard> exte
 
         //TODO get venue name
         if (showVenue) {
-            eventCard.location.setText(eventList.get(position).venueId.venueId);
+            eventCard.location.setText(eventList.get(position).venueName);
             eventCard.locationContainer.setVisibility(View.VISIBLE);
         } else eventCard.locationContainer.setVisibility(View.GONE);
         String cap = eventList.get(position).attendeeCount + "/" + eventList.get(position).maxCapacity;

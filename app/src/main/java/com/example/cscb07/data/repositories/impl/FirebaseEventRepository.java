@@ -8,6 +8,7 @@ import com.example.cscb07.data.results.VenueId;
 import com.example.cscb07.data.results.WithId;
 import com.example.cscb07.data.util.FirebaseUtil;
 import com.example.cscb07.data.util.Message;
+import com.example.cscb07.ui.state.EventUiState;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
@@ -15,7 +16,9 @@ import io.vavr.control.Try;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import static com.example.cscb07.data.repositories.impl.QueryUtil.getEvents;
 import static com.example.cscb07.data.repositories.impl.QueryUtil.getEventsForKeys;
@@ -110,4 +113,33 @@ public class FirebaseEventRepository implements EventRepository {
         Query pendingEventKeyList = FirebaseUtil.getVenue(venue).child("pendingEvents").orderByValue().startAfter(new Date().getTime());
         getEventsForKeys(pendingEventKeyList, FirebaseUtil.getPendingEvents(), callback);
     }
+
+    @Override
+    public void mapToEventUiState(List<WithId<EventId, EventModel>> events, Consumer<Try<List<EventUiState>>> callback) {
+        FirebaseUtil.getVenues().get().addOnSuccessListener(venuesSnapshot ->
+                getJoinedEvents(joinedResult -> joinedResult.onSuccess(joined ->
+                                callback.accept(Try.success(events.stream().map(it -> new EventUiState(
+                                        it.model.name,
+                                        it.model.description,
+                                        it.model.getStartDate(),
+                                        it.model.getEndDate(),
+                                        it.model.numAttendees,
+                                        it.model.maxCapacity,
+                                        it.id,
+                                        new VenueId(it.model.venue),
+                                        venuesSnapshot.child(it.model.venue).child("name").getValue(String.class),
+                                        joined.contains(it.id)
+                                )).collect(Collectors.toList())))
+                        ).onFailure(e -> callback.accept(Try.failure(e)))
+                )
+        ).addOnFailureListener(e -> callback.accept(Try.failure(e)));
+    }
+
+    private void getJoinedEvents(Consumer<Try<Set<EventId>>> callback) {
+        QueryUtil.readEventKeys(FirebaseUtil.getCurrentUserRef().child("events"), (snapshot, result) ->
+                result.onSuccess(eventIds -> callback.accept(Try.success(eventIds.toJavaSet())))
+                        .onFailure(e -> callback.accept(Try.failure(e)))
+        );
+    }
+
 }
