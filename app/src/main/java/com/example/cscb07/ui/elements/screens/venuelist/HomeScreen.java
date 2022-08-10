@@ -53,7 +53,7 @@ public class HomeScreen extends Fragment {
         RecyclerView r = view.findViewById(R.id.venues_container);
         venueViewModel.loadVenues();
         venueViewModel.getVenues().observe(getViewLifecycleOwner(), venues -> {
-            VenueCardAdapter venueCardAdapter = new VenueCardAdapter(new ArrayList<>(venues), venueState -> {
+            VenueCardAdapter venueCardAdapter = new VenueCardAdapter(getContext(), new ArrayList<>(venues), venueState -> {
                 navController.navigate(HomeScreenDirections.actionScreenHomeToEventListForVenueScreen(venueState));
             });
             r.setAdapter(venueCardAdapter);
