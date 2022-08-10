@@ -83,7 +83,7 @@ public class FirebaseEventRepository implements EventRepository {
 
     @Override
     public void getUpcomingEventsForCurrentUser(Consumer<Try<List<WithId<EventId, EventModel>>>> callback) {
-        Query q = FirebaseUtil.getCurrentUserRef().child("events");
+        Query q = FirebaseUtil.getCurrentUserRef().child("events").orderByValue().startAt(new Date().getTime());
         getEventsForKeys(q, FirebaseUtil.getEvents(), callback);
     }
 
@@ -95,7 +95,7 @@ public class FirebaseEventRepository implements EventRepository {
 
     @Override
     public void getEventsForVenue(VenueId venue, Consumer<Try<List<WithId<EventId, EventModel>>>> callback) {
-        Query eventKeyList = FirebaseUtil.getVenue(venue).child("events");
+        Query eventKeyList = FirebaseUtil.getVenue(venue).child("events").orderByValue().startAt(new Date().getTime());
         getEventsForKeys(eventKeyList, FirebaseUtil.getEvents(), callback);
     }
 
@@ -106,7 +106,7 @@ public class FirebaseEventRepository implements EventRepository {
 
     @Override
     public void getPendingEventsForVenue(VenueId venue, Consumer<Try<List<WithId<EventId, EventModel>>>> callback) {
-        Query pendingEventKeyList = FirebaseUtil.getVenue(venue).child("pendingEvents");
+        Query pendingEventKeyList = FirebaseUtil.getVenue(venue).child("pendingEvents").orderByValue().startAt(new Date().getTime());
         getEventsForKeys(pendingEventKeyList, FirebaseUtil.getPendingEvents(), callback);
     }
 }
