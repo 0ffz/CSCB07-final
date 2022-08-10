@@ -10,6 +10,7 @@ import com.example.cscb07.data.repositories.UserRepository;
 import com.example.cscb07.data.results.EventId;
 import com.example.cscb07.data.results.VenueId;
 import com.example.cscb07.data.results.WithId;
+import com.example.cscb07.data.util.Message;
 import com.example.cscb07.data.util.MessageUtil;
 import com.example.cscb07.data.util.ServiceLocator;
 import com.example.cscb07.ui.state.EventUiState;
@@ -78,25 +79,24 @@ public class EventListViewModel extends ViewModel {
     }
 
     private void setEvents(Try<List<WithId<EventId, EventModel>>> result, MutableLiveData<List<EventUiState>> events) {
-        userRepository.getJoinedEvents(joinedResult -> {
-            joinedResult.onSuccess(joined -> {
-                result.onSuccess(newVenues -> events.setValue(newVenues.stream()
-                        .map(it -> new EventUiState(
-                                it.model.name,
-                                it.model.description,
-                                it.model.getStartDate(),
-                                it.model.getEndDate(),
-                                it.model.numAttendees,
-                                it.model.maxCapacity,
-                                it.id,
-                                new VenueId(it.model.venue),
-                                joined.contains(it.id)
-                        ))
-                        .collect(Collectors.toList()))
-                ).onFailure(MessageUtil::showMessage);
-            });
-        });
-        result.onFailure(f -> MessageUtil.showMessage(R.string.error_fail_to_get_events));
+
+        result.onSuccess(newVenues -> userRepository.getJoinedEvents(joinedResult -> {
+                    joinedResult.onSuccess(joined -> events.setValue(newVenues.stream()
+                            .map(it -> new EventUiState(
+                                    it.model.name,
+                                    it.model.description,
+                                    it.model.getStartDate(),
+                                    it.model.getEndDate(),
+                                    it.model.numAttendees,
+                                    it.model.maxCapacity,
+                                    it.id,
+                                    new VenueId(it.model.venue),
+                                    joined.contains(it.id)
+                            ))
+                            .collect(Collectors.toList())));
+                })
+        );
+        result.onFailure(f -> MessageUtil.showMessage(new Message(R.string.error_fail_to_get_events, f)));
     }
 
     public LiveData<List<EventUiState>> getEvents() {

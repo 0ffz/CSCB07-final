@@ -1,12 +1,13 @@
 package com.example.cscb07.data.repositories.impl;
 
+import com.example.cscb07.R;
 import com.example.cscb07.data.models.EventModel;
-import com.example.cscb07.data.models.PendingEventModel;
 import com.example.cscb07.data.repositories.EventRepository;
 import com.example.cscb07.data.results.EventId;
 import com.example.cscb07.data.results.VenueId;
 import com.example.cscb07.data.results.WithId;
 import com.example.cscb07.data.util.FirebaseUtil;
+import com.example.cscb07.data.util.Message;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
@@ -26,7 +27,6 @@ public class FirebaseEventRepository implements EventRepository {
         EventModel e = new EventModel(eventName, venue.venueId, description, startDate, endDate, maxCapacity); //make event
         String creator = FirebaseAuth.getInstance().getCurrentUser().getUid(); //get current user
 
-
         String pendingEventKey = FirebaseUtil.getPendingEvents().push().getKey(); // store key in variable
         FirebaseUtil.getVenue(venue).child("pendingEvents").child(pendingEventKey).setValue(startDate);
         FirebaseUtil.getPendingEvents().child(pendingEventKey).setValue(e); // store the event under pendingEvents
@@ -40,12 +40,13 @@ public class FirebaseEventRepository implements EventRepository {
         eventRef.get().addOnSuccessListener(snapshot -> {
             EventModel e = snapshot.getValue(EventModel.class);
             if (e == null)
-                callback.accept(Try.failure(new Exception("event not found")));
+                callback.accept(Try.failure(new Message(R.string.error_event_not_found)));
             else if (e.numAttendees >= e.maxCapacity)
-                callback.accept(Try.failure(new Exception("event is fully booked")));
+                callback.accept(Try.failure(new Message(R.string.error_event_full)));
             else {
                 eventRef.child("numAttendees").setValue(e.numAttendees + 1);
-                FirebaseUtil.getCurrentUserRef().child("events").child(event.key).setValue(true);
+                FirebaseUtil.getCurrentUserRef().child("events")
+                        .child(event.key).setValue(e.startDateMillis);
                 callback.accept(Try.success(null));
             }
         }).addOnFailureListener(e -> callback.accept(Try.failure(e)));
@@ -83,30 +84,30 @@ public class FirebaseEventRepository implements EventRepository {
 
     @Override
     public void getUpcomingEventsForCurrentUser(Consumer<Try<List<WithId<EventId, EventModel>>>> callback) {
-        Query q = FirebaseUtil.getCurrentUserRef().child("events");
+        Query q = FirebaseUtil.getCurrentUserRef().child("events").orderByValue().startAfter(new Date().getTime());
         getEventsForKeys(q, FirebaseUtil.getEvents(), callback);
     }
 
     @Override
     public void getAllUpcomingEvents(Consumer<Try<List<WithId<EventId, EventModel>>>> callback) {
-        Query q = FirebaseUtil.getEvents().orderByChild("endDateMillis").startAt(new Date().getTime());
+        Query q = FirebaseUtil.getEvents().orderByChild("startDateMillis").startAt(new Date().getTime());
         getEvents(q, callback);
     }
 
     @Override
     public void getEventsForVenue(VenueId venue, Consumer<Try<List<WithId<EventId, EventModel>>>> callback) {
-        Query eventKeyList = FirebaseUtil.getVenue(venue).child("events");
+        Query eventKeyList = FirebaseUtil.getVenue(venue).child("events").orderByValue().startAfter(new Date().getTime());
         getEventsForKeys(eventKeyList, FirebaseUtil.getEvents(), callback);
     }
 
     public void getAllPendingEvents(Consumer<Try<List<WithId<EventId, EventModel>>>> callback) {
-        Query q = FirebaseUtil.getPendingEvents().orderByChild("endDateMillis").startAt(new Date().getTime());
+        Query q = FirebaseUtil.getPendingEvents().orderByChild("startDateMillis").startAt(new Date().getTime());
         getEvents(q, callback);
     }
 
     @Override
     public void getPendingEventsForVenue(VenueId venue, Consumer<Try<List<WithId<EventId, EventModel>>>> callback) {
-        Query pendingEventKeyList = FirebaseUtil.getVenue(venue).child("pendingEvents");
+        Query pendingEventKeyList = FirebaseUtil.getVenue(venue).child("pendingEvents").orderByValue().startAfter(new Date().getTime());
         getEventsForKeys(pendingEventKeyList, FirebaseUtil.getPendingEvents(), callback);
     }
 }

@@ -77,4 +77,6 @@
 
     <string name="error_fail_to_join_event">Failed to join event</string>
     <string name="fab_add_event">New event</string>
+    <string name="error_event_not_found">Event not found</string>
+    <string name="error_event_full">Event is fully booked</string>
 </resources>
